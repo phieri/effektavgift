@@ -186,3 +186,27 @@ export function isHighLoadPeriod(company: PowerGridCompany, now: Date = new Date
 export function getLoadStatus(company: PowerGridCompany): 'high' | 'low' {
   return isHighLoadPeriod(company) ? 'high' : 'low';
 }
+
+// Calculate the next time the tariff will change
+export function getNextTariffChange(company: PowerGridCompany, now: Date = new Date()): Date {
+  const currentlyHighLoad = isHighLoadPeriod(company, now);
+  
+  // Start from current time
+  let nextChange = new Date(now);
+  
+  // Search for the next change within the next 14 days (to handle edge cases)
+  for (let i = 0; i < 14 * 24 * 60; i++) {
+    // Increment by 1 minute
+    nextChange = new Date(nextChange.getTime() + 60 * 1000);
+    
+    const willBeHighLoad = isHighLoadPeriod(company, nextChange);
+    
+    // If status changes, we found the next change time
+    if (willBeHighLoad !== currentlyHighLoad) {
+      return nextChange;
+    }
+  }
+  
+  // If no change found within 14 days, return a date far in the future
+  return new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+}
