@@ -23,6 +23,33 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
+}
+
+.edit-github-link {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #24292e;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.edit-github-link:hover {
+  background: #2c3e50;
+  transform: translateY(-2px);
+}
+
+.edit-github-link svg {
+  flex-shrink: 0;
 }
 
 .home-container h1 {
@@ -146,10 +173,22 @@ body {
   opacity: 0.95;
 }
 
-.time-display {
-  font-size: 1.5rem;
+.countdown-container {
+  margin-top: 2rem;
+}
+
+.countdown-label {
+  font-size: 1.2rem;
   opacity: 0.8;
-  font-weight: 300;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.countdown-display {
+  font-size: 1.8rem;
+  opacity: 0.9;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 /* Responsive Design */
@@ -179,8 +218,21 @@ body {
     font-size: 1.5rem;
   }
   
-  .time-display {
-    font-size: 1.2rem;
+  .countdown-label {
+    font-size: 1rem;
+  }
+  
+  .countdown-display {
+    font-size: 1.4rem;
+  }
+  
+  .edit-github-link {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .edit-github-link span {
+    display: none;
   }
 }
 
@@ -190,6 +242,14 @@ body {
   }
   
   .status-description {
+    font-size: 1.2rem;
+  }
+  
+  .countdown-label {
+    font-size: 0.9rem;
+  }
+  
+  .countdown-display {
     font-size: 1.2rem;
   }
 }

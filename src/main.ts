@@ -1,4 +1,4 @@
-import { powerGridCompanies, PowerGridCompany, getLoadStatus } from './tariff';
+import { powerGridCompanies, PowerGridCompany, getLoadStatus, getNextTariffChange } from './tariff';
 
 // Simple router
 function getCurrentRoute(): { page: string; companyId?: string } {
@@ -32,6 +32,12 @@ function renderHomePage(app: HTMLElement) {
   
   app.innerHTML = `
     <div class="home-container">
+      <a href="https://github.com/phieri/effektavgift/edit/main/src/tariff.ts" target="_blank" rel="noopener noreferrer" class="edit-github-link" title="Redigera på GitHub">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <span>Redigera på GitHub</span>
+      </a>
       <h1>Effektavgift</h1>
       <p class="subtitle">Välj ditt nätbolag</p>
       <ul class="company-list">
@@ -78,7 +84,10 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
               : 'Ingen effektavgift'}
           </div>
         </div>
-        <div class="time-display">${formatDateTime(new Date())}</div>
+        <div class="countdown-container">
+          <div class="countdown-label">Nästa ändring om:</div>
+          <div class="countdown-display"></div>
+        </div>
       </div>
     </div>
   `;
@@ -113,12 +122,13 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
     app.addEventListener('mousemove', showBackLink, { once: true });
   }
   
-  // Update time every second
+  // Update countdown every second
   const updateInterval = setInterval(() => {
     const newStatus = getLoadStatus(company);
-    const timeDisplay = app.querySelector('.time-display');
-    if (timeDisplay) {
-      timeDisplay.textContent = formatDateTime(new Date());
+    const countdownDisplay = app.querySelector('.countdown-display');
+    if (countdownDisplay) {
+      const countdown = getCountdownString(company);
+      countdownDisplay.textContent = countdown;
     }
     
     // If status changed, re-render the page
@@ -127,19 +137,35 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
       renderDisplayPage(app, company);
     }
   }, 1000);
+  
+  // Initial countdown update
+  const countdownDisplay = app.querySelector('.countdown-display');
+  if (countdownDisplay) {
+    countdownDisplay.textContent = getCountdownString(company);
+  }
 }
 
-function formatDateTime(date: Date): string {
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  };
-  return date.toLocaleDateString('sv-SE', options);
+function getCountdownString(company: PowerGridCompany): string {
+  const now = new Date();
+  const nextChange = getNextTariffChange(company, now);
+  const diff = nextChange.getTime() - now.getTime();
+  
+  if (diff <= 0) {
+    return 'Nu';
+  }
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+  
+  const parts: string[] = [];
+  if (days > 0) parts.push(`${days} dag${days !== 1 ? 'ar' : ''}`);
+  if (hours > 0 || days > 0) parts.push(`${hours} timm${hours !== 1 ? 'ar' : 'e'}`);
+  if (minutes > 0 || hours > 0 || days > 0) parts.push(`${minutes} minut${minutes !== 1 ? 'er' : ''}`);
+  if (days === 0) parts.push(`${seconds} sekund${seconds !== 1 ? 'er' : ''}`);
+  
+  return parts.join(' ');
 }
 
 // Main router function
