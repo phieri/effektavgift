@@ -38,7 +38,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadWeekdays: true,
   },
   {
-    id: 'gotlands-energi',
+    id: 'geab',
     name: 'Gotlands Energi (GEAB)',
     highLoadMonths: [10, 0, 1, 2], // November to March
     highLoadHours: { start: 7, end: 21 },
@@ -59,7 +59,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadWeekdays: true,
   },
   {
-    id: 'skelleftea-kraft',
+    id: 'skekraft',
     name: 'Skellefteå Kraft',
     highLoadMonths: [10, 0, 1, 2], // November to March
     highLoadHours: { start: 7, end: 21 },
