@@ -6,9 +6,11 @@
   <title>Effektavgift</title>
   <script>
     // GitHub Pages SPA redirect handler
-    // This script takes the current url and converts the path to a query string
-    // that the index.html file can read and use for client-side routing
+    // Save the requested URL and redirect to the root
     sessionStorage.redirect = location.href;
+    // Redirect to the base path (index.html)
+    var basePath = '/effektavgift/';
+    location.replace(basePath);
   </script>
 </head>
 <body>

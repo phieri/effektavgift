@@ -157,13 +157,11 @@ function getCountdownString(company: PowerGridCompany): string {
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
   
   const parts: string[] = [];
   if (days > 0) parts.push(`${days} dag${days !== 1 ? 'ar' : ''}`);
   if (hours > 0 || days > 0) parts.push(`${hours} timm${hours !== 1 ? 'ar' : 'e'}`);
   if (minutes > 0 || hours > 0 || days > 0) parts.push(`${minutes} minut${minutes !== 1 ? 'er' : ''}`);
-  if (days === 0) parts.push(`${seconds} sekund${seconds !== 1 ? 'er' : ''}`);
   
   return parts.join(' ');
 }
