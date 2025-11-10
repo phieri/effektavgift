@@ -30,6 +30,41 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
+  {
+    id: 'falbygdens-energi',
+    name: 'Falbygdens Energi',
+    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadHours: { start: 7, end: 21 },
+    highLoadWeekdays: true,
+  },
+  {
+    id: 'gotlands-energi',
+    name: 'Gotlands Energi (GEAB)',
+    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadHours: { start: 7, end: 21 },
+    highLoadWeekdays: true,
+  },
+  {
+    id: 'halmstads-energi',
+    name: 'Halmstads Energi och Miljö',
+    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadHours: { start: 7, end: 21 },
+    highLoadWeekdays: true,
+  },
+  {
+    id: 'karlshamns-energi',
+    name: 'Karlshamn Energi',
+    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadHours: { start: 7, end: 21 },
+    highLoadWeekdays: true,
+  },
+  {
+    id: 'skelleftea-kraft',
+    name: 'Skellefteå Kraft',
+    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadHours: { start: 7, end: 21 },
+    highLoadWeekdays: true,
+  },
 ];
 
 // Swedish red days (public holidays) - simplified list for common holidays
