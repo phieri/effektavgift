@@ -19,6 +19,8 @@ function getCurrentRoute(): { page: string; companyId?: string } {
     if (company) {
       return { page: 'display', companyId: cleanRoute };
     }
+    // If company not found, redirect to home page
+    window.history.replaceState(null, '', basePath);
   }
   
   return { page: 'home' };
@@ -92,6 +94,23 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
         router();
       }
     });
+    
+    // Fade out back link after 5 seconds
+    let fadeOutTimer = setTimeout(() => {
+      backLink.classList.add('fade-out');
+    }, 5000);
+    
+    // Show back link on mouse movement
+    const showBackLink = () => {
+      backLink.classList.remove('fade-out');
+      clearTimeout(fadeOutTimer);
+      // Set up fade out again after 5 seconds of no movement
+      fadeOutTimer = setTimeout(() => {
+        backLink.classList.add('fade-out');
+      }, 5000);
+    };
+    
+    app.addEventListener('mousemove', showBackLink, { once: true });
   }
   
   // Update time every second
