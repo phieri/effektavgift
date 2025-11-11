@@ -18,9 +18,9 @@
 export interface PowerGridCompany {
   id: string;
   name: string;
-  highLoadMonths: number[]; // 0 = January, 11 = December
+  highLoadMonths: number[]; // Natural month numbers: 1 = January, 12 = December
   highLoadHours: { start: number; end: number }; // 24-hour format
-  highLoadWeekdays: boolean; // Only weekdays
+  highLoadWeekdays: boolean; // Only weekdays (Monday-Friday, excludes Saturday and Sunday)
 }
 
 // Swedish power grid companies with their tariff rules
@@ -28,56 +28,56 @@ export const powerGridCompanies: PowerGridCompany[] = [
   {
     id: 'ellevio',
     name: 'Ellevio',
-    highLoadMonths: [10, 0, 1, 2], // November to March (Nov=10, Dec=0, Jan=0, Feb=1, Mar=2)
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'vattenfall',
     name: 'Vattenfall Eldistribution',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'eon',
     name: 'E.ON Energidistribution',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'falbygdens-energi',
     name: 'Falbygdens Energi',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'geab',
     name: 'Gotlands Energi (GEAB)',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'halmstads-energi',
     name: 'Halmstads Energi och Miljö',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'karlshamns-energi',
     name: 'Karlshamn Energi',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'skekraft',
     name: 'Skellefteå Kraft',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
@@ -171,9 +171,9 @@ function isHoliday(date: Date, holidays: Date[]): boolean {
 
 // Check if current time is high load period
 export function isHighLoadPeriod(company: PowerGridCompany, now: Date = new Date()): boolean {
-  const month = now.getMonth();
+  const month = now.getMonth() + 1; // Convert to natural month number (1-12)
   const hour = now.getHours();
-  const dayOfWeek = now.getDay(); // 0 = Sunday, 6 = Saturday
+  const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 5 = Friday, 6 = Saturday
   
   // Check if it's in high load months
   if (!company.highLoadMonths.includes(month)) {
@@ -185,7 +185,7 @@ export function isHighLoadPeriod(company: PowerGridCompany, now: Date = new Date
     return false;
   }
   
-  // Check if it's a weekday (Monday-Friday)
+  // Check if it's a weekday (Monday-Friday only, excludes Saturday and Sunday)
   if (company.highLoadWeekdays && (dayOfWeek === 0 || dayOfWeek === 6)) {
     return false;
   }
