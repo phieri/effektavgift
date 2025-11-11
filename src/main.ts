@@ -90,6 +90,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
   app.innerHTML = `
     <div class="display-container ${isHighLoad ? 'high-load' : 'low-load'}">
       <a href="${basePath}" class="back-link" data-link>← Tillbaka</a>
+      <button class="fullscreen-link" id="fullscreen-btn">Fullskärm</button>
       <div class="status-content">
         <h1 class="company-name">${company.name}</h1>
         <div class="status-indicator">
@@ -110,6 +111,8 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
   
   // Add click handler for back link
   const backLink = app.querySelector('a[data-link]');
+  const fullscreenBtn = app.querySelector('#fullscreen-btn') as HTMLButtonElement;
+  
   if (backLink) {
     backLink.addEventListener('click', (e) => {
       e.preventDefault();
@@ -120,22 +123,53 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
       }
     });
     
-    // Fade out back link after 5 seconds
+    // Fade out both buttons after 5 seconds
     let fadeOutTimer = setTimeout(() => {
       backLink.classList.add('fade-out');
+      if (fullscreenBtn) fullscreenBtn.classList.add('fade-out');
     }, 5000);
     
-    // Show back link on mouse movement
-    const showBackLink = () => {
+    // Show buttons on mouse movement
+    const showButtons = () => {
       backLink.classList.remove('fade-out');
+      if (fullscreenBtn) fullscreenBtn.classList.remove('fade-out');
       clearTimeout(fadeOutTimer);
       // Set up fade out again after 5 seconds of no movement
       fadeOutTimer = setTimeout(() => {
         backLink.classList.add('fade-out');
+        if (fullscreenBtn) fullscreenBtn.classList.add('fade-out');
       }, 5000);
     };
     
-    app.addEventListener('mousemove', showBackLink);
+    app.addEventListener('mousemove', showButtons);
+  }
+  
+  // Add fullscreen functionality
+  if (fullscreenBtn) {
+    const toggleFullscreen = () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch((err) => {
+          console.error(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    };
+    
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+    
+    // Update button text based on fullscreen state
+    const updateFullscreenButtonText = () => {
+      if (document.fullscreenElement) {
+        fullscreenBtn.textContent = 'Avsluta fullskärm';
+      } else {
+        fullscreenBtn.textContent = 'Fullskärm';
+      }
+    };
+    
+    document.addEventListener('fullscreenchange', updateFullscreenButtonText);
   }
   
 
