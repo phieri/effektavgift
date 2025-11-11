@@ -18,9 +18,9 @@
 export interface PowerGridCompany {
   id: string;
   name: string;
-  highLoadMonths: number[]; // 0 = January, 11 = December
+  highLoadMonths: number[]; // Natural month numbers: 1 = January, 12 = December
   highLoadHours: { start: number; end: number }; // 24-hour format
-  highLoadWeekdays: boolean; // Only weekdays
+  highLoadWeekdays: boolean; // Only weekdays (Monday-Friday, excludes Saturday and Sunday)
 }
 
 // Swedish power grid companies with their tariff rules
@@ -28,56 +28,56 @@ export const powerGridCompanies: PowerGridCompany[] = [
   {
     id: 'ellevio',
     name: 'Ellevio',
-    highLoadMonths: [10, 0, 1, 2], // November to March (Nov=10, Dec=0, Jan=0, Feb=1, Mar=2)
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'vattenfall',
     name: 'Vattenfall Eldistribution',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'eon',
     name: 'E.ON Energidistribution',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'falbygdens-energi',
     name: 'Falbygdens Energi',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'geab',
     name: 'Gotlands Energi (GEAB)',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'halmstads-energi',
     name: 'Halmstads Energi och Miljö',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'karlshamns-energi',
     name: 'Karlshamn Energi',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
   {
     id: 'skekraft',
     name: 'Skellefteå Kraft',
-    highLoadMonths: [10, 0, 1, 2], // November to March
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 7, end: 21 },
     highLoadWeekdays: true,
   },
@@ -86,14 +86,14 @@ export const powerGridCompanies: PowerGridCompany[] = [
 // Swedish red days (public holidays) - simplified list for common holidays
 export const getSwedishHolidays = (year: number): Date[] => {
   const holidays: Date[] = [
-    new Date(year, 0, 1),   // New Year's Day
-    new Date(year, 0, 6),   // Epiphany
-    new Date(year, 4, 1),   // May Day
-    new Date(year, 5, 6),   // National Day
-    new Date(year, 11, 24), // Christmas Eve
-    new Date(year, 11, 25), // Christmas Day
-    new Date(year, 11, 26), // Boxing Day
-    new Date(year, 11, 31), // New Year's Eve
+    new Date(year, 1 - 1, 1),   // New Year's Day (January 1)
+    new Date(year, 1 - 1, 6),   // Epiphany (January 6)
+    new Date(year, 5 - 1, 1),   // May Day (May 1)
+    new Date(year, 6 - 1, 6),   // National Day (June 6)
+    new Date(year, 12 - 1, 24), // Christmas Eve (December 24)
+    new Date(year, 12 - 1, 25), // Christmas Day (December 25)
+    new Date(year, 12 - 1, 26), // Boxing Day (December 26)
+    new Date(year, 12 - 1, 31), // New Year's Eve (December 31)
   ];
   
   // Easter and related holidays (simplified - using a common approximation)
@@ -140,24 +140,24 @@ function calculateEaster(year: number): Date {
 // Get Midsummer Eve (Friday between June 19-25)
 function getMidsummerEve(year: number): Date {
   for (let day = 19; day <= 25; day++) {
-    const date = new Date(year, 5, day); // June
+    const date = new Date(year, 6 - 1, day); // June (month 6)
     if (date.getDay() === 5) { // Friday
       return date;
     }
   }
-  return new Date(year, 5, 19); // Fallback
+  return new Date(year, 6 - 1, 19); // Fallback
 }
 
 // Get All Saints' Day (Saturday between October 31 and November 6)
 function getAllSaintsDay(year: number): Date {
-  const oct31 = new Date(year, 9, 31); // October 31
+  const oct31 = new Date(year, 10 - 1, 31); // October 31 (month 10)
   for (let i = 0; i <= 6; i++) {
     const date = new Date(oct31.getTime() + i * 24 * 60 * 60 * 1000);
     if (date.getDay() === 6) { // Saturday
       return date;
     }
   }
-  return new Date(year, 10, 1); // Fallback
+  return new Date(year, 11 - 1, 1); // Fallback to November 1 (month 11)
 }
 
 // Check if a date is a holiday
@@ -171,9 +171,9 @@ function isHoliday(date: Date, holidays: Date[]): boolean {
 
 // Check if current time is high load period
 export function isHighLoadPeriod(company: PowerGridCompany, now: Date = new Date()): boolean {
-  const month = now.getMonth();
+  const month = now.getMonth() + 1; // Convert to natural month number (1-12)
   const hour = now.getHours();
-  const dayOfWeek = now.getDay(); // 0 = Sunday, 6 = Saturday
+  const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 5 = Friday, 6 = Saturday
   
   // Check if it's in high load months
   if (!company.highLoadMonths.includes(month)) {
@@ -185,7 +185,7 @@ export function isHighLoadPeriod(company: PowerGridCompany, now: Date = new Date
     return false;
   }
   
-  // Check if it's a weekday (Monday-Friday)
+  // Check if it's a weekday (Monday-Friday = 1-5, excludes Saturday = 6 and Sunday = 0)
   if (company.highLoadWeekdays && (dayOfWeek === 0 || dayOfWeek === 6)) {
     return false;
   }
@@ -215,6 +215,8 @@ export function getNextTariffChange(company: PowerGridCompany, now: Date = new D
     // Increment by 1 minute
     nextChange = new Date(nextChange.getTime() + 60 * 1000);
     
+    // Note: isHighLoadPeriod internally calls getSwedishHolidays with the year from the date,
+    // so holidays are automatically recalculated when crossing year boundaries
     const willBeHighLoad = isHighLoadPeriod(company, nextChange);
     
     // If status changes, we found the next change time
