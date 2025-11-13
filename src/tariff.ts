@@ -29,56 +29,105 @@ export const powerGridCompanies: PowerGridCompany[] = [
     id: 'ellevio',
     name: 'Ellevio',
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 7, end: 21 },
+    highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
   },
   {
     id: 'vattenfall',
     name: 'Vattenfall Eldistribution',
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 7, end: 21 },
+    highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
   },
   {
     id: 'eon',
     name: 'E.ON Energidistribution',
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 7, end: 21 },
+    highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
   },
   {
     id: 'falbygdens-energi',
     name: 'Falbygdens Energi',
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 7, end: 21 },
+    highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
   },
   {
     id: 'geab',
     name: 'Gotlands Energi (GEAB)',
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 7, end: 21 },
+    highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
   },
   {
     id: 'halmstads-energi',
     name: 'Halmstads Energi och Miljö',
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 7, end: 21 },
+    highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
   },
   {
     id: 'karlshamns-energi',
     name: 'Karlshamn Energi',
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 7, end: 21 },
+    highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
   },
   {
     id: 'skekraft',
     name: 'Skellefteå Kraft',
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 7, end: 21 },
+    highLoadHours: { start: 6, end: 22 },
+    highLoadWeekdays: true,
+  },
+  {
+    id: 'goteborg-energi',
+    name: 'Göteborg Energi Nät',
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
+    highLoadHours: { start: 6, end: 22 },
+    highLoadWeekdays: true,
+  },
+  {
+    id: 'umea-energi',
+    name: 'Umeå Energi Elnät',
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
+    highLoadHours: { start: 6, end: 22 },
+    highLoadWeekdays: true,
+  },
+  {
+    id: 'malarenergi',
+    name: 'Mälarenergi Elnät',
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
+    highLoadHours: { start: 6, end: 22 },
+    highLoadWeekdays: true,
+  },
+  {
+    id: 'eskilstuna-energi',
+    name: 'Eskilstuna Energi och Miljö Elnät',
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
+    highLoadHours: { start: 6, end: 22 },
+    highLoadWeekdays: true,
+  },
+  {
+    id: 'kraftringen',
+    name: 'Kraftringen Nät',
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
+    highLoadHours: { start: 6, end: 22 },
+    highLoadWeekdays: true,
+  },
+  {
+    id: 'fortum',
+    name: 'Fortum Distribution',
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
+    highLoadHours: { start: 6, end: 22 },
+    highLoadWeekdays: true,
+  },
+  {
+    id: 'jamtkraft',
+    name: 'Jämtkraft Elnät',
+    highLoadMonths: [11, 12, 1, 2, 3], // November to March
+    highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
   },
 ];
