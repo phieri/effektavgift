@@ -27,7 +27,7 @@ body {
 }
 
 .edit-github-link {
-  position: absolute;
+  position: fixed;
   top: 1rem;
   right: 1rem;
   display: flex;
@@ -41,6 +41,7 @@ body {
   font-size: 0.9rem;
   font-weight: 500;
   transition: background 0.3s ease, transform 0.2s ease;
+  z-index: 1000;
 }
 
 .edit-github-link:hover {
