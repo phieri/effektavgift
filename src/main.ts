@@ -192,7 +192,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
       clearInterval(updateInterval);
       renderDisplayPage(app, company);
     }
-  }, 56789);
+  }, 34567);
   
   // Initial countdown update
   const countdownDisplay = app.querySelector('.countdown-display');
