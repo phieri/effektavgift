@@ -132,8 +132,16 @@ export const powerGridCompanies: PowerGridCompany[] = [
   },
 ];
 
+// Cache for Swedish holidays by year to avoid unnecessary recalculation
+const holidayCache = new Map<number, Date[]>();
+
 // Swedish red days (public holidays) - simplified list for common holidays
 export const getSwedishHolidays = (year: number): Date[] => {
+  // Return cached holidays if available for this year
+  const cached = holidayCache.get(year);
+  if (cached) {
+    return cached;
+  }
   const holidays: Date[] = [
     new Date(year, 1 - 1, 1),   // New Year's Day (January 1)
     new Date(year, 1 - 1, 6),   // Epiphany (January 6)
@@ -162,6 +170,9 @@ export const getSwedishHolidays = (year: number): Date[] => {
   // All Saints' Day (Saturday between October 31 and November 6)
   const allSaintsDay = getAllSaintsDay(year);
   holidays.push(allSaintsDay);
+  
+  // Cache the holidays for this year
+  holidayCache.set(year, holidays);
   
   return holidays;
 };
