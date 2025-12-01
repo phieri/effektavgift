@@ -14,7 +14,14 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { powerGridCompanies, PowerGridCompany, getLoadStatus, getNextTariffChange } from './tariff';
+import { powerGridCompanies, PowerGridCompany, getLoadStatus, getNextTariffChange, isEffektavgiftInEffect, formatEffectiveDate } from './tariff';
+
+// Helper function to escape HTML special characters for XSS prevention
+function escapeHtml(text: string): string {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
 
 // Simple router
 function getCurrentRoute(): { page: string; companyId?: string } {
@@ -59,13 +66,15 @@ function renderHomePage(app: HTMLElement) {
         <p class="subtitle">Välj ditt nätbolag</p>
         <nav aria-label="Lista över nätbolag">
           <ul class="company-list">
-            ${powerGridCompanies.map(company => `
+            ${powerGridCompanies.map(company => {
+              const escapedName = escapeHtml(company.name);
+              return `
               <li>
-                <a href="${basePath}${company.id}/" class="company-link" data-link aria-label="Visa effektavgiftsstatus för ${company.name}">
-                  ${company.name}
+                <a href="${basePath}${company.id}/" class="company-link" data-link aria-label="Visa effektavgiftsstatus för ${escapedName}">
+                  ${escapedName}
                 </a>
               </li>
-            `).join('')}
+            `;}).join('')}
           </ul>
         </nav>
       </main>
@@ -90,13 +99,24 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
   const status = getLoadStatus(company);
   const isHighLoad = status === 'high';
   const basePath = '/effektavgift/';
+  const effektavgiftInEffect = isEffektavgiftInEffect(company);
+  const escapedCompanyName = escapeHtml(company.name);
+  
+  // Generate notice HTML if effektavgift is not yet in effect
+  const noticeHtml = !effektavgiftInEffect && company.effectiveDate
+    ? `<div class="not-in-effect-notice" role="alert">
+        <span class="notice-icon">⚠️</span>
+        <span class="notice-text">Effektavgift kan börja gälla för ${escapedCompanyName} från ${formatEffectiveDate(company.effectiveDate)}. Kontakta ditt nätbolag för mer information.</span>
+      </div>`
+    : '';
   
   app.innerHTML = `
     <div class="display-container ${isHighLoad ? 'high-load' : 'low-load'}" role="main">
       <a href="${basePath}" class="back-link" data-link aria-label="Tillbaka till listan över nätbolag">← Tillbaka</a>
       <button class="fullscreen-link" id="fullscreen-btn" aria-label="Aktivera fullskärmsläge">Fullskärm</button>
       <div class="status-content">
-        <h1 class="company-name">${company.name}</h1>
+        <h1 class="company-name">${escapedCompanyName}</h1>
+        ${noticeHtml}
         <div class="status-indicator" role="status" aria-live="polite" aria-atomic="true">
           <div class="status-text" aria-label="Nuvarande status: ${isHighLoad ? 'höglast' : 'låglast'}">${isHighLoad ? 'HÖGLAST' : 'LÅGLAST'}</div>
           <div class="status-description">
