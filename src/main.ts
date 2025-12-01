@@ -14,7 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { powerGridCompanies, PowerGridCompany, getLoadStatus, getNextTariffChange } from './tariff';
+import { powerGridCompanies, PowerGridCompany, getLoadStatus, getNextTariffChange, isEffektavgiftInEffect, formatEffectiveDate } from './tariff';
 
 // Simple router
 function getCurrentRoute(): { page: string; companyId?: string } {
@@ -90,6 +90,15 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
   const status = getLoadStatus(company);
   const isHighLoad = status === 'high';
   const basePath = '/effektavgift/';
+  const effektavgiftInEffect = isEffektavgiftInEffect(company);
+  
+  // Generate notice HTML if effektavgift is not yet in effect
+  const noticeHtml = !effektavgiftInEffect && company.effectiveDate
+    ? `<div class="not-in-effect-notice" role="alert">
+        <span class="notice-icon">⚠️</span>
+        <span class="notice-text">Effektavgift kan börja gälla för ${company.name} från ${formatEffectiveDate(company.effectiveDate)}. Kontakta ditt nätbolag för mer information.</span>
+      </div>`
+    : '';
   
   app.innerHTML = `
     <div class="display-container ${isHighLoad ? 'high-load' : 'low-load'}" role="main">
@@ -97,6 +106,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
       <button class="fullscreen-link" id="fullscreen-btn" aria-label="Aktivera fullskärmsläge">Fullskärm</button>
       <div class="status-content">
         <h1 class="company-name">${company.name}</h1>
+        ${noticeHtml}
         <div class="status-indicator" role="status" aria-live="polite" aria-atomic="true">
           <div class="status-text" aria-label="Nuvarande status: ${isHighLoad ? 'höglast' : 'låglast'}">${isHighLoad ? 'HÖGLAST' : 'LÅGLAST'}</div>
           <div class="status-description">

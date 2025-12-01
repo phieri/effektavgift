@@ -281,3 +281,55 @@ body {
     font-size: 1.2rem;
   }
 }
+
+/* Not in effect notice styles */
+.not-in-effect-notice {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 600px;
+  text-align: left;
+}
+
+.notice-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.notice-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  opacity: 0.95;
+}
+
+@media (max-width: 768px) {
+  .not-in-effect-notice {
+    padding: 0.8rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .notice-icon {
+    font-size: 1.25rem;
+  }
+  
+  .notice-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .not-in-effect-notice {
+    flex-direction: column;
+    text-align: center;
+    padding: 0.75rem;
+  }
+  
+  .notice-text {
+    font-size: 0.85rem;
+  }
+}

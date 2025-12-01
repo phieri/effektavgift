@@ -21,9 +21,13 @@ export interface PowerGridCompany {
   highLoadMonths: number[]; // Natural month numbers: 1 = January, 12 = December
   highLoadHours: { start: number; end: number }; // 24-hour format
   highLoadWeekdays: boolean; // Only weekdays (Monday-Friday, excludes Saturday and Sunday)
+  effectiveDate?: Date; // Date when effektavgift becomes effective for this company (undefined = already in effect)
 }
 
 // Swedish power grid companies with their tariff rules
+// Note: effectiveDate is only set for companies that haven't started effektavgift yet
+// Companies without effectiveDate have already implemented effektavgift
+// All companies are legally required to have effektavgift by January 1, 2027
 export const powerGridCompanies: PowerGridCompany[] = [
   {
     id: 'ellevio',
@@ -31,6 +35,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    // Started January 1, 2025 - already in effect
   },
   {
     id: 'vattenfall',
@@ -38,6 +43,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2026, 9, 1), // October 2026 (autumn 2026)
   },
   {
     id: 'eon',
@@ -45,6 +51,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
   },
   {
     id: 'falbygdens-energi',
@@ -52,6 +59,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
   },
   {
     id: 'geab',
@@ -59,6 +67,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2026, 0, 1), // January 1, 2026
   },
   {
     id: 'halmstads-energi',
@@ -66,6 +75,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
   },
   {
     id: 'karlshamns-energi',
@@ -73,6 +83,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
   },
   {
     id: 'skekraft',
@@ -80,6 +91,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
   },
   {
     id: 'goteborg-energi',
@@ -87,6 +99,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    // Already has optional time-based tariff available
   },
   {
     id: 'umea-energi',
@@ -94,6 +107,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
   },
   {
     id: 'malarenergi',
@@ -101,6 +115,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2025, 8, 1), // September 2025
   },
   {
     id: 'eskilstuna-energi',
@@ -108,6 +123,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
   },
   {
     id: 'kraftringen',
@@ -115,6 +131,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
   },
   {
     id: 'fortum',
@@ -122,6 +139,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    // Fortum sold to Ellevio - effektavgift already in effect
   },
   {
     id: 'jamtkraft',
@@ -129,6 +147,7 @@ export const powerGridCompanies: PowerGridCompany[] = [
     highLoadMonths: [11, 12, 1, 2, 3], // November to March
     highLoadHours: { start: 6, end: 22 },
     highLoadWeekdays: true,
+    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
   },
 ];
 
@@ -261,6 +280,23 @@ export function isHighLoadPeriod(company: PowerGridCompany, now: Date = new Date
 
 export function getLoadStatus(company: PowerGridCompany): 'high' | 'low' {
   return isHighLoadPeriod(company) ? 'high' : 'low';
+}
+
+// Check if effektavgift is currently in effect for a company
+export function isEffektavgiftInEffect(company: PowerGridCompany, now: Date = new Date()): boolean {
+  if (!company.effectiveDate) {
+    return true; // No effective date means it's already in effect
+  }
+  return now >= company.effectiveDate;
+}
+
+// Format effective date in Swedish (e.g., "oktober 2026")
+export function formatEffectiveDate(date: Date): string {
+  const months = [
+    'januari', 'februari', 'mars', 'april', 'maj', 'juni',
+    'juli', 'augusti', 'september', 'oktober', 'november', 'december'
+  ];
+  return `${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
 // Calculate the next time the tariff will change
