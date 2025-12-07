@@ -240,8 +240,17 @@ function getAllSaintsDay(year: number): Date {
 }
 
 // Convert a Date object to Swedish time (Europe/Stockholm timezone)
-// Returns a new Date object representing the same moment in time, but with
-// getHours(), getDate(), etc. reflecting Swedish local time
+// Returns a new Date object where getHours(), getDate(), getMonth(), etc.
+// return Swedish local time values instead of the user's local time values.
+// 
+// Note: This does NOT preserve the same moment in time - it creates a different
+// Date object that happens to have the same local time components as Swedish time.
+// This is intentional because we need Swedish time values for comparisons.
+// 
+// Example: If it's 14:00 Swedish time and user is in New York (UTC-5):
+// - Input: Date representing 14:00 Swedish = 08:00 NY = 13:00 UTC
+// - Output: Date where getHours() returns 14 (Swedish hour)
+// - The output represents 14:00 in the user's local timezone, not the same moment
 function toSwedishTime(date: Date): Date {
   // Get the date/time components in Swedish timezone
   const swedishDateStr = date.toLocaleString('sv-SE', {
@@ -264,10 +273,10 @@ function toSwedishTime(date: Date): Date {
   
   const [, year, month, day, hour, minute, second] = parts;
   
-  // Create a new Date object using Swedish local time components
-  // Note: new Date(year, month, day, ...) creates a date in the user's local timezone
-  // but we want to interpret these numbers as if they were in the user's timezone
-  // So we create a date that will have the same getHours(), getDate(), etc. as Swedish time
+  // Create a Date object in the user's local timezone using the Swedish time components.
+  // This means the Date will represent a different moment in time than the input,
+  // but calling getHours(), getDate(), etc. will return the Swedish time values.
+  // This is exactly what we need for comparing against Swedish business rules.
   return new Date(
     parseInt(year),
     parseInt(month) - 1, // Month is 0-indexed
