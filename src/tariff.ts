@@ -239,6 +239,45 @@ function getAllSaintsDay(year: number): Date {
   return new Date(year, 11 - 1, 1); // Fallback to November 1 (month 11)
 }
 
+// Convert a Date object to Swedish time (Europe/Stockholm timezone)
+// Returns a new Date object representing the same moment in time, but with
+// getHours(), getDate(), etc. reflecting Swedish local time
+function toSwedishTime(date: Date): Date {
+  // Get the date/time components in Swedish timezone
+  const swedishDateStr = date.toLocaleString('sv-SE', {
+    timeZone: 'Europe/Stockholm',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  });
+  
+  // Parse the Swedish time string (format: "YYYY-MM-DD HH:mm:ss")
+  // toLocaleString with sv-SE returns format like "2025-12-07 23:41:19"
+  const parts = swedishDateStr.match(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
+  if (!parts) {
+    throw new Error(`Failed to parse Swedish time: ${swedishDateStr}`);
+  }
+  
+  const [, year, month, day, hour, minute, second] = parts;
+  
+  // Create a new Date object using Swedish local time components
+  // Note: new Date(year, month, day, ...) creates a date in the user's local timezone
+  // but we want to interpret these numbers as if they were in the user's timezone
+  // So we create a date that will have the same getHours(), getDate(), etc. as Swedish time
+  return new Date(
+    parseInt(year),
+    parseInt(month) - 1, // Month is 0-indexed
+    parseInt(day),
+    parseInt(hour),
+    parseInt(minute),
+    parseInt(second)
+  );
+}
+
 // Check if a date is a holiday
 function isHoliday(date: Date, holidays: Date[]): boolean {
   return holidays.some(holiday => 
@@ -250,9 +289,12 @@ function isHoliday(date: Date, holidays: Date[]): boolean {
 
 // Check if current time is high load period
 export function isHighLoadPeriod(company: PowerGridCompany, now: Date = new Date()): boolean {
-  const month = now.getMonth() + 1; // Convert to natural month number (1-12)
-  const hour = now.getHours();
-  const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 5 = Friday, 6 = Saturday
+  // Convert to Swedish time (Europe/Stockholm) since all companies operate on Swedish time
+  const swedishNow = toSwedishTime(now);
+  
+  const month = swedishNow.getMonth() + 1; // Convert to natural month number (1-12)
+  const hour = swedishNow.getHours();
+  const dayOfWeek = swedishNow.getDay(); // 0 = Sunday, 1 = Monday, ..., 5 = Friday, 6 = Saturday
   
   // Check if it's in high load months
   if (!company.highLoadMonths.includes(month)) {
@@ -270,8 +312,8 @@ export function isHighLoadPeriod(company: PowerGridCompany, now: Date = new Date
   }
   
   // Check if it's a holiday
-  const holidays = getSwedishHolidays(now.getFullYear());
-  if (isHoliday(now, holidays)) {
+  const holidays = getSwedishHolidays(swedishNow.getFullYear());
+  if (isHoliday(swedishNow, holidays)) {
     return false;
   }
   
