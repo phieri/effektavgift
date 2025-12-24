@@ -111,14 +111,14 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
     : '';
   
   app.innerHTML = `
-    <div class="display-container ${isHighLoad ? 'high-load' : 'low-load'}" role="main">
+    <div class="display-container" role="main">
       <a href="${basePath}" class="back-link" data-link aria-label="Tillbaka till listan över nätbolag">← Tillbaka</a>
       <button class="fullscreen-link" id="fullscreen-btn" aria-label="Aktivera fullskärmsläge">Fullskärm</button>
       <div class="status-content">
         <h1 class="company-name">${escapedCompanyName}</h1>
         ${noticeHtml}
         <div class="status-indicator" role="status" aria-live="polite" aria-atomic="true">
-          <div class="status-text" aria-label="Nuvarande status: ${isHighLoad ? 'höglast' : 'låglast'}">${isHighLoad ? 'HÖGLAST' : 'LÅGLAST'}</div>
+          <div class="status-text ${isHighLoad ? 'high-load' : 'low-load'}" aria-label="Nuvarande status: ${isHighLoad ? 'höglast' : 'låglast'}">${isHighLoad ? 'HÖGLAST' : 'LÅGLAST'}</div>
           <div class="status-description">
             ${isHighLoad 
               ? 'Effektavgift tillämpas nu' 

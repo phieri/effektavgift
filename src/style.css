@@ -105,31 +105,23 @@ body {
   align-items: center;
   padding: 2rem;
   position: relative;
-  transition: background-color 0.5s ease;
-}
-
-.display-container.high-load {
-  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-  color: white;
-}
-
-.display-container.low-load {
-  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-  color: white;
+  background: #f8f9fa;
+  color: #333;
 }
 
 .back-link {
   position: absolute;
   top: 1rem;
   left: 1rem;
-  color: white;
+  color: #2c3e50;
   text-decoration: none;
   font-size: 1rem;
   padding: 0.5rem 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid #ddd;
   border-radius: 4px;
   transition: opacity 0.5s ease, background 0.3s ease, border-color 0.3s ease;
   opacity: 1;
+  background: white;
 }
 
 .back-link.fade-out {
@@ -138,8 +130,8 @@ body {
 }
 
 .back-link:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: white;
+  background: #e9ecef;
+  border-color: #3498db;
   opacity: 1 !important;
 }
 
@@ -147,11 +139,11 @@ body {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  color: white;
-  background: transparent;
+  color: #2c3e50;
+  background: white;
   font-size: 1rem;
   padding: 0.5rem 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
   transition: opacity 0.5s ease, background 0.3s ease, border-color 0.3s ease;
@@ -165,8 +157,8 @@ body {
 }
 
 .fullscreen-link:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: white;
+  background: #e9ecef;
+  border-color: #3498db;
   opacity: 1 !important;
 }
 
@@ -179,8 +171,9 @@ body {
 .company-name {
   font-size: 2rem;
   margin-bottom: 3rem;
-  opacity: 0.9;
+  opacity: 0.8;
   font-weight: 300;
+  color: #2c3e50;
 }
 
 .status-indicator {
@@ -192,13 +185,29 @@ body {
   font-weight: 900;
   letter-spacing: 0.1em;
   margin-bottom: 1rem;
+  padding: 1rem 2rem;
+  border-radius: 16px;
+  display: inline-block;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.status-text.high-load {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.status-text.low-load {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  color: white;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .status-description {
   font-size: 2rem;
   font-weight: 300;
-  opacity: 0.95;
+  opacity: 0.8;
+  color: #555;
 }
 
 .countdown-container {
@@ -207,16 +216,18 @@ body {
 
 .countdown-label {
   font-size: 1.2rem;
-  opacity: 0.8;
+  opacity: 0.7;
   font-weight: 400;
   margin-bottom: 0.5rem;
+  color: #555;
 }
 
 .countdown-display {
   font-size: 1.8rem;
-  opacity: 0.9;
+  opacity: 0.8;
   font-weight: 500;
   letter-spacing: 0.02em;
+  color: #333;
 }
 
 /* Responsive Design */
@@ -284,8 +295,8 @@ body {
 
 /* Not in effect notice styles */
 .not-in-effect-notice {
-  background: rgba(255, 255, 255, 0.15);
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: #fff3cd;
+  border: 2px solid #ffc107;
   border-radius: 8px;
   padding: 1rem 1.5rem;
   margin-bottom: 2rem;
@@ -294,6 +305,7 @@ body {
   gap: 0.75rem;
   max-width: 600px;
   text-align: left;
+  color: #856404;
 }
 
 .notice-icon {
@@ -304,7 +316,6 @@ body {
 .notice-text {
   font-size: 1rem;
   line-height: 1.5;
-  opacity: 0.95;
 }
 
 @media (max-width: 768px) {
