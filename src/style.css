@@ -8,6 +8,14 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   line-height: 1.6;
   color: #333;
+  background: white;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1a1a1a;
+    color: #e0e0e0;
+  }
 }
 
 #app {
@@ -60,11 +68,23 @@ body {
   text-align: center;
 }
 
+@media (prefers-color-scheme: dark) {
+  .home-container h1 {
+    color: #e0e0e0;
+  }
+}
+
 .subtitle {
   font-size: 1.2rem;
   color: #7f8c8d;
   text-align: center;
   margin-bottom: 3rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .subtitle {
+    color: #a0a0a0;
+  }
 }
 
 .company-list {
@@ -96,6 +116,20 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+@media (prefers-color-scheme: dark) {
+  .company-link {
+    background: #2a2a2a;
+    border-color: #404040;
+    color: #e0e0e0;
+  }
+  
+  .company-link:hover {
+    background: #333;
+    border-color: #3498db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+}
+
 /* Display Page Styles */
 .display-container {
   min-height: 100vh;
@@ -107,6 +141,13 @@ body {
   position: relative;
   background: #f8f9fa;
   color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  .display-container {
+    background: #1a1a1a;
+    color: #e0e0e0;
+  }
 }
 
 .back-link {
@@ -133,6 +174,19 @@ body {
   background: #e9ecef;
   border-color: #3498db;
   opacity: 1 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .back-link {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #404040;
+  }
+  
+  .back-link:hover {
+    background: #333;
+    border-color: #3498db;
+  }
 }
 
 .fullscreen-link {
@@ -162,6 +216,19 @@ body {
   opacity: 1 !important;
 }
 
+@media (prefers-color-scheme: dark) {
+  .fullscreen-link {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #404040;
+  }
+  
+  .fullscreen-link:hover {
+    background: #333;
+    border-color: #3498db;
+  }
+}
+
 .status-content {
   text-align: center;
   width: 100%;
@@ -174,6 +241,12 @@ body {
   opacity: 0.8;
   font-weight: 300;
   color: #2c3e50;
+}
+
+@media (prefers-color-scheme: dark) {
+  .company-name {
+    color: #e0e0e0;
+  }
 }
 
 .status-indicator {
@@ -210,6 +283,12 @@ body {
   color: #555;
 }
 
+@media (prefers-color-scheme: dark) {
+  .status-description {
+    color: #b0b0b0;
+  }
+}
+
 .countdown-container {
   margin-top: 2rem;
 }
@@ -228,6 +307,16 @@ body {
   font-weight: 500;
   letter-spacing: 0.02em;
   color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  .countdown-label {
+    color: #a0a0a0;
+  }
+  
+  .countdown-display {
+    color: #e0e0e0;
+  }
 }
 
 /* Responsive Design */
@@ -306,6 +395,14 @@ body {
   max-width: 600px;
   text-align: left;
   color: #856404;
+}
+
+@media (prefers-color-scheme: dark) {
+  .not-in-effect-notice {
+    background: #3a3000;
+    border-color: #ffc107;
+    color: #ffd966;
+  }
 }
 
 .notice-icon {
