@@ -28,9 +28,7 @@ function getCurrentRoute(): { page: string; companyId?: string } {
   const basePath = '/effektavgift/'; // GitHub Pages base path
   
   // Use Navigation API to get current path
-  const path = navigation.currentEntry && navigation.currentEntry.url
-    ? new URL(navigation.currentEntry.url).pathname
-    : window.location.pathname;
+  const path = new URL(navigation.currentEntry!.url!).pathname;
   
   // Remove base path to get the route
   const route = path.startsWith(basePath) 
