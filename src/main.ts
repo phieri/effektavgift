@@ -323,17 +323,26 @@ navigation!.addEventListener('navigate', (event) => {
   });
 });
 
-window.addEventListener('DOMContentLoaded', () => {
-  // Check if we were redirected from 404.html (GitHub Pages SPA routing)
-  const redirect = sessionStorage.redirect;
-  if (redirect) {
-    // Clear the redirect flag
-    delete sessionStorage.redirect;
-    // Navigate to the original URL
-    const redirectUrl = new URL(redirect);
-    navigation!.navigate(redirectUrl.pathname, { history: 'replace' });
+// Check if we were redirected from 404.html (GitHub Pages SPA routing)
+const redirect = sessionStorage.redirect;
+if (redirect) {
+  // Clear the redirect flag
+  delete sessionStorage.redirect;
+  // Navigate to the original URL using just the pathname
+  const redirectUrl = new URL(redirect);
+  // Wait for DOM to be ready before navigating
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      navigation!.navigate(redirectUrl.pathname, { history: 'replace' });
+    });
   } else {
-    // Normal page load
+    navigation!.navigate(redirectUrl.pathname, { history: 'replace' });
+  }
+} else {
+  // Normal page load - wait for DOM to be ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', router);
+  } else {
     router();
   }
-});
+}
