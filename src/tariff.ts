@@ -25,7 +25,7 @@ export interface PowerGridCompany {
 }
 
 // JSON representation with string dates
-interface PowerGridCompanyJSON {
+export interface PowerGridCompanyJSON {
   id: string;
   name: string;
   highLoadMonths: number[];
@@ -34,14 +34,18 @@ interface PowerGridCompanyJSON {
   effectiveDate?: string; // ISO date string in JSON
 }
 
-// Load and parse company data from JSON
-import companiesData from './companies.json';
+// Utility function to parse company JSON data (converts date strings to Date objects)
+export function parseCompanyData(companyJson: PowerGridCompanyJSON): PowerGridCompany {
+  return {
+    ...companyJson,
+    effectiveDate: companyJson.effectiveDate ? new Date(companyJson.effectiveDate) : undefined
+  };
+}
 
-// Convert JSON data to PowerGridCompany objects (parse date strings to Date objects)
-export const powerGridCompanies: PowerGridCompany[] = (companiesData as PowerGridCompanyJSON[]).map(company => ({
-  ...company,
-  effectiveDate: company.effectiveDate ? new Date(company.effectiveDate) : undefined
-}));
+// Utility function to parse multiple companies
+export function parseCompaniesData(companiesJson: PowerGridCompanyJSON[]): PowerGridCompany[] {
+  return companiesJson.map(parseCompanyData);
+}
 
 // Cache for Swedish holidays by year to avoid unnecessary recalculation
 const holidayCache = new Map<number, Date[]>();

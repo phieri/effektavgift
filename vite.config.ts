@@ -64,6 +64,21 @@ export default defineConfig({
   },
   plugins: [
     {
+      name: 'inject-companies-data',
+      transformIndexHtml(html) {
+        // Only transform the main index.html (home page)
+        const companiesJson = JSON.stringify(companiesData);
+        return html.replace(
+          '</head>',
+          `  <script>
+    // Inline all companies data directly in the HTML
+    window.__COMPANIES_DATA__ = ${companiesJson};
+  </script>
+</head>`
+        );
+      }
+    },
+    {
       name: 'generate-company-pages',
       closeBundle() {
         const distDir = path.resolve(__dirname, './dist');
@@ -81,7 +96,10 @@ export default defineConfig({
           
           // Generate HTML for this company
           const escapedName = escapeHtml(company.name);
-          const escapedId = escapeHtml(company.id);
+          
+          // Serialize company data as JSON to inline in HTML
+          const companyDataJson = JSON.stringify(company);
+          
           const html = `<!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -93,8 +111,8 @@ export default defineConfig({
   <script type="module" crossorigin src="${basePath}/assets/display.js"></script>
   <link rel="stylesheet" crossorigin href="${basePath}/assets/style.css">
   <script>
-    // Pass company ID to the app
-    window.__COMPANY_ID__ = "${escapedId}";
+    // Inline company data directly in the HTML
+    window.__COMPANY_DATA__ = ${companyDataJson};
   </script>
 </head>
 <body>

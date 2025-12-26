@@ -14,14 +14,30 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { powerGridCompanies } from './tariff';
+import { PowerGridCompanyJSON, parseCompaniesData } from './tariff';
 import { escapeHtml } from './utils';
 import './style.css';
+
+// Get companies data from global variable set in HTML
+declare global {
+  interface Window {
+    __COMPANIES_DATA__?: PowerGridCompanyJSON[];
+  }
+}
 
 // Render home page with company list
 function renderHomePage() {
   const app = document.getElementById('app');
   if (!app) return;
+
+  // Get and parse companies data
+  const companiesDataJson = window.__COMPANIES_DATA__;
+  if (!companiesDataJson) {
+    console.error('No companies data provided');
+    return;
+  }
+  
+  const companies = parseCompaniesData(companiesDataJson);
 
   const basePath = '/effektavgift';
   
@@ -38,7 +54,7 @@ function renderHomePage() {
         <p class="subtitle">Välj ditt nätbolag</p>
         <nav aria-label="Lista över nätbolag">
           <ul class="company-list">
-            ${powerGridCompanies.map(company => {
+            ${companies.map(company => {
               const escapedName = escapeHtml(company.name);
               return `
               <li>

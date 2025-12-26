@@ -14,14 +14,14 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { powerGridCompanies, PowerGridCompany, getLoadStatus, getNextTariffChange, isEffektavgiftInEffect, formatEffectiveDate } from './tariff';
+import { PowerGridCompany, PowerGridCompanyJSON, parseCompanyData, getLoadStatus, getNextTariffChange, isEffektavgiftInEffect, formatEffectiveDate } from './tariff';
 import { escapeHtml } from './utils';
 import './style.css';
 
-// Get company ID from global variable set in HTML
+// Get company data from global variable set in HTML
 declare global {
   interface Window {
-    __COMPANY_ID__?: string;
+    __COMPANY_DATA__?: PowerGridCompanyJSON;
   }
 }
 
@@ -217,17 +217,14 @@ function getCountdownString(company: PowerGridCompany): string {
 
 // Initialize display page
 function initDisplayPage() {
-  const companyId = window.__COMPANY_ID__;
-  if (!companyId) {
-    console.error('No company ID provided');
+  const companyDataJson = window.__COMPANY_DATA__;
+  if (!companyDataJson) {
+    console.error('No company data provided');
     return;
   }
   
-  const company = powerGridCompanies.find(c => c.id === companyId);
-  if (!company) {
-    console.error(`Company not found: ${companyId}`);
-    return;
-  }
+  // Parse the company data (convert date strings to Date objects)
+  const company = parseCompanyData(companyDataJson);
   
   renderDisplayPage(company);
 }
