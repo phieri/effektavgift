@@ -14,92 +14,25 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { powerGridCompanies, PowerGridCompany, getLoadStatus, getNextTariffChange, isEffektavgiftInEffect, formatEffectiveDate } from './tariff';
+import { PowerGridCompany, PowerGridCompanyJSON, parseCompanyData, getLoadStatus, getNextTariffChange, isEffektavgiftInEffect, formatEffectiveDate } from './tariff';
+import { escapeHtml } from './utils';
+import './style.css';
 
-// Helper function to escape HTML special characters for XSS prevention
-function escapeHtml(text: string): string {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-// Simple router
-function getCurrentRoute(): { page: string; companyId?: string } {
-  const basePath = '/effektavgift/'; // GitHub Pages base path
-  
-  // Use Navigation API to get current path
-  const path = new URL(navigation!.currentEntry!.url!).pathname;
-  
-  // Remove base path to get the route
-  const route = path.startsWith(basePath) 
-    ? path.slice(basePath.length) 
-    : path.slice(1); // Remove leading slash
-  
-  // Remove trailing slash if present
-  const cleanRoute = route.endsWith('/') ? route.slice(0, -1) : route;
-  
-  if (cleanRoute && cleanRoute !== '') {
-    // Check if it's a valid company ID
-    const company = powerGridCompanies.find(c => c.id === cleanRoute);
-    if (company) {
-      return { page: 'display', companyId: cleanRoute };
-    }
-    // If company not found, redirect to home page
-    navigation!.navigate(basePath, { history: 'replace' });
+// Get company data from global variable set in HTML
+declare global {
+  interface Window {
+    __COMPANY_DATA__?: PowerGridCompanyJSON;
   }
-  
-  return { page: 'home' };
-}
-
-// Render home page with company list
-function renderHomePage(app: HTMLElement) {
-  const basePath = '/effektavgift/';
-  
-  app.innerHTML = `
-    <div class="home-container">
-      <a href="https://github.com/phieri/effektavgift/" rel="noopener noreferrer" class="edit-github-link" title="Redigera på GitHub" aria-label="Redigera applikationen på GitHub">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-        </svg>
-        <span>Redigera på GitHub</span>
-      </a>
-      <main>
-        <h1>Effektavgift</h1>
-        <p class="subtitle">Välj ditt nätbolag</p>
-        <nav aria-label="Lista över nätbolag">
-          <ul class="company-list">
-            ${powerGridCompanies.map(company => {
-              const escapedName = escapeHtml(company.name);
-              return `
-              <li>
-                <a href="${basePath}${company.id}/" class="company-link" data-link aria-label="Visa effektavgiftsstatus för ${escapedName}">
-                  ${escapedName}
-                </a>
-              </li>
-            `;}).join('')}
-          </ul>
-        </nav>
-      </main>
-    </div>
-  `;
-  
-  // Add click handlers for internal navigation
-  app.querySelectorAll('a[data-link]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
-      if (href) {
-        navigation!.navigate(href);
-      }
-    });
-  });
 }
 
 // Render display page showing current load status
-function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
+function renderDisplayPage(company: PowerGridCompany) {
+  const app = document.getElementById('app');
+  if (!app) return;
+
   const status = getLoadStatus(company);
   const isHighLoad = status === 'high';
-  const basePath = '/effektavgift/';
+  const basePath = '/effektavgift';
   const effektavgiftInEffect = isEffektavgiftInEffect(company);
   const escapedCompanyName = escapeHtml(company.name);
   
@@ -113,7 +46,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
   
   app.innerHTML = `
     <div class="display-container" role="main">
-      <a href="${basePath}" class="back-link" data-link aria-label="Tillbaka till listan över nätbolag">← Tillbaka</a>
+      <a href="${basePath}/" class="back-link" aria-label="Tillbaka till listan över nätbolag">← Tillbaka</a>
       <button class="fullscreen-link" id="fullscreen-btn" aria-label="Aktivera fullskärmsläge">Fullskärm</button>
       <div class="wake-lock-status" id="wake-lock-status" aria-live="polite"></div>
       <div class="status-content">
@@ -135,20 +68,12 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
     </div>
   `;
   
-  // Add click handler for back link
-  const backLink = app.querySelector('a[data-link]');
+  // Add fade out functionality
+  const backLink = app.querySelector('.back-link');
   const fullscreenBtn = app.querySelector('#fullscreen-btn') as HTMLButtonElement;
   const wakeLockStatusElement = app.querySelector('#wake-lock-status');
   
   if (backLink) {
-    backLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
-      if (href) {
-        navigation!.navigate(href);
-      }
-    });
-    
     // Fade out buttons and wake lock status after 5 seconds
     let fadeOutTimer = setTimeout(() => {
       backLink.classList.add('fade-out');
@@ -258,7 +183,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
     // If status changed, re-render the page
     if (newStatus !== status) {
       clearInterval(updateInterval);
-      renderDisplayPage(app, company);
+      renderDisplayPage(company);
     }
   }, 34567);
   
@@ -290,59 +215,22 @@ function getCountdownString(company: PowerGridCompany): string {
   return parts.join(' ');
 }
 
-// Main router function
-function router() {
-  const app = document.getElementById('app');
-  if (!app) return;
-  
-  const route = getCurrentRoute();
-  
-  if (route.page === 'display' && route.companyId) {
-    const company = powerGridCompanies.find(c => c.id === route.companyId);
-    if (company) {
-      renderDisplayPage(app, company);
-    } else {
-      renderHomePage(app);
-    }
-  } else {
-    renderHomePage(app);
-  }
-}
-
-// Initialize app
-navigation!.addEventListener('navigate', (event) => {
-  // Only handle same-document navigations
-  if (!event.canIntercept || event.hashChange || event.downloadRequest !== null) {
+// Initialize display page
+function initDisplayPage() {
+  const companyDataJson = window.__COMPANY_DATA__;
+  if (!companyDataJson) {
+    console.error('No company data provided');
     return;
   }
   
-  event.intercept({
-    handler: async () => {
-      router();
-    }
-  });
-});
+  // Parse the company data (convert date strings to Date objects)
+  const company = parseCompanyData(companyDataJson);
+  
+  renderDisplayPage(company);
+}
 
-// Check if we were redirected from 404.html (GitHub Pages SPA routing)
-const redirect = sessionStorage.redirect;
-if (redirect) {
-  // Clear the redirect flag
-  delete sessionStorage.redirect;
-  // Navigate to the original URL using just the pathname
-  const redirectUrl = new URL(redirect);
-  // Wait for DOM to be ready before navigating
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      navigation!.navigate(redirectUrl.pathname, { history: 'replace' });
-    });
-  } else {
-    navigation!.navigate(redirectUrl.pathname, { history: 'replace' });
-  }
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initDisplayPage);
 } else {
-  // Normal page load - wait for DOM to be ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', router);
-  } else {
-    router();
-  }
+  initDisplayPage();
 }

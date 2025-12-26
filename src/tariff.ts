@@ -24,132 +24,28 @@ export interface PowerGridCompany {
   effectiveDate?: Date; // Date when effektavgift becomes effective for this company (undefined = already in effect)
 }
 
-// Swedish power grid companies with their tariff rules
-// Note: effectiveDate is only set for companies that haven't started effektavgift yet
-// Companies without effectiveDate have already implemented effektavgift
-// All companies are legally required to have effektavgift by January 1, 2027
-export const powerGridCompanies: PowerGridCompany[] = [
-  {
-    id: 'ellevio',
-    name: 'Ellevio',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    // Started January 1, 2025 - already in effect
-  },
-  {
-    id: 'vattenfall',
-    name: 'Vattenfall Eldistribution',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2026, 9, 1), // October 2026 (autumn 2026)
-  },
-  {
-    id: 'eon',
-    name: 'E.ON Energidistribution',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
-  },
-  {
-    id: 'falbygdens-energi',
-    name: 'Falbygdens Energi',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
-  },
-  {
-    id: 'geab',
-    name: 'Gotlands Energi (GEAB)',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2026, 0, 1), // January 1, 2026
-  },
-  {
-    id: 'halmstads-energi',
-    name: 'Halmstads Energi och Miljö',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
-  },
-  {
-    id: 'karlshamns-energi',
-    name: 'Karlshamn Energi',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
-  },
-  {
-    id: 'skekraft',
-    name: 'Skellefteå Kraft',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
-  },
-  {
-    id: 'goteborg-energi',
-    name: 'Göteborg Energi Nät',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    // Already has optional time-based tariff available
-  },
-  {
-    id: 'umea-energi',
-    name: 'Umeå Energi Elnät',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
-  },
-  {
-    id: 'malarenergi',
-    name: 'Mälarenergi Elnät',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2025, 8, 1), // September 2025
-  },
-  {
-    id: 'eskilstuna-energi',
-    name: 'Eskilstuna Energi och Miljö Elnät',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
-  },
-  {
-    id: 'kraftringen',
-    name: 'Kraftringen Nät',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
-  },
-  {
-    id: 'fortum',
-    name: 'Fortum Distribution',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    // Fortum sold to Ellevio - effektavgift already in effect
-  },
-  {
-    id: 'jamtkraft',
-    name: 'Jämtkraft Elnät',
-    highLoadMonths: [11, 12, 1, 2, 3], // November to March
-    highLoadHours: { start: 6, end: 22 },
-    highLoadWeekdays: true,
-    effectiveDate: new Date(2027, 0, 1), // January 1, 2027 (legal deadline)
-  },
-];
+// JSON representation with string dates
+export interface PowerGridCompanyJSON {
+  id: string;
+  name: string;
+  highLoadMonths: number[];
+  highLoadHours: { start: number; end: number };
+  highLoadWeekdays: boolean;
+  effectiveDate?: string; // ISO date string in JSON
+}
+
+// Utility function to parse company JSON data (converts date strings to Date objects)
+export function parseCompanyData(companyJson: PowerGridCompanyJSON): PowerGridCompany {
+  return {
+    ...companyJson,
+    effectiveDate: companyJson.effectiveDate ? new Date(companyJson.effectiveDate) : undefined
+  };
+}
+
+// Utility function to parse multiple companies
+export function parseCompaniesData(companiesJson: PowerGridCompanyJSON[]): PowerGridCompany[] {
+  return companiesJson.map(parseCompanyData);
+}
 
 // Cache for Swedish holidays by year to avoid unnecessary recalculation
 const holidayCache = new Map<number, Date[]>();
