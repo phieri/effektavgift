@@ -15,14 +15,8 @@
  */
 
 import { powerGridCompanies } from './tariff';
+import { escapeHtml } from './utils';
 import './style.css';
-
-// Helper function to escape HTML special characters for XSS prevention
-function escapeHtml(text: string): string {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
 
 // Render home page with company list
 function renderHomePage() {

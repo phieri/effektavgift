@@ -33,6 +33,8 @@ const companiesData: CompanyJSON[] = JSON.parse(
 );
 
 // Helper function to escape HTML special characters for XSS prevention
+// This is duplicated from src/utils.ts because vite.config.ts runs in Node context
+// during build time and can't import from src/ TypeScript files
 function escapeHtml(text: string): string {
   const map: { [key: string]: string } = {
     '&': '&amp;',
