@@ -174,6 +174,13 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
     let wakeLock: WakeLockSentinel | null = null;
     const wakeLockStatus = app.querySelector('#wake-lock-status');
     
+    const clearWakeLockStatus = () => {
+      if (wakeLockStatus) {
+        wakeLockStatus.textContent = '';
+        wakeLockStatus.classList.remove('active');
+      }
+    };
+    
     const requestWakeLock = async () => {
       try {
         if ('wakeLock' in navigator && navigator.wakeLock?.request) {
@@ -185,10 +192,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
           
           // Listen for wake lock release
           wakeLock.addEventListener('release', () => {
-            if (wakeLockStatus) {
-              wakeLockStatus.textContent = '';
-              wakeLockStatus.classList.remove('active');
-            }
+            clearWakeLockStatus();
             wakeLock = null;
           });
         }
@@ -205,10 +209,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
           console.error('Wake Lock release failed:', err);
         }
       }
-      if (wakeLockStatus) {
-        wakeLockStatus.textContent = '';
-        wakeLockStatus.classList.remove('active');
-      }
+      clearWakeLockStatus();
     };
     
     const toggleFullscreen = () => {
