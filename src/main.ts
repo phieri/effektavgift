@@ -25,8 +25,13 @@ function escapeHtml(text: string): string {
 
 // Simple router
 function getCurrentRoute(): { page: string; companyId?: string } {
-  const path = window.location.pathname;
   const basePath = '/effektavgift/'; // GitHub Pages base path
+  const hasNavigation = 'navigation' in window;
+  
+  // Use Navigation API if available, fallback to window.location
+  const path = hasNavigation && navigation.currentEntry && navigation.currentEntry.url
+    ? new URL(navigation.currentEntry.url).pathname
+    : window.location.pathname;
   
   // Remove base path to get the route
   const route = path.startsWith(basePath) 
@@ -43,7 +48,11 @@ function getCurrentRoute(): { page: string; companyId?: string } {
       return { page: 'display', companyId: cleanRoute };
     }
     // If company not found, redirect to home page
-    window.history.replaceState(null, '', basePath);
+    if (hasNavigation) {
+      navigation.navigate(basePath, { history: 'replace' });
+    } else {
+      window.history.replaceState(null, '', basePath);
+    }
   }
   
   return { page: 'home' };
@@ -82,13 +91,18 @@ function renderHomePage(app: HTMLElement) {
   `;
   
   // Add click handlers for internal navigation
+  const hasNavigation = 'navigation' in window;
   app.querySelectorAll('a[data-link]').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
       if (href) {
-        window.history.pushState(null, '', href);
-        router();
+        if (hasNavigation) {
+          navigation.navigate(href);
+        } else {
+          window.history.pushState(null, '', href);
+          router();
+        }
       }
     });
   });
@@ -136,14 +150,19 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
   // Add click handler for back link
   const backLink = app.querySelector('a[data-link]');
   const fullscreenBtn = app.querySelector('#fullscreen-btn') as HTMLButtonElement;
+  const hasNavigation = 'navigation' in window;
   
   if (backLink) {
     backLink.addEventListener('click', (e) => {
       e.preventDefault();
       const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
       if (href) {
-        window.history.pushState(null, '', href);
-        router();
+        if (hasNavigation) {
+          navigation.navigate(href);
+        } else {
+          window.history.pushState(null, '', href);
+          router();
+        }
       }
     });
     
@@ -262,5 +281,22 @@ function router() {
 }
 
 // Initialize app
-window.addEventListener('popstate', router);
+const hasNavigation = 'navigation' in window;
+if (hasNavigation) {
+  navigation.addEventListener('navigate', (event) => {
+    // Only handle same-document navigations
+    if (!event.canIntercept || event.hashChange || event.downloadRequest !== null) {
+      return;
+    }
+    
+    event.intercept({
+      handler: () => {
+        router();
+      }
+    });
+  });
+} else {
+  // Fallback to popstate for browsers without Navigation API
+  window.addEventListener('popstate', router);
+}
 window.addEventListener('DOMContentLoaded', router);

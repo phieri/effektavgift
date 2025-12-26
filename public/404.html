@@ -10,7 +10,11 @@
     sessionStorage.redirect = location.href;
     // Redirect to the base path (index.html)
     var basePath = '/effektavgift/';
-    location.replace(basePath);
+    if ('navigation' in window) {
+      navigation.navigate(basePath, { history: 'replace' });
+    } else {
+      location.replace(basePath);
+    }
   </script>
 </head>
 <body>
