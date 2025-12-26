@@ -25,8 +25,10 @@ function escapeHtml(text: string): string {
 
 // Simple router
 function getCurrentRoute(): { page: string; companyId?: string } {
-  const path = window.location.pathname;
   const basePath = '/effektavgift/'; // GitHub Pages base path
+  
+  // Use Navigation API to get current path
+  const path = new URL(navigation!.currentEntry!.url!).pathname;
   
   // Remove base path to get the route
   const route = path.startsWith(basePath) 
@@ -43,7 +45,7 @@ function getCurrentRoute(): { page: string; companyId?: string } {
       return { page: 'display', companyId: cleanRoute };
     }
     // If company not found, redirect to home page
-    window.history.replaceState(null, '', basePath);
+    navigation!.navigate(basePath, { history: 'replace' });
   }
   
   return { page: 'home' };
@@ -87,8 +89,7 @@ function renderHomePage(app: HTMLElement) {
       e.preventDefault();
       const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
       if (href) {
-        window.history.pushState(null, '', href);
-        router();
+        navigation!.navigate(href);
       }
     });
   });
@@ -144,8 +145,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
       e.preventDefault();
       const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
       if (href) {
-        window.history.pushState(null, '', href);
-        router();
+        navigation!.navigate(href);
       }
     });
     
@@ -310,5 +310,16 @@ function router() {
 }
 
 // Initialize app
-window.addEventListener('popstate', router);
+navigation!.addEventListener('navigate', (event) => {
+  // Only handle same-document navigations
+  if (!event.canIntercept || event.hashChange || event.downloadRequest !== null) {
+    return;
+  }
+  
+  event.intercept({
+    handler: async () => {
+      router();
+    }
+  });
+});
 window.addEventListener('DOMContentLoaded', router);
