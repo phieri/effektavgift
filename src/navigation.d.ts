@@ -101,7 +101,7 @@ interface Navigation extends EventTarget {
   ): void;
 }
 
-declare var navigation: Navigation;
+declare const navigation: Navigation;
 
 interface Window {
   readonly navigation: Navigation;
