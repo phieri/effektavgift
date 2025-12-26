@@ -14,7 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { PowerGridCompanyJSON, parseCompaniesData } from './tariff';
+import { PowerGridCompanyJSON, parseCompaniesData, PowerGridCompany, calculateDistance } from './tariff';
 import { escapeHtml } from './utils';
 import './style.css';
 
@@ -23,6 +23,67 @@ declare global {
   interface Window {
     __COMPANIES_DATA__?: PowerGridCompanyJSON[];
   }
+}
+
+// User's location for distance calculation
+let userLocation: { lat: number; lng: number } | null = null;
+
+// Current sort mode
+type SortMode = 'name' | 'distance';
+let currentSortMode: SortMode = 'name';
+
+// Sort companies based on the selected mode
+function sortCompanies(companies: PowerGridCompany[], mode: SortMode): PowerGridCompany[] {
+  const sorted = [...companies];
+  
+  if (mode === 'name') {
+    sorted.sort((a, b) => a.name.localeCompare(b.name, 'sv'));
+  } else if (mode === 'distance' && userLocation) {
+    sorted.sort((a, b) => {
+      const distA = calculateDistance(
+        userLocation!.lat,
+        userLocation!.lng,
+        a.coordinates.lat,
+        a.coordinates.lng
+      );
+      const distB = calculateDistance(
+        userLocation!.lat,
+        userLocation!.lng,
+        b.coordinates.lat,
+        b.coordinates.lng
+      );
+      return distA - distB;
+    });
+  }
+  
+  return sorted;
+}
+
+// Get user's location using Geolocation API
+function getUserLocation(): Promise<{ lat: number; lng: number }> {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error('Geolocation is not supported by your browser'));
+      return;
+    }
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+      },
+      (error) => {
+        reject(error);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 5000,
+        maximumAge: 0
+      }
+    );
+  });
 }
 
 // Render home page with company list
@@ -38,8 +99,15 @@ function renderHomePage() {
   }
   
   const companies = parseCompaniesData(companiesDataJson);
+  const sortedCompanies = sortCompanies(companies, currentSortMode);
 
   const basePath = '/effektavgift';
+  
+  // Distance sort option - only enabled if we have user location
+  const distanceSortDisabled = !userLocation;
+  const distanceSortOption = distanceSortDisabled
+    ? '<option value="distance" disabled>Avstånd (kräver platsåtkomst)</option>'
+    : '<option value="distance">Avstånd</option>';
   
   app.innerHTML = `
     <div class="home-container">
@@ -52,14 +120,31 @@ function renderHomePage() {
       <main>
         <h1>Effektavgift</h1>
         <p class="subtitle">Välj ditt nätbolag</p>
+        <div class="sort-selector">
+          <label for="sort-select">Sortera efter:</label>
+          <select id="sort-select" aria-label="Välj sorteringsordning">
+            <option value="name" ${currentSortMode === 'name' ? 'selected' : ''}>Namn</option>
+            ${distanceSortOption}
+          </select>
+        </div>
         <nav aria-label="Lista över nätbolag">
           <ul class="company-list">
-            ${companies.map(company => {
+            ${sortedCompanies.map(company => {
               const escapedName = escapeHtml(company.name);
+              let distanceText = '';
+              if (currentSortMode === 'distance' && userLocation) {
+                const distance = calculateDistance(
+                  userLocation.lat,
+                  userLocation.lng,
+                  company.coordinates.lat,
+                  company.coordinates.lng
+                );
+                distanceText = ` <span class="distance-info">(${Math.round(distance)} km)</span>`;
+              }
               return `
               <li>
                 <a href="${basePath}/${company.id}/" class="company-link" aria-label="Visa effektavgiftsstatus för ${escapedName}">
-                  ${escapedName}
+                  ${escapedName}${distanceText}
                 </a>
               </li>
             `;}).join('')}
@@ -68,6 +153,33 @@ function renderHomePage() {
       </main>
     </div>
   `;
+  
+  // Add event listener to sort selector
+  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+  if (sortSelect) {
+    sortSelect.addEventListener('change', (e) => {
+      const newMode = (e.target as HTMLSelectElement).value as SortMode;
+      if (newMode === 'distance' && !userLocation) {
+        // Request location permission
+        getUserLocation()
+          .then((location) => {
+            userLocation = location;
+            currentSortMode = newMode;
+            renderHomePage();
+          })
+          .catch((error) => {
+            console.error('Failed to get user location:', error);
+            alert('Kunde inte hämta din plats. Kontrollera att du har tillåtit platsåtkomst.');
+            // Reset to name sort
+            currentSortMode = 'name';
+            renderHomePage();
+          });
+      } else {
+        currentSortMode = newMode;
+        renderHomePage();
+      }
+    });
+  }
 }
 
 // Initialize home page
