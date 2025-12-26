@@ -1,0 +1,119 @@
+[
+  {
+    "id": "ellevio",
+    "name": "Ellevio",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true
+  },
+  {
+    "id": "vattenfall",
+    "name": "Vattenfall Eldistribution",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2026-10-01"
+  },
+  {
+    "id": "eon",
+    "name": "E.ON Energidistribution",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01"
+  },
+  {
+    "id": "falbygdens-energi",
+    "name": "Falbygdens Energi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01"
+  },
+  {
+    "id": "geab",
+    "name": "Gotlands Energi (GEAB)",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2026-01-01"
+  },
+  {
+    "id": "halmstads-energi",
+    "name": "Halmstads Energi och Miljö",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01"
+  },
+  {
+    "id": "karlshamns-energi",
+    "name": "Karlshamn Energi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01"
+  },
+  {
+    "id": "skekraft",
+    "name": "Skellefteå Kraft",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01"
+  },
+  {
+    "id": "goteborg-energi",
+    "name": "Göteborg Energi Nät",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true
+  },
+  {
+    "id": "umea-energi",
+    "name": "Umeå Energi Elnät",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01"
+  },
+  {
+    "id": "malarenergi",
+    "name": "Mälarenergi Elnät",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2025-09-01"
+  },
+  {
+    "id": "eskilstuna-energi",
+    "name": "Eskilstuna Energi och Miljö Elnät",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01"
+  },
+  {
+    "id": "kraftringen",
+    "name": "Kraftringen Nät",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01"
+  },
+  {
+    "id": "fortum",
+    "name": "Fortum Distribution",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true
+  },
+  {
+    "id": "jamtkraft",
+    "name": "Jämtkraft Elnät",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01"
+  }
+]
