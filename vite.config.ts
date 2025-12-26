@@ -46,6 +46,17 @@ function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (char) => map[char]);
 }
 
+// Helper function to safely serialize JSON for injection into HTML
+// Escapes special characters that could break out of script tags
+function safeJsonStringify(data: unknown): string {
+  return JSON.stringify(data)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
+
 export default defineConfig({
   base: '/effektavgift/',
   build: {
@@ -67,7 +78,7 @@ export default defineConfig({
       name: 'inject-companies-data',
       transformIndexHtml(html) {
         // Only transform the main index.html (home page)
-        const companiesJson = JSON.stringify(companiesData);
+        const companiesJson = safeJsonStringify(companiesData);
         return html.replace(
           '</head>',
           `  <script>
@@ -97,8 +108,8 @@ export default defineConfig({
           // Generate HTML for this company
           const escapedName = escapeHtml(company.name);
           
-          // Serialize company data as JSON to inline in HTML
-          const companyDataJson = JSON.stringify(company);
+          // Serialize company data as JSON to inline in HTML (with safe escaping)
+          const companyDataJson = safeJsonStringify(company);
           
           const html = `<!DOCTYPE html>
 <html lang="sv">
