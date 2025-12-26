@@ -176,7 +176,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
     
     const requestWakeLock = async () => {
       try {
-        if ('wakeLock' in navigator) {
+        if ('wakeLock' in navigator && navigator.wakeLock?.request) {
           wakeLock = await navigator.wakeLock.request('screen');
           if (wakeLockStatus) {
             wakeLockStatus.textContent = 'Skärmen hålls aktiv';
@@ -189,6 +189,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
               wakeLockStatus.textContent = '';
               wakeLockStatus.classList.remove('active');
             }
+            wakeLock = null;
           });
         }
       } catch (err) {
@@ -200,7 +201,6 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
       if (wakeLock) {
         try {
           await wakeLock.release();
-          wakeLock = null;
         } catch (err) {
           console.error('Wake Lock release failed:', err);
         }
