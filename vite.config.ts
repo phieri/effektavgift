@@ -22,11 +22,27 @@ import * as fs from 'fs'
 interface CompanyJSON {
   id: string;
   name: string;
+  highLoadMonths: number[];
+  highLoadHours: { start: number; end: number };
+  highLoadWeekdays: boolean;
+  effectiveDate?: string;
 }
 
 const companiesData: CompanyJSON[] = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, './src/companies.json'), 'utf-8')
 );
+
+// Helper function to escape HTML special characters for XSS prevention
+function escapeHtml(text: string): string {
+  const map: { [key: string]: string } = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, (char) => map[char]);
+}
 
 export default defineConfig({
   base: '/effektavgift/',
@@ -62,19 +78,21 @@ export default defineConfig({
           }
           
           // Generate HTML for this company
+          const escapedName = escapeHtml(company.name);
+          const escapedId = escapeHtml(company.id);
           const html = `<!DOCTYPE html>
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="Visa om det är höglast eller låglast för effektavgift hos ${company.name}">
-  <title>${company.name} - Effektavgift</title>
+  <meta name="description" content="Visa om det är höglast eller låglast för effektavgift hos ${escapedName}">
+  <title>${escapedName} - Effektavgift</title>
   <script type="module" crossorigin src="${basePath}/assets/display.js"></script>
   <link rel="stylesheet" crossorigin href="${basePath}/assets/style.css">
   <script>
     // Pass company ID to the app
-    window.__COMPANY_ID__ = "${company.id}";
+    window.__COMPANY_ID__ = "${escapedId}";
   </script>
 </head>
 <body>
