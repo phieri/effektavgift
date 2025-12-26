@@ -137,6 +137,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
   // Add click handler for back link
   const backLink = app.querySelector('a[data-link]');
   const fullscreenBtn = app.querySelector('#fullscreen-btn') as HTMLButtonElement;
+  const wakeLockStatusElement = app.querySelector('#wake-lock-status');
   
   if (backLink) {
     backLink.addEventListener('click', (e) => {
@@ -148,21 +149,24 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
       }
     });
     
-    // Fade out both buttons after 5 seconds
+    // Fade out buttons and wake lock status after 5 seconds
     let fadeOutTimer = setTimeout(() => {
       backLink.classList.add('fade-out');
       if (fullscreenBtn) fullscreenBtn.classList.add('fade-out');
+      if (wakeLockStatusElement) wakeLockStatusElement.classList.add('fade-out');
     }, 5000);
     
-    // Show buttons on mouse movement
+    // Show buttons and wake lock status on mouse movement
     const showButtons = () => {
       backLink.classList.remove('fade-out');
       if (fullscreenBtn) fullscreenBtn.classList.remove('fade-out');
+      if (wakeLockStatusElement) wakeLockStatusElement.classList.remove('fade-out');
       clearTimeout(fadeOutTimer);
       // Set up fade out again after 5 seconds of no movement
       fadeOutTimer = setTimeout(() => {
         backLink.classList.add('fade-out');
         if (fullscreenBtn) fullscreenBtn.classList.add('fade-out');
+        if (wakeLockStatusElement) wakeLockStatusElement.classList.add('fade-out');
       }, 5000);
     };
     

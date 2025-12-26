@@ -237,13 +237,18 @@ body {
   font-size: 0.85rem;
   font-weight: 500;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.5s ease;
   pointer-events: none;
   text-align: right;
 }
 
 .wake-lock-status.active {
   opacity: 1;
+}
+
+.wake-lock-status.fade-out {
+  opacity: 0;
+  pointer-events: none;
 }
 
 @media (prefers-color-scheme: dark) {
