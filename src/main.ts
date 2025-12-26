@@ -114,6 +114,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
     <div class="display-container" role="main">
       <a href="${basePath}" class="back-link" data-link aria-label="Tillbaka till listan över nätbolag">← Tillbaka</a>
       <button class="fullscreen-link" id="fullscreen-btn" aria-label="Aktivera fullskärmsläge">Fullskärm</button>
+      <div class="wake-lock-status" id="wake-lock-status" aria-live="polite"></div>
       <div class="status-content">
         <h1 class="company-name">${escapedCompanyName}</h1>
         ${noticeHtml}
@@ -136,6 +137,7 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
   // Add click handler for back link
   const backLink = app.querySelector('a[data-link]');
   const fullscreenBtn = app.querySelector('#fullscreen-btn') as HTMLButtonElement;
+  const wakeLockStatusElement = app.querySelector('#wake-lock-status');
   
   if (backLink) {
     backLink.addEventListener('click', (e) => {
@@ -147,29 +149,73 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
       }
     });
     
-    // Fade out both buttons after 5 seconds
+    // Fade out buttons and wake lock status after 5 seconds
     let fadeOutTimer = setTimeout(() => {
       backLink.classList.add('fade-out');
       if (fullscreenBtn) fullscreenBtn.classList.add('fade-out');
+      if (wakeLockStatusElement) wakeLockStatusElement.classList.add('fade-out');
     }, 5000);
     
-    // Show buttons on mouse movement
+    // Show buttons and wake lock status on mouse movement
     const showButtons = () => {
       backLink.classList.remove('fade-out');
       if (fullscreenBtn) fullscreenBtn.classList.remove('fade-out');
+      if (wakeLockStatusElement) wakeLockStatusElement.classList.remove('fade-out');
       clearTimeout(fadeOutTimer);
       // Set up fade out again after 5 seconds of no movement
       fadeOutTimer = setTimeout(() => {
         backLink.classList.add('fade-out');
         if (fullscreenBtn) fullscreenBtn.classList.add('fade-out');
+        if (wakeLockStatusElement) wakeLockStatusElement.classList.add('fade-out');
       }, 5000);
     };
     
     app.addEventListener('mousemove', showButtons);
   }
   
-  // Add fullscreen functionality
+  // Add fullscreen functionality with wake lock
   if (fullscreenBtn) {
+    let wakeLock: WakeLockSentinel | null = null;
+    const wakeLockStatus = app.querySelector('#wake-lock-status');
+    
+    const clearWakeLockStatus = () => {
+      if (wakeLockStatus) {
+        wakeLockStatus.textContent = '';
+        wakeLockStatus.classList.remove('active');
+      }
+    };
+    
+    const requestWakeLock = async () => {
+      try {
+        if ('wakeLock' in navigator && navigator.wakeLock?.request) {
+          wakeLock = await navigator.wakeLock.request('screen');
+          if (wakeLockStatus) {
+            wakeLockStatus.textContent = 'Skärmen hålls aktiv';
+            wakeLockStatus.classList.add('active');
+          }
+          
+          // Listen for wake lock release
+          wakeLock.addEventListener('release', () => {
+            clearWakeLockStatus();
+            wakeLock = null;
+          });
+        }
+      } catch (err) {
+        console.error('Wake Lock request failed:', err);
+      }
+    };
+    
+    const releaseWakeLock = async () => {
+      if (wakeLock) {
+        try {
+          await wakeLock.release();
+        } catch (err) {
+          console.error('Wake Lock release failed:', err);
+        }
+      }
+      clearWakeLockStatus();
+    };
+    
     const toggleFullscreen = () => {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch((err) => {
@@ -184,14 +230,16 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
     
     fullscreenBtn.addEventListener('click', toggleFullscreen);
     
-    // Update button text based on fullscreen state
+    // Update button text and wake lock based on fullscreen state
     const updateFullscreenButtonText = () => {
       if (document.fullscreenElement) {
         fullscreenBtn.textContent = 'Avsluta fullskärm';
         fullscreenBtn.setAttribute('aria-label', 'Avsluta fullskärmsläge');
+        requestWakeLock();
       } else {
         fullscreenBtn.textContent = 'Fullskärm';
         fullscreenBtn.setAttribute('aria-label', 'Aktivera fullskärmsläge');
+        releaseWakeLock();
       }
     };
     
