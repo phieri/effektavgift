@@ -39,16 +39,17 @@ function sortCompanies(companies: PowerGridCompany[], mode: SortMode): PowerGrid
   if (mode === 'name') {
     sorted.sort((a, b) => a.name.localeCompare(b.name, 'sv'));
   } else if (mode === 'distance' && userLocation) {
+    const location = userLocation; // Capture in local const for TypeScript
     sorted.sort((a, b) => {
       const distA = calculateDistance(
-        userLocation!.lat,
-        userLocation!.lng,
+        location.lat,
+        location.lng,
         a.coordinates.lat,
         a.coordinates.lng
       );
       const distB = calculateDistance(
-        userLocation!.lat,
-        userLocation!.lng,
+        location.lat,
+        location.lng,
         b.coordinates.lat,
         b.coordinates.lng
       );
@@ -58,6 +59,10 @@ function sortCompanies(companies: PowerGridCompany[], mode: SortMode): PowerGrid
   
   return sorted;
 }
+
+// Geolocation configuration constants
+const GEOLOCATION_TIMEOUT_MS = 5000;
+const GEOLOCATION_MAX_AGE_MS = 0;
 
 // Get user's location using Geolocation API
 function getUserLocation(): Promise<{ lat: number; lng: number }> {
@@ -79,8 +84,8 @@ function getUserLocation(): Promise<{ lat: number; lng: number }> {
       },
       {
         enableHighAccuracy: false,
-        timeout: 5000,
-        maximumAge: 0
+        timeout: GEOLOCATION_TIMEOUT_MS,
+        maximumAge: GEOLOCATION_MAX_AGE_MS
       }
     );
   });
@@ -169,7 +174,18 @@ function renderHomePage() {
           })
           .catch((error) => {
             console.error('Failed to get user location:', error);
-            alert('Kunde inte hämta din plats. Kontrollera att du har tillåtit platsåtkomst.');
+            // Show error in UI instead of using alert
+            const sortSelector = document.querySelector('.sort-selector');
+            if (sortSelector) {
+              const errorMsg = document.createElement('div');
+              errorMsg.className = 'location-error';
+              errorMsg.textContent = 'Kunde inte hämta din plats. Kontrollera att du har tillåtit platsåtkomst.';
+              errorMsg.style.color = '#e74c3c';
+              errorMsg.style.fontSize = '0.9rem';
+              errorMsg.style.marginTop = '0.5rem';
+              sortSelector.appendChild(errorMsg);
+              setTimeout(() => errorMsg.remove(), 5000);
+            }
             // Reset to name sort
             currentSortMode = 'name';
             renderHomePage();
