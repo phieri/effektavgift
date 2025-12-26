@@ -63,6 +63,7 @@ function sortCompanies(companies: PowerGridCompany[], mode: SortMode): PowerGrid
 // Geolocation configuration constants
 const GEOLOCATION_TIMEOUT_MS = 5000;
 const GEOLOCATION_MAX_AGE_MS = 0;
+const ERROR_MESSAGE_DURATION_MS = 5000;
 
 // Get user's location using Geolocation API
 function getUserLocation(): Promise<{ lat: number; lng: number }> {
@@ -178,17 +179,18 @@ function renderHomePage() {
             const sortSelector = document.querySelector('.sort-selector');
             if (sortSelector) {
               const errorMsg = document.createElement('div');
-              errorMsg.className = 'location-error';
               errorMsg.textContent = 'Kunde inte hämta din plats. Kontrollera att du har tillåtit platsåtkomst.';
               errorMsg.style.color = '#e74c3c';
               errorMsg.style.fontSize = '0.9rem';
               errorMsg.style.marginTop = '0.5rem';
               sortSelector.appendChild(errorMsg);
-              setTimeout(() => errorMsg.remove(), 5000);
+              setTimeout(() => errorMsg.remove(), ERROR_MESSAGE_DURATION_MS);
             }
-            // Reset to name sort
+            // Reset to name sort (just update the select value, don't re-render)
             currentSortMode = 'name';
-            renderHomePage();
+            if (sortSelect) {
+              sortSelect.value = 'name';
+            }
           });
       } else {
         currentSortMode = newMode;
