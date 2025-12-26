@@ -51,7 +51,10 @@ function getCurrentRoute(): { page: string; companyId?: string } {
     }
     // If company not found, redirect to home page
     if (hasNavigationAPI) {
-      navigation.navigate(basePath, { history: 'replace' });
+      navigation.navigate(basePath, { history: 'replace' }).finished.catch(() => {
+        // Fallback if navigation fails
+        window.history.replaceState(null, '', basePath);
+      });
     } else {
       window.history.replaceState(null, '', basePath);
     }
@@ -99,7 +102,11 @@ function renderHomePage(app: HTMLElement) {
       const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
       if (href) {
         if (hasNavigationAPI) {
-          navigation.navigate(href);
+          navigation.navigate(href).finished.catch(() => {
+            // Fallback if navigation fails
+            window.history.pushState(null, '', href);
+            router();
+          });
         } else {
           window.history.pushState(null, '', href);
           router();
@@ -158,7 +165,11 @@ function renderDisplayPage(app: HTMLElement, company: PowerGridCompany) {
       const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
       if (href) {
         if (hasNavigationAPI) {
-          navigation.navigate(href);
+          navigation.navigate(href).finished.catch(() => {
+            // Fallback if navigation fails
+            window.history.pushState(null, '', href);
+            router();
+          });
         } else {
           window.history.pushState(null, '', href);
           router();
