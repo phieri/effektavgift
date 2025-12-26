@@ -229,6 +229,29 @@ body {
   }
 }
 
+.wake-lock-status {
+  position: absolute;
+  top: 3.5rem;
+  right: 1rem;
+  color: #27ae60;
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  text-align: right;
+}
+
+.wake-lock-status.active {
+  opacity: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  .wake-lock-status {
+    color: #2ecc71;
+  }
+}
+
 .status-content {
   text-align: center;
   width: 100%;
