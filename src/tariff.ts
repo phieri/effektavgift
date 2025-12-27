@@ -22,6 +22,7 @@ export interface PowerGridCompany {
   highLoadHours: { start: number; end: number }; // 24-hour format
   highLoadWeekdays: boolean; // Only weekdays (Monday-Friday, excludes Saturday and Sunday)
   effectiveDate?: Date; // Date when effektavgift becomes effective for this company (undefined = already in effect)
+  coordinates: { lat: number; lng: number }; // Coordinates of company HQ
 }
 
 // JSON representation with string dates
@@ -32,6 +33,7 @@ export interface PowerGridCompanyJSON {
   highLoadHours: { start: number; end: number };
   highLoadWeekdays: boolean;
   effectiveDate?: string; // ISO date string in JSON
+  coordinates: { lat: number; lng: number }; // Coordinates of company HQ
 }
 
 // Utility function to parse company JSON data (converts date strings to Date objects)
@@ -270,4 +272,31 @@ export function getNextTariffChange(company: PowerGridCompany, now: Date = new D
   
   // If no change found within 14 days, return a date far in the future
   return new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+}
+
+// Calculate distance between two coordinates using Haversine formula
+// Returns distance in kilometers
+export function calculateDistance(
+  lat1: number,
+  lng1: number,
+  lat2: number,
+  lng2: number
+): number {
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = toRadians(lat2 - lat1);
+  const dLng = toRadians(lng2 - lng1);
+  
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRadians(lat1)) *
+      Math.cos(toRadians(lat2)) *
+      Math.sin(dLng / 2) *
+      Math.sin(dLng / 2);
+  
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+function toRadians(degrees: number): number {
+  return degrees * (Math.PI / 180);
 }

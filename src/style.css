@@ -78,11 +78,85 @@ body {
   font-size: 1.2rem;
   color: #7f8c8d;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 @media (prefers-color-scheme: dark) {
   .subtitle {
+    color: #a0a0a0;
+  }
+}
+
+.sort-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.sort-selector label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.sort-selector select {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #2c3e50;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.sort-selector select:hover {
+  border-color: #3498db;
+}
+
+.sort-selector select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .sort-selector {
+    background: #2a2a2a;
+    border-color: #404040;
+  }
+  
+  .sort-selector label {
+    color: #e0e0e0;
+  }
+  
+  .sort-selector select {
+    background: #333;
+    color: #e0e0e0;
+    border-color: #404040;
+  }
+  
+  .sort-selector select:hover,
+  .sort-selector select:focus {
+    border-color: #3498db;
+  }
+}
+
+.distance-info {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  font-weight: normal;
+}
+
+@media (prefers-color-scheme: dark) {
+  .distance-info {
     color: #a0a0a0;
   }
 }

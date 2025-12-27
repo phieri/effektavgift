@@ -26,6 +26,7 @@ interface CompanyJSON {
   highLoadHours: { start: number; end: number };
   highLoadWeekdays: boolean;
   effectiveDate?: string;
+  coordinates: { lat: number; lng: number };
 }
 
 const companiesData: CompanyJSON[] = JSON.parse(
