@@ -6,19 +6,19 @@
 
 ### High-Level Details
 - **Type**: Single Page Application (SPA) for web browsers
-- **Size**: Small codebase (~11 files, 3 source files)
+- **Size**: Small codebase (~13 files, 6 source files: home.ts, display.ts, tariff.ts, utils.ts, style.css, companies.json)
 - **Languages**: TypeScript (strict mode), CSS3, HTML5
 - **Framework**: Vanilla JavaScript/TypeScript (no framework like React/Vue)
-- **Build Tool**: Vite 7.2.2
-- **Target Runtime**: Modern web browsers (ES2020)
+- **Build Tool**: Vite 7.3.0
+- **Target Runtime**: Modern web browsers (ES2022)
 - **Deployment**: GitHub Pages (automated via GitHub Actions)
 - **Base Path**: `/effektavgift/` (GitHub Pages subdirectory)
-- **Node Version**: 20.x (as specified in CI workflow)
+- **Node Version**: 24.x (as specified in CI workflow - line 27 of deploy.yml)
 
 ## Build and Validation Instructions
 
 ### Prerequisites
-- **Node.js**: 20.x (CI uses Node 20)
+- **Node.js**: 24.x (CI uses Node 24, but Node 20+ will work)
 - **Package Manager**: npm (uses package-lock.json v3)
 
 ### Installation
@@ -37,9 +37,10 @@ npm install     # Use for development (updates lock file if needed)
    - Runs `tsc && vite build`
    - TypeScript compiler runs first (with strict mode enabled)
    - Vite builds for production into `dist/` directory
-   - Takes ~120-150ms on typical hardware
-   - Output: `dist/index.html`, `dist/assets/*.js`, `dist/assets/*.css`, `dist/404.html`
+   - Takes ~1.9 seconds on typical hardware (includes TypeScript check + Vite build)
+   - Output: `dist/index.html`, `dist/assets/*.js`, `dist/assets/*.css`, plus 18 company-specific HTML pages
    - **Build will fail if TypeScript errors exist**
+   - Generates individual HTML pages for each company in `dist/<company-id>/index.html`
 
 2. **Development Server**
    ```bash
@@ -47,7 +48,7 @@ npm install     # Use for development (updates lock file if needed)
    ```
    - Starts Vite development server on http://localhost:5173/effektavgift/
    - Hot module replacement enabled
-   - Starts in ~170ms
+   - Starts quickly (under 1 second)
    - Does NOT type-check on startup (use tsc for that)
 
 3. **Preview Production Build**
@@ -81,9 +82,14 @@ npm run build
 This sequence always works and takes ~1-2 seconds total.
 
 ### Common Pitfalls
-- **Do NOT forget to install dependencies first** - running `npm run build` without `npm install` or `npm ci` will fail
+- **Do NOT forget to install dependencies first** - running `npm run build` without `npm install` or `npm ci` will fail with:
+  ```
+  error TS2688: Cannot find type definition file for 'navigation-api-types'.
+  ```
+  This happens because TypeScript can't find the type definitions declared in tsconfig.json.
 - The build command runs `tsc` first, then `vite build` - if TypeScript compilation fails, Vite build won't run
 - The base path `/effektavgift/` is configured in `vite.config.ts` for GitHub Pages - don't modify without understanding impact
+- When adding new companies to `companies.json`, you MUST rebuild to generate their static pages
 
 ## Project Layout and Architecture
 
@@ -91,61 +97,89 @@ This sequence always works and takes ~1-2 seconds total.
 ```
 .
 ├── .github/
-│   └── workflows/
-│       └── deploy.yml          # GitHub Actions: build and deploy to GitHub Pages
-├── public/
-│   └── 404.html                # SPA redirect handler for GitHub Pages routing
+│   ├── workflows/
+│   │   └── deploy.yml          # GitHub Actions: build and deploy to GitHub Pages
+│   ├── copilot-instructions.md # This file
+│   └── dependabot.yml          # Dependabot configuration
 ├── src/
-│   ├── main.ts                 # Entry point: routing, UI rendering, countdown logic
-│   ├── tariff.ts              # Core business logic: tariff rules, holiday calculations
-│   └── style.css               # All application styles
+│   ├── home.ts                 # Home page: company list with sorting and geolocation
+│   ├── display.ts              # Display page: shows load status for selected company
+│   ├── tariff.ts               # Core business logic: tariff rules, holiday calculations
+│   ├── utils.ts                # Utility functions (HTML escaping for XSS prevention)
+│   ├── style.css               # All application styles
+│   └── companies.json          # Company data (18 Swedish power grid companies)
 ├── index.html                  # Root HTML file (entry point for Vite)
 ├── package.json                # Dependencies and scripts
 ├── package-lock.json           # Exact dependency versions (lockfileVersion: 3)
-├── tsconfig.json              # TypeScript configuration (strict mode enabled)
-├── vite.config.ts             # Vite configuration (base path: /effektavgift/)
-└── .gitignore                  # Excludes: node_modules/, dist/, *.log, .vscode/, .DS_Store
+├── tsconfig.json               # TypeScript configuration (strict mode enabled)
+├── vite.config.ts              # Vite configuration (base path: /effektavgift/)
+└── .gitignore                  # Excludes: node_modules/, dist/, *.log, .vscode/, .DS_Store, tmp/
 ```
 
 ### Architecture Overview
 
-**Application Type**: Client-side SPA with client-side routing (no server-side framework)
+**Application Type**: Client-side SPA with static pre-generated pages for each company (no client-side routing)
 
 **Key Source Files**:
-1. **`src/main.ts`** (191 lines)
-   - Entry point and main application logic
-   - Client-side router: handles navigation between home page and display pages
-   - Renders two pages: home (company list) and display (load status for selected company)
-   - Real-time countdown updates (updates every 1 second)
-   - GitHub Pages SPA routing support (via `getCurrentRoute()`)
+1. **`src/home.ts`** (208 lines)
+   - Home page entry point
+   - Renders company list with sorting options (by name or distance)
+   - Geolocation support to show nearest companies
+   - Reads company data from `window.__COMPANIES_DATA__` (injected by Vite)
 
-2. **`src/tariff.ts`** (213 lines)
+2. **`src/display.ts`** (236 lines)
+   - Display page entry point for individual companies
+   - Shows current load status (high/low) with real-time countdown
+   - Fullscreen mode support
+   - Reads company data from `window.__COMPANY_DATA__` (injected by Vite)
+   - Updates every 1 second
+
+3. **`src/tariff.ts`** (302 lines)
    - Core business logic for demand charge calculations
-   - `PowerGridCompany` interface and `powerGridCompanies[]` array (8 Swedish companies)
+   - `PowerGridCompany` interface and `PowerGridCompanyJSON` interface
    - Swedish holiday calculation (Easter, Midsummer, All Saints' Day, etc.)
    - `isHighLoadPeriod()`: determines if current time is high-load
    - `getNextTariffChange()`: calculates next status change time
-   - High load rules: November-March, weekdays 07:00-21:00, excluding holidays
+   - High load rules: typically November-March, weekdays 07:00-21:00, excluding holidays
+   - All time calculations use Swedish time (Europe/Stockholm timezone)
 
-3. **`src/style.css`** (CSS styles for entire app)
+4. **`src/utils.ts`** (27 lines)
+   - Utility function `escapeHtml()` for XSS prevention
+   - Used to sanitize company names before rendering in HTML
+
+5. **`src/companies.json`** (161 lines)
+   - Data for 18 Swedish power grid companies
+   - Includes: id, name, high load months/hours/weekdays, effective date, coordinates
+
+6. **`src/style.css`** (545 lines - CSS styles for entire app)
 
 ### Configuration Files
 
 **`tsconfig.json`**:
-- Target: ES2020
+- Target: ES2022 (not ES2020)
 - Strict mode enabled
 - Module resolution: bundler mode
 - Linting options: `noUnusedLocals`, `noUnusedParameters`, `noFallthroughCasesInSwitch`
 - Include: `src` directory only
+- Types: includes `navigation-api-types` for Navigation API support
 
 **`vite.config.ts`**:
 - Base path: `/effektavgift/` (critical for GitHub Pages)
 - Output directory: `dist`
+- Custom plugins:
+  1. `inject-companies-data`: Injects company data into main index.html
+  2. `generate-company-pages`: Generates static HTML pages for each company after build
+- Multiple entry points: `index.html` (main), `src/display.ts` (display page)
+- Reads `src/companies.json` at build time to generate pages
 
 **`package.json`**:
 - Module type: `"module"` (ES modules)
 - Scripts: `dev`, `build`, `preview`
-- Dev dependencies only: `@types/node`, `typescript`, `vite`
+- Dev dependencies only:
+  - `vite@^7.3.0`: Build tool and dev server
+  - `typescript@^5.9.3`: TypeScript compiler
+  - `@types/node@^25.0.3`: Node.js type definitions
+  - `navigation-api-types@^0.6.1`: Navigation API types
 
 ### GitHub Actions CI/CD (`.github/workflows/deploy.yml`)
 
@@ -153,7 +187,7 @@ This sequence always works and takes ~1-2 seconds total.
 
 **Build Job**:
 1. Checkout code
-2. Setup Node 20 with npm cache
+2. Setup Node 24 with npm cache
 3. `npm ci` (clean install)
 4. `npm run build`
 5. Upload `dist/` directory as artifact
@@ -166,28 +200,44 @@ This sequence always works and takes ~1-2 seconds total.
 ### Dependencies
 - **No runtime dependencies** - all code is vanilla TypeScript
 - **Development dependencies**:
-  - `vite@7.2.2`: Build tool and dev server
-  - `typescript@5.9.3`: TypeScript compiler
-  - `@types/node@24.10.0`: Node.js type definitions
+  - `vite@^7.3.0`: Build tool and dev server
+  - `typescript@^5.9.3`: TypeScript compiler
+  - `@types/node@^25.0.3`: Node.js type definitions
+  - `navigation-api-types@^0.6.1`: Navigation API types
 
 ### Key Application Logic
-- **Routing**: Custom client-side router in `main.ts`, no third-party routing library
-- **Time Calculations**: All done in-browser using JavaScript `Date` objects
+- **Routing**: Static HTML pages pre-generated for each company (no client-side routing)
+- **Time Calculations**: All done in-browser using JavaScript `Date` objects, converted to Swedish time (Europe/Stockholm)
 - **State Management**: None - app re-renders on status changes
 - **Styling**: Plain CSS, no preprocessor or CSS-in-JS
-- **SPA Routing on GitHub Pages**: Handled via `404.html` redirect and `sessionStorage`
+- **Data Injection**: Company data injected into HTML at build time via Vite plugins
+- **Build-Time Page Generation**: Vite plugin generates one HTML page per company in `dist/<company-id>/index.html`
 
 ### Making Changes
 
 **When modifying tariff logic**: Edit `src/tariff.ts`
-- Modify `powerGridCompanies` array to add/update companies
+- Modify holiday calculation functions to add/update holidays
 - Update `isHighLoadPeriod()` to change load detection rules
-- Update holiday calculations in `getSwedishHolidays()`
+- Update time zone handling (all time calculations use Swedish time via `toSwedishTime()`)
 
-**When modifying UI/routing**: Edit `src/main.ts`
-- Update `renderHomePage()` for company list changes
-- Update `renderDisplayPage()` for status display changes
-- Modify `router()` for routing logic changes
+**When adding/modifying companies**: Edit `src/companies.json`
+- Add new company entries with required fields: id, name, highLoadMonths, highLoadHours, highLoadWeekdays, coordinates
+- Optional: effectiveDate (ISO date string) if effektavgift is not yet in effect
+- After adding, rebuild to generate new company pages
+
+**When modifying home page**: Edit `src/home.ts`
+- Update company list rendering
+- Modify sorting logic (by name or distance)
+- Update geolocation handling
+
+**When modifying display pages**: Edit `src/display.ts`
+- Update status display (high/low load visualization)
+- Modify countdown timer logic
+- Update fullscreen mode behavior
+
+**When modifying build-time page generation**: Edit `vite.config.ts`
+- Update `generate-company-pages` plugin to change HTML template
+- Modify `inject-companies-data` plugin to change data injection
 
 **When modifying styles**: Edit `src/style.css`
 
