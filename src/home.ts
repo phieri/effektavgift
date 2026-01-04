@@ -109,11 +109,8 @@ function renderHomePage() {
 
   const basePath = '/effektavgift';
   
-  // Distance sort option - only enabled if we have user location
-  const distanceSortDisabled = !userLocation;
-  const distanceSortOption = distanceSortDisabled
-    ? '<option value="distance" disabled>Avstånd (kräver platsåtkomst)</option>'
-    : `<option value="distance" ${currentSortMode === 'distance' ? 'selected' : ''}>Avstånd</option>`;
+  // Distance sort option - selecting it will request location permission if needed
+  const distanceSortOption = `<option value="distance" ${currentSortMode === 'distance' ? 'selected' : ''}>Avstånd</option>`;
   
   app.innerHTML = `
     <div class="home-container">
