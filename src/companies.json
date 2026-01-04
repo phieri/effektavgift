@@ -11,7 +11,7 @@
     "id": "vattenfall",
     "name": "Vattenfall Eldistribution",
     "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadHours": { "start": 7, "end": 21 },
     "highLoadWeekdays": true,
     "effectiveDate": "2026-10-01",
     "coordinates": { "lat": 59.3729, "lng": 18.0002 }
@@ -157,5 +157,31 @@
     "highLoadWeekdays": true,
     "effectiveDate": "2027-01-01",
     "coordinates": { "lat": 60.6202, "lng": 16.7763 }
+  },
+  {
+    "id": "tekniska-verken",
+    "name": "Tekniska Verken Linköping",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "coordinates": { "lat": 58.4109, "lng": 15.6216 }
+  },
+  {
+    "id": "jonkoping-energi",
+    "name": "Jönköping Energi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 7, "end": 20 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2025-09-01",
+    "coordinates": { "lat": 57.785, "lng": 14.149 }
+  },
+  {
+    "id": "skovde-energi",
+    "name": "Skövde Energi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01",
+    "coordinates": { "lat": 58.3912, "lng": 13.8451 }
   }
 ]
