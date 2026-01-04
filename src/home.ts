@@ -113,7 +113,7 @@ function renderHomePage() {
   const distanceSortDisabled = !userLocation;
   const distanceSortOption = distanceSortDisabled
     ? '<option value="distance" disabled>Avstånd (kräver platsåtkomst)</option>'
-    : '<option value="distance">Avstånd</option>';
+    : `<option value="distance" ${currentSortMode === 'distance' ? 'selected' : ''}>Avstånd</option>`;
   
   app.innerHTML = `
     <div class="home-container">
