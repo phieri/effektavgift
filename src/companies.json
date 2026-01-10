@@ -183,5 +183,50 @@
     "highLoadWeekdays": true,
     "effectiveDate": "2027-01-01",
     "coordinates": { "lat": 58.3912, "lng": 13.8451 }
+  },
+  {
+    "id": "piteenergi",
+    "name": "PiteEnergi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01",
+    "coordinates": { "lat": 65.3168, "lng": 21.4791 }
+  },
+  {
+    "id": "kalix-energi",
+    "name": "Kalix Energi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01",
+    "coordinates": { "lat": 65.8540, "lng": 23.1391 }
+  },
+  {
+    "id": "linde-energi",
+    "name": "Linde Energi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 7, "end": 19 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01",
+    "coordinates": { "lat": 59.5941, "lng": 15.2283 }
+  },
+  {
+    "id": "sala-heby-energi",
+    "name": "Sala-Heby Energi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01",
+    "coordinates": { "lat": 59.9220, "lng": 16.6067 }
+  },
+  {
+    "id": "herrljunga-energi",
+    "name": "Herrljunga Energi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01",
+    "coordinates": { "lat": 58.0788, "lng": 13.0265 }
   }
 ]
