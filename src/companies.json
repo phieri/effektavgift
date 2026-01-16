@@ -228,5 +228,50 @@
     "highLoadWeekdays": true,
     "effectiveDate": "2027-01-01",
     "coordinates": { "lat": 58.0788, "lng": 13.0265 }
+  },
+  {
+    "id": "vaxjo-energi",
+    "name": "Växjö Energi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01",
+    "coordinates": { "lat": 56.8777, "lng": 14.8090 }
+  },
+  {
+    "id": "sundsvall-elnat",
+    "name": "Sundsvall Elnät",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01",
+    "coordinates": { "lat": 62.3908, "lng": 17.3069 }
+  },
+  {
+    "id": "uppsala-elnat",
+    "name": "Uppsala Elnät",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01",
+    "coordinates": { "lat": 59.8586, "lng": 17.6389 }
+  },
+  {
+    "id": "c4-energi",
+    "name": "C4 Energi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01",
+    "coordinates": { "lat": 59.2666, "lng": 15.2166 }
+  },
+  {
+    "id": "kristianstad-energi",
+    "name": "Kristianstad Energi",
+    "highLoadMonths": [11, 12, 1, 2, 3],
+    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadWeekdays": true,
+    "effectiveDate": "2027-01-01",
+    "coordinates": { "lat": 56.0308, "lng": 14.1567 }
   }
 ]
