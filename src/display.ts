@@ -25,6 +25,10 @@ declare global {
   }
 }
 
+// Configuration constants
+const FADE_OUT_DELAY_MS = 5000;
+const UPDATE_INTERVAL_MS = 1000;
+
 // Render display page showing current load status
 function renderDisplayPage(company: PowerGridCompany) {
   const app = document.getElementById('app');
@@ -89,14 +93,14 @@ function renderDisplayPage(company: PowerGridCompany) {
     };
     
     // Fade out buttons and wake lock status after 5 seconds
-    let fadeOutTimer = setTimeout(fadeOutControls, 5000);
+    let fadeOutTimer = setTimeout(fadeOutControls, FADE_OUT_DELAY_MS);
     
     // Show buttons and wake lock status on mouse movement
     const showButtons = () => {
       fadeInControls();
       clearTimeout(fadeOutTimer);
       // Set up fade out again after 5 seconds of no movement
-      fadeOutTimer = setTimeout(fadeOutControls, 5000);
+      fadeOutTimer = setTimeout(fadeOutControls, FADE_OUT_DELAY_MS);
     };
     
     app.addEventListener('mousemove', showButtons);
@@ -189,7 +193,7 @@ function renderDisplayPage(company: PowerGridCompany) {
       clearInterval(updateInterval);
       renderDisplayPage(company);
     }
-  }, 1000);
+  }, UPDATE_INTERVAL_MS);
   
   // Initial countdown update
   const countdownDisplay = app.querySelector('.countdown-display');
