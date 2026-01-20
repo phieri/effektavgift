@@ -29,8 +29,15 @@ declare global {
 const FADE_OUT_DELAY_MS = 5000;
 const UPDATE_INTERVAL_MS = 1000;
 
+// Store cleanup functions to prevent memory leaks when re-rendering
+let cleanupFunctions: (() => void)[] = [];
+
 // Render display page showing current load status
 function renderDisplayPage(company: PowerGridCompany) {
+  // Clean up any existing event listeners and timers before re-rendering
+  cleanupFunctions.forEach(cleanup => cleanup());
+  cleanupFunctions = [];
+  
   const app = document.getElementById('app');
   if (!app) return;
 
@@ -104,6 +111,12 @@ function renderDisplayPage(company: PowerGridCompany) {
     };
     
     app.addEventListener('mousemove', showButtons);
+    
+    // Register cleanup for mousemove listener and timer
+    cleanupFunctions.push(() => {
+      app.removeEventListener('mousemove', showButtons);
+      clearTimeout(fadeOutTimer);
+    });
   }
   
   // Add fullscreen functionality with wake lock
@@ -177,6 +190,11 @@ function renderDisplayPage(company: PowerGridCompany) {
     };
     
     document.addEventListener('fullscreenchange', updateFullscreenButtonText);
+    
+    // Register cleanup for fullscreenchange listener
+    cleanupFunctions.push(() => {
+      document.removeEventListener('fullscreenchange', updateFullscreenButtonText);
+    });
   }
   
 
@@ -194,6 +212,11 @@ function renderDisplayPage(company: PowerGridCompany) {
       renderDisplayPage(company);
     }
   }, UPDATE_INTERVAL_MS);
+  
+  // Register cleanup for interval (in case page is unloaded or component unmounted)
+  cleanupFunctions.push(() => {
+    clearInterval(updateInterval);
+  });
   
   // Initial countdown update
   const countdownDisplay = app.querySelector('.countdown-display');
