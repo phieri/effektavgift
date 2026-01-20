@@ -255,18 +255,28 @@ export function getNextTariffChange(company: PowerGridCompany, now: Date = new D
   // Start from current time
   let nextChange = new Date(now);
   
-  // Search for the next change within the next 14 days (to handle edge cases)
-  for (let i = 0; i < 14 * 24 * 60; i++) {
-    // Increment by 1 minute
-    nextChange = new Date(nextChange.getTime() + 60 * 1000);
+  // Search for the next change within the next 14 days
+  // Check hourly first to reduce iterations (14 days * 24 hours = 336 checks max)
+  for (let i = 0; i < 14 * 24; i++) {
+    // Increment by 1 hour
+    nextChange = new Date(nextChange.getTime() + 60 * 60 * 1000);
     
     // Note: isHighLoadPeriod internally calls getSwedishHolidays with the year from the date,
     // so holidays are automatically recalculated when crossing year boundaries
     const willBeHighLoad = isHighLoadPeriod(company, nextChange);
     
-    // If status changes, we found the next change time
+    // If status changes, we found the hour where change happens
+    // Go back one hour and search minute-by-minute to find exact time
     if (willBeHighLoad !== currentlyHighLoad) {
-      return nextChange;
+      let exactChange = new Date(nextChange.getTime() - 60 * 60 * 1000);
+      for (let j = 0; j < 60; j++) {
+        exactChange = new Date(exactChange.getTime() + 60 * 1000);
+        const exactWillBeHighLoad = isHighLoadPeriod(company, exactChange);
+        if (exactWillBeHighLoad !== currentlyHighLoad) {
+          return exactChange;
+        }
+      }
+      return nextChange; // Fallback to hour boundary
     }
   }
   

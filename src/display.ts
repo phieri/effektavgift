@@ -25,8 +25,19 @@ declare global {
   }
 }
 
+// Configuration constants
+const FADE_OUT_DELAY_MS = 5000;
+const UPDATE_INTERVAL_MS = 1000;
+
+// Store cleanup functions to prevent memory leaks when re-rendering
+let cleanupFunctions: (() => void)[] = [];
+
 // Render display page showing current load status
 function renderDisplayPage(company: PowerGridCompany) {
+  // Clean up any existing event listeners and timers before re-rendering
+  cleanupFunctions.forEach(cleanup => cleanup());
+  cleanupFunctions = [];
+  
   const app = document.getElementById('app');
   if (!app) return;
 
@@ -74,28 +85,38 @@ function renderDisplayPage(company: PowerGridCompany) {
   const wakeLockStatusElement = app.querySelector('#wake-lock-status');
   
   if (backLink) {
-    // Fade out buttons and wake lock status after 5 seconds
-    let fadeOutTimer = setTimeout(() => {
+    // Helper function to add fade-out class to all control elements
+    const fadeOutControls = () => {
       backLink.classList.add('fade-out');
       if (fullscreenBtn) fullscreenBtn.classList.add('fade-out');
       if (wakeLockStatusElement) wakeLockStatusElement.classList.add('fade-out');
-    }, 5000);
+    };
     
-    // Show buttons and wake lock status on mouse movement
-    const showButtons = () => {
+    // Helper function to remove fade-out class from all control elements
+    const fadeInControls = () => {
       backLink.classList.remove('fade-out');
       if (fullscreenBtn) fullscreenBtn.classList.remove('fade-out');
       if (wakeLockStatusElement) wakeLockStatusElement.classList.remove('fade-out');
+    };
+    
+    // Fade out buttons and wake lock status after 5 seconds
+    let fadeOutTimer = setTimeout(fadeOutControls, FADE_OUT_DELAY_MS);
+    
+    // Show buttons and wake lock status on mouse movement
+    const showButtons = () => {
+      fadeInControls();
       clearTimeout(fadeOutTimer);
       // Set up fade out again after 5 seconds of no movement
-      fadeOutTimer = setTimeout(() => {
-        backLink.classList.add('fade-out');
-        if (fullscreenBtn) fullscreenBtn.classList.add('fade-out');
-        if (wakeLockStatusElement) wakeLockStatusElement.classList.add('fade-out');
-      }, 5000);
+      fadeOutTimer = setTimeout(fadeOutControls, FADE_OUT_DELAY_MS);
     };
     
     app.addEventListener('mousemove', showButtons);
+    
+    // Register cleanup for mousemove listener and timer
+    cleanupFunctions.push(() => {
+      app.removeEventListener('mousemove', showButtons);
+      clearTimeout(fadeOutTimer);
+    });
   }
   
   // Add fullscreen functionality with wake lock
@@ -169,6 +190,11 @@ function renderDisplayPage(company: PowerGridCompany) {
     };
     
     document.addEventListener('fullscreenchange', updateFullscreenButtonText);
+    
+    // Register cleanup for fullscreenchange listener
+    cleanupFunctions.push(() => {
+      document.removeEventListener('fullscreenchange', updateFullscreenButtonText);
+    });
   }
   
 
@@ -185,7 +211,12 @@ function renderDisplayPage(company: PowerGridCompany) {
       clearInterval(updateInterval);
       renderDisplayPage(company);
     }
-  }, 34567);
+  }, UPDATE_INTERVAL_MS);
+  
+  // Register cleanup for interval (in case page is unloaded or component unmounted)
+  cleanupFunctions.push(() => {
+    clearInterval(updateInterval);
+  });
   
   // Initial countdown update
   const countdownDisplay = app.querySelector('.countdown-display');
