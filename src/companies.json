@@ -2,1518 +2,165 @@
   {
     "id": "ellevio",
     "name": "Ellevio",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 6,
+      "end": 22
+    },
     "highLoadWeekdays": true,
-    "coordinates": { "lat": 59.3432, "lng": 18.0541 }
+    "coordinates": {
+      "lat": 59.3432,
+      "lng": 18.0541
+    }
   },
   {
     "id": "vattenfall",
     "name": "Vattenfall Eldistribution",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 7, "end": 21 },
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
     "highLoadWeekdays": true,
     "effectiveDate": "2026-10-01",
-    "coordinates": { "lat": 59.3729, "lng": 18.0002 }
-  },
-  {
-    "id": "eon",
-    "name": "E.ON Energidistribution",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.605, "lng": 13.0038 }
-  },
-  {
-    "id": "falbygdens-energi",
-    "name": "Falbygdens Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.1642, "lng": 13.5571 }
+    "coordinates": {
+      "lat": 59.3729,
+      "lng": 18.0002
+    }
   },
   {
     "id": "geab",
     "name": "Gotlands Energi (GEAB)",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 6,
+      "end": 22
+    },
     "highLoadWeekdays": true,
     "effectiveDate": "2026-01-01",
-    "coordinates": { "lat": 57.6257, "lng": 18.3132 }
-  },
-  {
-    "id": "halmstads-energi",
-    "name": "Halmstads Energi och Miljö",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.6704, "lng": 12.8574 }
-  },
-  {
-    "id": "karlshamns-energi",
-    "name": "Karlshamn Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.1812, "lng": 14.8456 }
-  },
-  {
-    "id": "skekraft",
-    "name": "Skellefteå Kraft",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 64.7504, "lng": 20.9524 }
+    "coordinates": {
+      "lat": 57.6257,
+      "lng": 18.3132
+    }
   },
   {
     "id": "goteborg-energi",
     "name": "Göteborg Energi Nät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 6,
+      "end": 22
+    },
     "highLoadWeekdays": true,
-    "coordinates": { "lat": 57.7089, "lng": 11.9746 }
-  },
-  {
-    "id": "umea-energi",
-    "name": "Umeå Energi Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 63.8258, "lng": 20.2706 }
+    "coordinates": {
+      "lat": 57.7089,
+      "lng": 11.9746
+    }
   },
   {
     "id": "malarenergi",
     "name": "Mälarenergi Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 6,
+      "end": 22
+    },
     "highLoadWeekdays": true,
     "effectiveDate": "2025-09-01",
-    "coordinates": { "lat": 59.6139, "lng": 16.5324 }
-  },
-  {
-    "id": "eskilstuna-energi",
-    "name": "Eskilstuna Energi och Miljö Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.3727, "lng": 16.5074 }
-  },
-  {
-    "id": "kraftringen",
-    "name": "Kraftringen Nät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.7217, "lng": 13.1986 }
+    "coordinates": {
+      "lat": 59.6139,
+      "lng": 16.5324
+    }
   },
   {
     "id": "fortum",
     "name": "Fortum Distribution",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 6,
+      "end": 22
+    },
     "highLoadWeekdays": true,
-    "coordinates": { "lat": 59.3687, "lng": 18.0137 }
-  },
-  {
-    "id": "jamtkraft",
-    "name": "Jämtkraft Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 63.1788, "lng": 14.6368 }
-  },
-  {
-    "id": "boras-energi",
-    "name": "Borås Energi och Miljö",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.721, "lng": 12.9401 }
-  },
-  {
-    "id": "oresundskraft",
-    "name": "Öresundskraft",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.0465, "lng": 12.6945 }
-  },
-  {
-    "id": "sandviken-energi",
-    "name": "Sandviken Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.6202, "lng": 16.7763 }
+    "coordinates": {
+      "lat": 59.3687,
+      "lng": 18.0137
+    }
   },
   {
     "id": "tekniska-verken",
     "name": "Tekniska Verken Linköping",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 6,
+      "end": 22
+    },
     "highLoadWeekdays": true,
-    "coordinates": { "lat": 58.4109, "lng": 15.6216 }
+    "coordinates": {
+      "lat": 58.4109,
+      "lng": 15.6216
+    }
   },
   {
     "id": "jonkoping-energi",
     "name": "Jönköping Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 7, "end": 20 },
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 20
+    },
     "highLoadWeekdays": true,
     "effectiveDate": "2025-09-01",
-    "coordinates": { "lat": 57.785, "lng": 14.149 }
-  },
-  {
-    "id": "skovde-energi",
-    "name": "Skövde Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.3912, "lng": 13.8451 }
-  },
-  {
-    "id": "piteenergi",
-    "name": "PiteEnergi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 65.3168, "lng": 21.4791 }
-  },
-  {
-    "id": "kalix-energi",
-    "name": "Kalix Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 65.8540, "lng": 23.1391 }
-  },
-  {
-    "id": "linde-energi",
-    "name": "Linde Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 7, "end": 19 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.5941, "lng": 15.2283 }
-  },
-  {
-    "id": "sala-heby-energi",
-    "name": "Sala-Heby Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.9220, "lng": 16.6067 }
-  },
-  {
-    "id": "herrljunga-energi",
-    "name": "Herrljunga Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.0788, "lng": 13.0265 }
-  },
-  {
-    "id": "vaxjo-energi",
-    "name": "Växjö Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.8777, "lng": 14.8090 }
-  },
-  {
-    "id": "sundsvall-elnat",
-    "name": "Sundsvall Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 62.3908, "lng": 17.3069 }
-  },
-  {
-    "id": "uppsala-elnat",
-    "name": "Uppsala Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.8586, "lng": 17.6389 }
-  },
-  {
-    "id": "c4-energi",
-    "name": "C4 Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.2666, "lng": 15.2166 }
-  },
-  {
-    "id": "kristianstad-energi",
-    "name": "Kristianstad Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.0308, "lng": 14.1567 }
-  },
-  {
-    "id": "karlstad-energi",
-    "name": "Karlstads Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.3793, "lng": 13.5036 }
-  },
-  {
-    "id": "kalmar-energi",
-    "name": "Kalmar Energi Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.6634, "lng": 16.3568 }
-  },
-  {
-    "id": "lulea-energi",
-    "name": "Luleå Energi Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 65.5848, "lng": 22.1547 }
-  },
-  {
-    "id": "norrkoping-elnat",
-    "name": "Norrköping Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.5877, "lng": 16.1924 }
-  },
-  {
-    "id": "gavle-energi",
-    "name": "Gävle Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.6749, "lng": 17.1413 }
-  },
-  {
-    "id": "trollhattan-energi",
-    "name": "Trollhättan Energi Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.2820, "lng": 12.2886 }
-  },
-  {
-    "id": "ovik-energi",
-    "name": "Övik Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 63.2907, "lng": 18.7153 }
-  },
-  {
-    "id": "falu-energi",
-    "name": "Falu Energi & Vatten",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.6066, "lng": 15.6362 }
-  },
-  {
-    "id": "affarsverken-karlskrona",
-    "name": "Affärsverken Karlskrona",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.1612, "lng": 15.5869 }
-  },
-  {
-    "id": "nacka-energi",
-    "name": "Nacka Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.3095, "lng": 18.1634 }
-  },
-  {
-    "id": "sollentuna-energi",
-    "name": "Sollentuna Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.4280, "lng": 17.9515 }
-  },
-  {
-    "id": "vasteras-elnat",
-    "name": "Västerås Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.6099, "lng": 16.5448 }
-  },
-  {
-    "id": "sodertalje-energi",
-    "name": "Södertälje Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.1955, "lng": 17.6252 }
-  },
-  {
-    "id": "lidkoping-energi",
-    "name": "Lidköping Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.5025, "lng": 13.1571 }
-  },
-  {
-    "id": "nykoping-elnat",
-    "name": "Nyköping Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.7530, "lng": 17.0079 }
-  },
-  {
-    "id": "karlskoga-energi",
-    "name": "Karlskoga Energi & Miljö",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.3278, "lng": 14.5243 }
-  },
-  {
-    "id": "kristinehamn-energi",
-    "name": "Kristinehamns Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.3081, "lng": 14.1081 }
-  },
-  {
-    "id": "hudiksvall-energi",
-    "name": "Hudiksvall Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 61.7289, "lng": 17.1044 }
-  },
-  {
-    "id": "ludvika-energi",
-    "name": "Ludvika Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.1496, "lng": 15.1875 }
-  },
-  {
-    "id": "tranemo-energi",
-    "name": "Tranemo Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.4879, "lng": 13.3579 }
-  },
-  {
-    "id": "mora-elbolag",
-    "name": "Mora Elbolag",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 61.0092, "lng": 14.5430 }
-  },
-  {
-    "id": "mullsjo-energi",
-    "name": "Mullsjö Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.9172, "lng": 13.8801 }
-  },
-  {
-    "id": "tibro-energi",
-    "name": "Tibro Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.4254, "lng": 14.1508 }
-  },
-  {
-    "id": "harryda-energi",
-    "name": "Härryda Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.6567, "lng": 12.2956 }
-  },
-  {
-    "id": "nassjo-affarsverken",
-    "name": "Nässjö Affärsverk Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.6530, "lng": 14.6966 }
-  },
-  {
-    "id": "angelholm-energi",
-    "name": "Ängelholm Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.2428, "lng": 12.8622 }
-  },
-  {
-    "id": "ystad-energi",
-    "name": "Ystad Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.4295, "lng": 13.8200 }
-  },
-  {
-    "id": "trelleborg-energi",
-    "name": "Trelleborg Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.3751, "lng": 13.1569 }
-  },
-  {
-    "id": "oskarshamn-energi",
-    "name": "Oskarshamn Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.2644, "lng": 16.4484 }
-  },
-  {
-    "id": "motala-energi",
-    "name": "Motala Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.5373, "lng": 15.0360 }
-  },
-  {
-    "id": "bollnas-energi",
-    "name": "Bollnäs Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 61.3499, "lng": 16.3947 }
-  },
-  {
-    "id": "soderhamn-elnat",
-    "name": "Söderhamn Elnät",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 61.3032, "lng": 17.0594 }
-  },
-  {
-    "id": "ljusdal-energi",
-    "name": "Ljusdal Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 61.8289, "lng": 16.0934 }
-  },
-  {
-    "id": "eslov-energi",
-    "name": "Eslöv Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.8370, "lng": 13.3037 }
-  },
-  {
-    "id": "laholm-energi",
-    "name": "Laholm Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.5136, "lng": 13.0476 }
-  },
-  {
-    "id": "kungsbacka-energi",
-    "name": "Kungsbacka Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.4922, "lng": 12.0764 }
-  },
-  {
-    "id": "alingsas-energi",
-    "name": "Alingsås Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.9302, "lng": 12.5361 }
-  },
-  {
-    "id": "kungalv-energi",
-    "name": "Kungälv Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.8723, "lng": 11.9767 }
-  },
-  {
-    "id": "stenungsund-energi",
-    "name": "Stenungsund Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.0707, "lng": 11.8194 }
-  },
-  {
-    "id": "uddevalla-energi",
-    "name": "Uddevalla Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.3498, "lng": 11.9353 }
-  },
-  {
-    "id": "stromstad-energi",
-    "name": "Strömstad Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.9394, "lng": 11.1718 }
-  },
-  {
-    "id": "amal-energi",
-    "name": "Åmål Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.0526, "lng": 12.7041 }
-  },
-  {
-    "id": "arvika-energi",
-    "name": "Arvika Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.6544, "lng": 12.5852 }
-  },
-  {
-    "id": "varberg-energi",
-    "name": "Varberg Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.1056, "lng": 12.2508 }
-  },
-  {
-    "id": "falkenberg-energi",
-    "name": "Falkenberg Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.9057, "lng": 12.4917 }
-  },
-  {
-    "id": "markaryd-energi",
-    "name": "Markaryd Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.4557, "lng": 13.5978 }
-  },
-  {
-    "id": "savsjo-energi",
-    "name": "Sävsjö Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.3987, "lng": 14.6585 }
-  },
-  {
-    "id": "vetlanda-energi",
-    "name": "Vetlanda Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.4265, "lng": 15.0877 }
-  },
-  {
-    "id": "eksjo-energi",
-    "name": "Eksjö Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.6631, "lng": 14.9739 }
-  },
-  {
-    "id": "varnamo-energi",
-    "name": "Värnamo Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.1838, "lng": 14.0403 }
-  },
-  {
-    "id": "gislaved-energi",
-    "name": "Gislaved Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.3031, "lng": 13.5407 }
-  },
-  {
-    "id": "kiruna-energi",
-    "name": "Kiruna Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 67.8558, "lng": 20.2253 }
-  },
-  {
-    "id": "gallivare-energi",
-    "name": "Gällivare Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 67.1337, "lng": 20.6528 }
-  },
-  {
-    "id": "boden-energi",
-    "name": "Boden Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 65.8251, "lng": 21.6886 }
-  },
-  {
-    "id": "haparanda-energi",
-    "name": "Haparanda Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 65.8350, "lng": 24.1277 }
-  },
-  {
-    "id": "lycksele-energi",
-    "name": "Lycksele Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 64.5978, "lng": 18.6766 }
-  },
-  {
-    "id": "vilhelmina-energi",
-    "name": "Vilhelmina Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 64.6245, "lng": 16.6555 }
-  },
-  {
-    "id": "are-energi",
-    "name": "Åre Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 63.3985, "lng": 13.0817 }
-  },
-  {
-    "id": "storuman-energi",
-    "name": "Storuman Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 65.0968, "lng": 17.1161 }
-  },
-  {
-    "id": "sorsele-energi",
-    "name": "Sorsele Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 65.5359, "lng": 17.5377 }
-  },
-  {
-    "id": "dorotea-energi",
-    "name": "Dorotea Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 64.2626, "lng": 16.4040 }
-  },
-  {
-    "id": "haninge-energi",
-    "name": "Haninge Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.1676, "lng": 18.1448 }
-  },
-  {
-    "id": "tyreso-energi",
-    "name": "Tyresö Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.2443, "lng": 18.2290 }
-  },
-  {
-    "id": "norrtalje-energi",
-    "name": "Norrtälje Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.7589, "lng": 18.7032 }
-  },
-  {
-    "id": "sigtuna-energi",
-    "name": "Sigtuna Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.6167, "lng": 17.7333 }
-  },
-  {
-    "id": "taby-energi",
-    "name": "Täby Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.4449, "lng": 18.0687 }
-  },
-  {
-    "id": "vallentuna-energi",
-    "name": "Vallentuna Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.5354, "lng": 18.0772 }
-  },
-  {
-    "id": "osteraker-energi",
-    "name": "Österåker Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.4794, "lng": 18.2998 }
-  },
-  {
-    "id": "enkoping-energi",
-    "name": "Enköping Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.6357, "lng": 17.0778 }
-  },
-  {
-    "id": "strangnas-energi",
-    "name": "Strängnäs Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.3776, "lng": 17.0328 }
-  },
-  {
-    "id": "borlange-energi",
-    "name": "Borlänge Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.4846, "lng": 15.4193 }
-  },
-  {
-    "id": "avesta-energi",
-    "name": "Avesta Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.1450, "lng": 16.1622 }
-  },
-  {
-    "id": "hedemora-energi",
-    "name": "Hedemora Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.2791, "lng": 15.9908 }
-  },
-  {
-    "id": "overtornea-energi",
-    "name": "Övertorneå Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 66.3894, "lng": 23.6609 }
-  },
-  {
-    "id": "laxa-energi",
-    "name": "Laxå Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.9876, "lng": 14.6191 }
-  },
-  {
-    "id": "degerfors-energi",
-    "name": "Degerfors Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.2325, "lng": 14.4296 }
-  },
-  {
-    "id": "kumla-energi",
-    "name": "Kumla Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.1272, "lng": 15.1433 }
-  },
-  {
-    "id": "askersund-energi",
-    "name": "Askersund Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.8793, "lng": 14.9060 }
-  },
-  {
-    "id": "hallsberg-energi",
-    "name": "Hallsberg Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.0645, "lng": 15.1084 }
-  },
-  {
-    "id": "rattvik-energi",
-    "name": "Rättvik Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.8830, "lng": 15.1170 }
-  },
-  {
-    "id": "leksand-energi",
-    "name": "Leksand Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.7370, "lng": 14.9980 }
-  },
-  {
-    "id": "orsa-energi",
-    "name": "Orsa Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 61.0900, "lng": 14.6290 }
-  },
-  {
-    "id": "alvdalen-energi",
-    "name": "Älvdalen Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 61.2280, "lng": 14.0330 }
-  },
-  {
-    "id": "malung-energi",
-    "name": "Malung Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.6830, "lng": 13.7170 }
-  },
-  {
-    "id": "vansbro-energi",
-    "name": "Vansbro Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.5070, "lng": 14.2270 }
-  },
-  {
-    "id": "gagnef-energi",
-    "name": "Gagnef Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.5750, "lng": 15.1280 }
-  },
-  {
-    "id": "smedjebacken-energi",
-    "name": "Smedjebacken Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.1400, "lng": 15.4140 }
-  },
-  {
-    "id": "hofors-energi",
-    "name": "Hofors Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.5470, "lng": 16.2860 }
-  },
-  {
-    "id": "finspang-energi",
-    "name": "Finspång Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.7070, "lng": 15.7770 }
-  },
-  {
-    "id": "mjolby-energi",
-    "name": "Mjölby Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.3250, "lng": 15.1260 }
-  },
-  {
-    "id": "valdemarsvik-energi",
-    "name": "Valdemarsvik Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.1990, "lng": 16.6020 }
-  },
-  {
-    "id": "odeshog-energi",
-    "name": "Ödeshög Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.2240, "lng": 14.6520 }
-  },
-  {
-    "id": "boxholm-energi",
-    "name": "Boxholm Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.1980, "lng": 15.0500 }
-  },
-  {
-    "id": "atvidaberg-energi",
-    "name": "Åtvidaberg Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.2040, "lng": 15.9990 }
-  },
-  {
-    "id": "kinda-energi",
-    "name": "Kinda Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 57.9860, "lng": 15.6410 }
-  },
-  {
-    "id": "ange-energi",
-    "name": "Ånge Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 62.5240, "lng": 15.6610 }
-  },
-  {
-    "id": "timra-energi",
-    "name": "Timrå Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 62.4860, "lng": 17.3280 }
-  },
-  {
-    "id": "harnosand-energi",
-    "name": "Härnösand Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 62.6320, "lng": 17.9410 }
-  },
-  {
-    "id": "skara-energi",
-    "name": "Skara Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.3915, "lng": 13.4387 }
-  },
-  {
-    "id": "falkoping-energi",
-    "name": "Falköping Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.1617, "lng": 13.5506 }
-  },
-  {
-    "id": "tidaholm-energi",
-    "name": "Tidaholm Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.1804, "lng": 13.9585 }
-  },
-  {
-    "id": "mariestad-energi",
-    "name": "Mariestad Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.7096, "lng": 13.8232 }
-  },
-  {
-    "id": "toreboda-energi",
-    "name": "Töreboda Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.7060, "lng": 14.1212 }
-  },
-  {
-    "id": "vara-energi",
-    "name": "Vara Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.2637, "lng": 12.9483 }
-  },
-  {
-    "id": "gotene-energi",
-    "name": "Götene Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.5275, "lng": 13.4927 }
-  },
-  {
-    "id": "grastorp-energi",
-    "name": "Grästorp Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.3336, "lng": 12.6780 }
-  },
-  {
-    "id": "essunga-energi",
-    "name": "Essunga Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.1956, "lng": 12.6936 }
-  },
-  {
-    "id": "mellerud-energi",
-    "name": "Mellerud Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.7017, "lng": 12.4509 }
-  },
-  {
-    "id": "bengtsfors-energi",
-    "name": "Bengtsfors Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.0300, "lng": 12.2300 }
-  },
-  {
-    "id": "dals-ed-energi",
-    "name": "Dals-Ed Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.9150, "lng": 11.9250 }
-  },
-  {
-    "id": "fargelanda-energi",
-    "name": "Färgelanda Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 58.5667, "lng": 12.1172 }
-  },
-  {
-    "id": "saffle-energi",
-    "name": "Säffle Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.1333, "lng": 12.9333 }
-  },
-  {
-    "id": "arjang-energi",
-    "name": "Årjäng Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.3900, "lng": 12.1300 }
-  },
-  {
-    "id": "eda-energi",
-    "name": "Eda Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.8833, "lng": 12.2167 }
-  },
-  {
-    "id": "torsby-energi",
-    "name": "Torsby Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.1333, "lng": 13.0167 }
-  },
-  {
-    "id": "hagfors-energi",
-    "name": "Hagfors Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 60.0333, "lng": 13.6500 }
-  },
-  {
-    "id": "munkfors-energi",
-    "name": "Munkfors Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.8333, "lng": 13.5333 }
-  },
-  {
-    "id": "storfors-energi",
-    "name": "Storfors Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.5333, "lng": 14.2667 }
-  },
-  {
-    "id": "kil-energi",
-    "name": "Kil Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.5045, "lng": 13.3120 }
-  },
-  {
-    "id": "forshaga-energi",
-    "name": "Forshaga Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.5317, "lng": 13.4825 }
-  },
-  {
-    "id": "sunne-energi",
-    "name": "Sunne Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.8377, "lng": 13.1427 }
-  },
-  {
-    "id": "filipstad-energi",
-    "name": "Filipstad Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.7120, "lng": 14.1674 }
-  },
-  {
-    "id": "hammaro-energi",
-    "name": "Hammarö Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.3104, "lng": 13.4658 }
-  },
-  {
-    "id": "grums-energi",
-    "name": "Grums Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 59.3488, "lng": 13.1055 }
-  },
-  {
-    "id": "ostra-goinge-energi",
-    "name": "Östra Göinge Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.2905, "lng": 14.1183 }
-  },
-  {
-    "id": "hoganas-energi",
-    "name": "Höganäs Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.1997, "lng": 12.5556 }
-  },
-  {
-    "id": "kavlinge-energi",
-    "name": "Kävlinge Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.7939, "lng": 13.1092 }
-  },
-  {
-    "id": "lomma-energi",
-    "name": "Lomma Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.6711, "lng": 13.0706 }
-  },
-  {
-    "id": "staffanstorp-energi",
-    "name": "Staffanstorp Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.6424, "lng": 13.2092 }
-  },
-  {
-    "id": "burlov-energi",
-    "name": "Burlöv Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.6649, "lng": 13.0934 }
-  },
-  {
-    "id": "svalov-energi",
-    "name": "Svalöv Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.9122, "lng": 13.1014 }
-  },
-  {
-    "id": "vellinge-energi",
-    "name": "Vellinge Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.4737, "lng": 13.0198 }
-  },
-  {
-    "id": "sjobo-energi",
-    "name": "Sjöbo Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.6331, "lng": 13.7057 }
-  },
-  {
-    "id": "tomelilla-energi",
-    "name": "Tomelilla Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.5446, "lng": 13.9558 }
-  },
-  {
-    "id": "simrishamn-energi",
-    "name": "Simrishamn Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 55.5565, "lng": 14.3506 }
-  },
-  {
-    "id": "bastad-energi",
-    "name": "Båstad Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.4303, "lng": 12.8531 }
-  },
-  {
-    "id": "solvesborg-energi",
-    "name": "Sölvesborg Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.0503, "lng": 14.5809 }
-  },
-  {
-    "id": "olofstrom-energi",
-    "name": "Olofström Energi",
-    "highLoadMonths": [11, 12, 1, 2, 3],
-    "highLoadHours": { "start": 6, "end": 22 },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2027-01-01",
-    "coordinates": { "lat": 56.2778, "lng": 14.5288 }
+    "coordinates": {
+      "lat": 57.785,
+      "lng": 14.149
+    }
   }
 ]
