@@ -21,27 +21,22 @@ export interface PowerGridCompany {
   highLoadMonths: number[]; // Natural month numbers: 1 = January, 12 = December
   highLoadHours: { start: number; end: number }; // 24-hour format
   highLoadWeekdays: boolean; // Only weekdays (Monday-Friday, excludes Saturday and Sunday)
-  effectiveDate?: Date; // Date when effektavgift becomes effective for this company (undefined = already in effect)
   coordinates: { lat: number; lng: number }; // Coordinates of company HQ
 }
 
-// JSON representation with string dates
+// JSON representation of a company
 export interface PowerGridCompanyJSON {
   id: string;
   name: string;
   highLoadMonths: number[];
   highLoadHours: { start: number; end: number };
   highLoadWeekdays: boolean;
-  effectiveDate?: string; // ISO date string in JSON
   coordinates: { lat: number; lng: number }; // Coordinates of company HQ
 }
 
-// Utility function to parse company JSON data (converts date strings to Date objects)
+// Utility function to parse company JSON data
 export function parseCompanyData(companyJson: PowerGridCompanyJSON): PowerGridCompany {
-  return {
-    ...companyJson,
-    effectiveDate: companyJson.effectiveDate ? new Date(companyJson.effectiveDate) : undefined
-  };
+  return { ...companyJson };
 }
 
 // Utility function to parse multiple companies
@@ -229,23 +224,6 @@ export function isHighLoadPeriod(company: PowerGridCompany, now: Date = new Date
 
 export function getLoadStatus(company: PowerGridCompany): 'high' | 'low' {
   return isHighLoadPeriod(company) ? 'high' : 'low';
-}
-
-// Check if effektavgift is currently in effect for a company
-export function isEffektavgiftInEffect(company: PowerGridCompany, now: Date = new Date()): boolean {
-  if (!company.effectiveDate) {
-    return true; // No effective date means it's already in effect
-  }
-  return now >= company.effectiveDate;
-}
-
-// Format effective date in Swedish (e.g., "oktober 2026")
-export function formatEffectiveDate(date: Date): string {
-  const months = [
-    'januari', 'februari', 'mars', 'april', 'maj', 'juni',
-    'juli', 'augusti', 'september', 'oktober', 'november', 'december'
-  ];
-  return `${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
 // Calculate the next time the tariff will change

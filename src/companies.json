@@ -20,27 +20,6 @@
     }
   },
   {
-    "id": "vattenfall",
-    "name": "Vattenfall Eldistribution",
-    "highLoadMonths": [
-      11,
-      12,
-      1,
-      2,
-      3
-    ],
-    "highLoadHours": {
-      "start": 7,
-      "end": 21
-    },
-    "highLoadWeekdays": true,
-    "effectiveDate": "2026-10-01",
-    "coordinates": {
-      "lat": 59.3729,
-      "lng": 18.0002
-    }
-  },
-  {
     "id": "geab",
     "name": "Gotlands Energi (GEAB)",
     "highLoadMonths": [
@@ -55,7 +34,6 @@
       "end": 22
     },
     "highLoadWeekdays": true,
-    "effectiveDate": "2026-01-01",
     "coordinates": {
       "lat": 57.6257,
       "lng": 18.3132
@@ -96,7 +74,6 @@
       "end": 22
     },
     "highLoadWeekdays": true,
-    "effectiveDate": "2025-09-01",
     "coordinates": {
       "lat": 59.6139,
       "lng": 16.5324
@@ -157,7 +134,6 @@
       "end": 20
     },
     "highLoadWeekdays": true,
-    "effectiveDate": "2025-09-01",
     "coordinates": {
       "lat": 57.785,
       "lng": 14.149

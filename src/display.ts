@@ -14,7 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { PowerGridCompany, PowerGridCompanyJSON, parseCompanyData, getLoadStatus, getNextTariffChange, isEffektavgiftInEffect, formatEffectiveDate } from './tariff';
+import { PowerGridCompany, PowerGridCompanyJSON, parseCompanyData, getLoadStatus, getNextTariffChange } from './tariff';
 import { escapeHtml } from './utils';
 import './style.css';
 
@@ -44,16 +44,7 @@ function renderDisplayPage(company: PowerGridCompany) {
   const status = getLoadStatus(company);
   const isHighLoad = status === 'high';
   const basePath = '/effektavgift';
-  const effektavgiftInEffect = isEffektavgiftInEffect(company);
   const escapedCompanyName = escapeHtml(company.name);
-  
-  // Generate notice HTML if effektavgift is not yet in effect
-  const noticeHtml = !effektavgiftInEffect && company.effectiveDate
-    ? `<div class="not-in-effect-notice" role="alert">
-        <span class="notice-icon">⚠️</span>
-        <span class="notice-text">Effektavgift kan börja gälla för ${escapedCompanyName} från ${formatEffectiveDate(company.effectiveDate)}. Kontakta ditt nätbolag för mer information.</span>
-      </div>`
-    : '';
   
   app.innerHTML = `
     <div class="display-container" role="main">
@@ -62,7 +53,6 @@ function renderDisplayPage(company: PowerGridCompany) {
       <div class="wake-lock-status" id="wake-lock-status" aria-live="polite"></div>
       <div class="status-content">
         <h1 class="company-name">${escapedCompanyName}</h1>
-        ${noticeHtml}
         <div class="status-indicator" role="status" aria-live="polite" aria-atomic="true">
           <div class="status-text ${isHighLoad ? 'high-load' : 'low-load'}" aria-label="Nuvarande status: ${isHighLoad ? 'höglast' : 'låglast'}">${isHighLoad ? 'HÖGLAST' : 'LÅGLAST'}</div>
           <div class="status-description">
