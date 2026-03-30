@@ -14,7 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { PowerGridCompany, parseCompanyData, getLoadStatus, getNextTariffChange } from './tariff';
+import { PowerGridCompany, parseCompanyData, getLoadStatus, getNextTariffChange, MS_PER_MINUTE, MS_PER_HOUR, MS_PER_DAY } from './tariff';
 import { escapeHtml } from './utils';
 import './style.css';
 
@@ -219,10 +219,6 @@ function getCountdownString(company: PowerGridCompany): string {
   if (diff <= 0) {
     return 'Nu';
   }
-  
-  const MS_PER_MINUTE = 60 * 1000;
-  const MS_PER_HOUR = 60 * MS_PER_MINUTE;
-  const MS_PER_DAY = 24 * MS_PER_HOUR;
   
   const days = Math.floor(diff / MS_PER_DAY);
   const hours = Math.floor((diff % MS_PER_DAY) / MS_PER_HOUR);

@@ -15,9 +15,9 @@
  */
 
 // Time constants to avoid magic numbers in calculations
-const MS_PER_MINUTE = 60 * 1000;
-const MS_PER_HOUR = 60 * MS_PER_MINUTE;
-const MS_PER_DAY = 24 * MS_PER_HOUR;
+export const MS_PER_MINUTE = 60 * 1000;
+export const MS_PER_HOUR = 60 * MS_PER_MINUTE;
+export const MS_PER_DAY = 24 * MS_PER_HOUR;
 
 // Easter-relative holiday offsets (in days from Easter Sunday)
 const EASTER_OFFSETS = {
