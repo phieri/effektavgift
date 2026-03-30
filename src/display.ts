@@ -14,14 +14,14 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { PowerGridCompany, PowerGridCompanyJSON, parseCompanyData, getLoadStatus, getNextTariffChange } from './tariff';
+import { PowerGridCompany, parseCompanyData, getLoadStatus, getNextTariffChange } from './tariff';
 import { escapeHtml } from './utils';
 import './style.css';
 
 // Get company data from global variable set in HTML
 declare global {
   interface Window {
-    __COMPANY_DATA__?: PowerGridCompanyJSON;
+    __COMPANY_DATA__?: PowerGridCompany;
   }
 }
 
@@ -75,18 +75,14 @@ function renderDisplayPage(company: PowerGridCompany) {
   const wakeLockStatusElement = app.querySelector('#wake-lock-status');
   
   if (backLink) {
-    // Helper function to add fade-out class to all control elements
+    const controlElements = [backLink, fullscreenBtn, wakeLockStatusElement].filter(Boolean) as Element[];
+    
     const fadeOutControls = () => {
-      backLink.classList.add('fade-out');
-      if (fullscreenBtn) fullscreenBtn.classList.add('fade-out');
-      if (wakeLockStatusElement) wakeLockStatusElement.classList.add('fade-out');
+      controlElements.forEach(el => el.classList.add('fade-out'));
     };
     
-    // Helper function to remove fade-out class from all control elements
     const fadeInControls = () => {
-      backLink.classList.remove('fade-out');
-      if (fullscreenBtn) fullscreenBtn.classList.remove('fade-out');
-      if (wakeLockStatusElement) wakeLockStatusElement.classList.remove('fade-out');
+      controlElements.forEach(el => el.classList.remove('fade-out'));
     };
     
     // Fade out buttons and wake lock status after 5 seconds
@@ -224,9 +220,13 @@ function getCountdownString(company: PowerGridCompany): string {
     return 'Nu';
   }
   
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const MS_PER_MINUTE = 60 * 1000;
+  const MS_PER_HOUR = 60 * MS_PER_MINUTE;
+  const MS_PER_DAY = 24 * MS_PER_HOUR;
+  
+  const days = Math.floor(diff / MS_PER_DAY);
+  const hours = Math.floor((diff % MS_PER_DAY) / MS_PER_HOUR);
+  const minutes = Math.floor((diff % MS_PER_HOUR) / MS_PER_MINUTE);
   
   const parts: string[] = [];
   if (days > 0) parts.push(`${days} dag${days !== 1 ? 'ar' : ''}`);
