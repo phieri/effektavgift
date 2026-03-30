@@ -20,26 +20,6 @@
     }
   },
   {
-    "id": "geab",
-    "name": "Gotlands Energi (GEAB)",
-    "highLoadMonths": [
-      11,
-      12,
-      1,
-      2,
-      3
-    ],
-    "highLoadHours": {
-      "start": 6,
-      "end": 22
-    },
-    "highLoadWeekdays": true,
-    "coordinates": {
-      "lat": 57.6257,
-      "lng": 18.3132
-    }
-  },
-  {
     "id": "goteborg-energi",
     "name": "Göteborg Energi Nät",
     "highLoadMonths": [
@@ -50,53 +30,13 @@
       3
     ],
     "highLoadHours": {
-      "start": 6,
-      "end": 22
+      "start": 7,
+      "end": 20
     },
     "highLoadWeekdays": true,
     "coordinates": {
       "lat": 57.7089,
       "lng": 11.9746
-    }
-  },
-  {
-    "id": "malarenergi",
-    "name": "Mälarenergi Elnät",
-    "highLoadMonths": [
-      11,
-      12,
-      1,
-      2,
-      3
-    ],
-    "highLoadHours": {
-      "start": 6,
-      "end": 22
-    },
-    "highLoadWeekdays": true,
-    "coordinates": {
-      "lat": 59.6139,
-      "lng": 16.5324
-    }
-  },
-  {
-    "id": "fortum",
-    "name": "Fortum Distribution",
-    "highLoadMonths": [
-      11,
-      12,
-      1,
-      2,
-      3
-    ],
-    "highLoadHours": {
-      "start": 6,
-      "end": 22
-    },
-    "highLoadWeekdays": true,
-    "coordinates": {
-      "lat": 59.3687,
-      "lng": 18.0137
     }
   },
   {
