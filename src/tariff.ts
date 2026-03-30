@@ -14,6 +14,23 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+// Time constants to avoid magic numbers in calculations
+export const MS_PER_MINUTE = 60 * 1000;
+export const MS_PER_HOUR = 60 * MS_PER_MINUTE;
+export const MS_PER_DAY = 24 * MS_PER_HOUR;
+
+// Easter-relative holiday offsets (in days from Easter Sunday)
+const EASTER_OFFSETS = {
+  GOOD_FRIDAY: -2,
+  EASTER_MONDAY: 1,
+  ASCENSION_DAY: 39,
+  WHIT_SUNDAY: 49,
+  WHIT_MONDAY: 50,
+} as const;
+
+// Maximum number of days to search ahead for next tariff change
+const MAX_LOOKAHEAD_DAYS = 14;
+
 // Types for power grid companies and their tariff rules
 export interface PowerGridCompany {
   id: string;
@@ -24,23 +41,13 @@ export interface PowerGridCompany {
   coordinates: { lat: number; lng: number }; // Coordinates of company HQ
 }
 
-// JSON representation of a company
-export interface PowerGridCompanyJSON {
-  id: string;
-  name: string;
-  highLoadMonths: number[];
-  highLoadHours: { start: number; end: number };
-  highLoadWeekdays: boolean;
-  coordinates: { lat: number; lng: number }; // Coordinates of company HQ
-}
-
 // Utility function to parse company JSON data
-export function parseCompanyData(companyJson: PowerGridCompanyJSON): PowerGridCompany {
+export function parseCompanyData(companyJson: PowerGridCompany): PowerGridCompany {
   return { ...companyJson };
 }
 
 // Utility function to parse multiple companies
-export function parseCompaniesData(companiesJson: PowerGridCompanyJSON[]): PowerGridCompany[] {
+export function parseCompaniesData(companiesJson: PowerGridCompany[]): PowerGridCompany[] {
   return companiesJson.map(parseCompanyData);
 }
 
@@ -67,17 +74,17 @@ export const getSwedishHolidays = (year: number): Date[] => {
   
   // Easter and related holidays (simplified - using a common approximation)
   const easter = calculateEaster(year);
-  holidays.push(new Date(easter.getTime() - 2 * 24 * 60 * 60 * 1000)); // Good Friday
+  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.GOOD_FRIDAY * MS_PER_DAY)); // Good Friday
   holidays.push(easter); // Easter Sunday
-  holidays.push(new Date(easter.getTime() + 1 * 24 * 60 * 60 * 1000)); // Easter Monday
-  holidays.push(new Date(easter.getTime() + 39 * 24 * 60 * 60 * 1000)); // Ascension Day
-  holidays.push(new Date(easter.getTime() + 49 * 24 * 60 * 60 * 1000)); // Whit Sunday
-  holidays.push(new Date(easter.getTime() + 50 * 24 * 60 * 60 * 1000)); // Whit Monday
+  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.EASTER_MONDAY * MS_PER_DAY)); // Easter Monday
+  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.ASCENSION_DAY * MS_PER_DAY)); // Ascension Day
+  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.WHIT_SUNDAY * MS_PER_DAY)); // Whit Sunday
+  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.WHIT_MONDAY * MS_PER_DAY)); // Whit Monday
   
   // Midsummer Eve and Day (Friday and Saturday between June 19-25)
   const midsummerEve = getMidsummerEve(year);
   holidays.push(midsummerEve);
-  holidays.push(new Date(midsummerEve.getTime() + 24 * 60 * 60 * 1000));
+  holidays.push(new Date(midsummerEve.getTime() + MS_PER_DAY));
   
   // All Saints' Day (Saturday between October 31 and November 6)
   const allSaintsDay = getAllSaintsDay(year);
@@ -124,7 +131,7 @@ function getMidsummerEve(year: number): Date {
 function getAllSaintsDay(year: number): Date {
   const oct31 = new Date(year, 10 - 1, 31); // October 31 (month 10)
   for (let i = 0; i <= 6; i++) {
-    const date = new Date(oct31.getTime() + i * 24 * 60 * 60 * 1000);
+    const date = new Date(oct31.getTime() + i * MS_PER_DAY);
     if (date.getDay() === 6) { // Saturday
       return date;
     }
@@ -235,9 +242,9 @@ export function getNextTariffChange(company: PowerGridCompany, now: Date = new D
   
   // Search for the next change within the next 14 days
   // Check hourly first to reduce iterations (14 days * 24 hours = 336 checks max)
-  for (let i = 0; i < 14 * 24; i++) {
+  for (let i = 0; i < MAX_LOOKAHEAD_DAYS * 24; i++) {
     // Increment by 1 hour
-    nextChange = new Date(nextChange.getTime() + 60 * 60 * 1000);
+    nextChange = new Date(nextChange.getTime() + MS_PER_HOUR);
     
     // Note: isHighLoadPeriod internally calls getSwedishHolidays with the year from the date,
     // so holidays are automatically recalculated when crossing year boundaries
@@ -246,9 +253,9 @@ export function getNextTariffChange(company: PowerGridCompany, now: Date = new D
     // If status changes, we found the hour where change happens
     // Go back one hour and search minute-by-minute to find exact time
     if (willBeHighLoad !== currentlyHighLoad) {
-      let exactChange = new Date(nextChange.getTime() - 60 * 60 * 1000);
+      let exactChange = new Date(nextChange.getTime() - MS_PER_HOUR);
       for (let j = 0; j < 60; j++) {
-        exactChange = new Date(exactChange.getTime() + 60 * 1000);
+        exactChange = new Date(exactChange.getTime() + MS_PER_MINUTE);
         const exactWillBeHighLoad = isHighLoadPeriod(company, exactChange);
         if (exactWillBeHighLoad !== currentlyHighLoad) {
           return exactChange;
@@ -259,7 +266,7 @@ export function getNextTariffChange(company: PowerGridCompany, now: Date = new D
   }
   
   // If no change found within 14 days, return a date far in the future
-  return new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+  return new Date(now.getTime() + MAX_LOOKAHEAD_DAYS * MS_PER_DAY);
 }
 
 // Calculate distance between two coordinates using Haversine formula

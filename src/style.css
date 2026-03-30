@@ -127,6 +127,12 @@ body {
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
+.error-message {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
 @media (prefers-color-scheme: dark) {
   .sort-selector {
     background: #2a2a2a;
@@ -146,6 +152,10 @@ body {
   .sort-selector select:hover,
   .sort-selector select:focus {
     border-color: #3498db;
+  }
+
+  .error-message {
+    color: #ff6b6b;
   }
 }
 

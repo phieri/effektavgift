@@ -14,14 +14,14 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { PowerGridCompanyJSON, parseCompaniesData, PowerGridCompany, calculateDistance } from './tariff';
+import { parseCompaniesData, PowerGridCompany, calculateDistance } from './tariff';
 import { escapeHtml } from './utils';
 import './style.css';
 
 // Get companies data from global variable set in HTML
 declare global {
   interface Window {
-    __COMPANIES_DATA__?: PowerGridCompanyJSON[];
+    __COMPANIES_DATA__?: PowerGridCompany[];
   }
 }
 
@@ -32,32 +32,27 @@ let userLocation: { lat: number; lng: number } | null = null;
 type SortMode = 'name' | 'distance';
 let currentSortMode: SortMode = 'name';
 
-// Sort companies based on the selected mode
-function sortCompanies(companies: PowerGridCompany[], mode: SortMode): PowerGridCompany[] {
-  const sorted = [...companies];
+// Company with optional cached distance from user
+interface CompanyWithDistance extends PowerGridCompany {
+  distance?: number;
+}
+
+// Sort companies based on the selected mode, caching distances when sorting by distance
+function sortCompanies(companies: PowerGridCompany[], mode: SortMode): CompanyWithDistance[] {
+  const withDistances: CompanyWithDistance[] = companies.map(company => {
+    const distance = (mode === 'distance' && userLocation)
+      ? calculateDistance(userLocation.lat, userLocation.lng, company.coordinates.lat, company.coordinates.lng)
+      : undefined;
+    return { ...company, distance };
+  });
   
   if (mode === 'name') {
-    sorted.sort((a, b) => a.name.localeCompare(b.name, 'sv'));
+    withDistances.sort((a, b) => a.name.localeCompare(b.name, 'sv'));
   } else if (mode === 'distance' && userLocation) {
-    const location = userLocation; // Capture in local const for TypeScript
-    sorted.sort((a, b) => {
-      const distA = calculateDistance(
-        location.lat,
-        location.lng,
-        a.coordinates.lat,
-        a.coordinates.lng
-      );
-      const distB = calculateDistance(
-        location.lat,
-        location.lng,
-        b.coordinates.lat,
-        b.coordinates.lng
-      );
-      return distA - distB;
-    });
+    withDistances.sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0));
   }
   
-  return sorted;
+  return withDistances;
 }
 
 // Geolocation configuration constants
@@ -134,16 +129,9 @@ function renderHomePage() {
           <ul class="company-list">
             ${sortedCompanies.map(company => {
               const escapedName = escapeHtml(company.name);
-              let distanceText = '';
-              if (currentSortMode === 'distance' && userLocation) {
-                const distance = calculateDistance(
-                  userLocation.lat,
-                  userLocation.lng,
-                  company.coordinates.lat,
-                  company.coordinates.lng
-                );
-                distanceText = ` <span class="distance-info">(${Math.round(distance)} km)</span>`;
-              }
+              const distanceText = (company.distance !== undefined)
+                ? ` <span class="distance-info">(${Math.round(company.distance)} km)</span>`
+                : '';
               return `
               <li>
                 <a href="${basePath}/${company.id}/" class="company-link" aria-label="Visa effektavgiftsstatus för ${escapedName}">
@@ -177,9 +165,7 @@ function renderHomePage() {
             if (sortSelector) {
               const errorMsg = document.createElement('div');
               errorMsg.textContent = 'Kunde inte hämta din plats. Kontrollera att du har tillåtit platsåtkomst.';
-              errorMsg.style.color = '#e74c3c';
-              errorMsg.style.fontSize = '0.9rem';
-              errorMsg.style.marginTop = '0.5rem';
+              errorMsg.className = 'error-message';
               sortSelector.appendChild(errorMsg);
               setTimeout(() => errorMsg.remove(), ERROR_MESSAGE_DURATION_MS);
             }
