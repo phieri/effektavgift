@@ -59,9 +59,8 @@ function sortCompanies(companies: PowerGridCompany[], mode: SortMode): CompanyWi
 const GEOLOCATION_TIMEOUT_MS = 5000;
 const GEOLOCATION_MAX_AGE_MS = 0;
 const ERROR_MESSAGE_DURATION_MS = 5000;
-const BASE_PATH = '/effektavgift';
 
-function renderCompanyListMarkup(sortedCompanies: CompanyWithDistance[]): string {
+function renderCompanyListMarkup(sortedCompanies: CompanyWithDistance[], basePath: string): string {
   return `
     <ul class="company-list">
       ${sortedCompanies.map(company => {
@@ -71,7 +70,7 @@ function renderCompanyListMarkup(sortedCompanies: CompanyWithDistance[]): string
           : '';
         return `
         <li>
-          <a href="${BASE_PATH}/${company.id}/" class="company-link" aria-label="Visa effektavgiftsstatus för ${escapedName}">
+          <a href="${basePath}/${company.id}/" class="company-link" aria-label="Visa effektavgiftsstatus för ${escapedName}">
             ${escapedName}${distanceText}
           </a>
         </li>
@@ -135,6 +134,7 @@ function renderHomePage() {
   
   const companies = parseCompaniesData(companiesDataJson);
   const sortedCompanies = sortCompanies(companies, currentSortMode);
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
   
   // Distance sort option - selecting it will request location permission if needed
   const distanceSortOption = `<option value="distance" ${currentSortMode === 'distance' ? 'selected' : ''}>Avstånd</option>`;
@@ -158,7 +158,7 @@ function renderHomePage() {
           </select>
         </div>
         <nav aria-label="Lista över nätbolag">
-          ${renderCompanyListMarkup(sortedCompanies)}
+          ${renderCompanyListMarkup(sortedCompanies, basePath)}
         </nav>
       </main>
     </div>
