@@ -43,7 +43,7 @@ function renderDisplayPage(company: PowerGridCompany) {
 
   const status = getLoadStatus(company);
   const isHighLoad = status === 'high';
-  const basePath = '/effektavgift';
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
   const escapedCompanyName = escapeHtml(company.name);
   
   app.innerHTML = `
