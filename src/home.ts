@@ -59,6 +59,40 @@ function sortCompanies(companies: PowerGridCompany[], mode: SortMode): CompanyWi
 const GEOLOCATION_TIMEOUT_MS = 5000;
 const GEOLOCATION_MAX_AGE_MS = 0;
 const ERROR_MESSAGE_DURATION_MS = 5000;
+const BASE_PATH = '/effektavgift';
+
+function renderCompanyListMarkup(sortedCompanies: CompanyWithDistance[]): string {
+  return `
+    <ul class="company-list">
+      ${sortedCompanies.map(company => {
+        const escapedName = escapeHtml(company.name);
+        const distanceText = (company.distance !== undefined)
+          ? ` <span class="distance-info">(${Math.round(company.distance)} km)</span>`
+          : '';
+        return `
+        <li>
+          <a href="${BASE_PATH}/${company.id}/" class="company-link" aria-label="Visa effektavgiftsstatus för ${escapedName}">
+            ${escapedName}${distanceText}
+          </a>
+        </li>
+      `;}).join('')}
+    </ul>
+  `;
+}
+
+function showLocationError(sortSelect: HTMLSelectElement): void {
+  const sortSelector = document.querySelector('.sort-selector');
+  if (sortSelector) {
+    const errorMsg = document.createElement('div');
+    errorMsg.textContent = 'Kunde inte hämta din plats. Kontrollera att du har tillåtit platsåtkomst.';
+    errorMsg.className = 'error-message';
+    sortSelector.appendChild(errorMsg);
+    setTimeout(() => errorMsg.remove(), ERROR_MESSAGE_DURATION_MS);
+  }
+
+  currentSortMode = 'name';
+  sortSelect.value = 'name';
+}
 
 // Get user's location using Geolocation API
 function getUserLocation(): Promise<{ lat: number; lng: number }> {
@@ -101,8 +135,6 @@ function renderHomePage() {
   
   const companies = parseCompaniesData(companiesDataJson);
   const sortedCompanies = sortCompanies(companies, currentSortMode);
-
-  const basePath = '/effektavgift';
   
   // Distance sort option - selecting it will request location permission if needed
   const distanceSortOption = `<option value="distance" ${currentSortMode === 'distance' ? 'selected' : ''}>Avstånd</option>`;
@@ -126,20 +158,7 @@ function renderHomePage() {
           </select>
         </div>
         <nav aria-label="Lista över nätbolag">
-          <ul class="company-list">
-            ${sortedCompanies.map(company => {
-              const escapedName = escapeHtml(company.name);
-              const distanceText = (company.distance !== undefined)
-                ? ` <span class="distance-info">(${Math.round(company.distance)} km)</span>`
-                : '';
-              return `
-              <li>
-                <a href="${basePath}/${company.id}/" class="company-link" aria-label="Visa effektavgiftsstatus för ${escapedName}">
-                  ${escapedName}${distanceText}
-                </a>
-              </li>
-            `;}).join('')}
-          </ul>
+          ${renderCompanyListMarkup(sortedCompanies)}
         </nav>
       </main>
     </div>
@@ -161,19 +180,7 @@ function renderHomePage() {
           .catch((error) => {
             console.error('Failed to get user location:', error);
             // Show error in UI instead of using alert
-            const sortSelector = document.querySelector('.sort-selector');
-            if (sortSelector) {
-              const errorMsg = document.createElement('div');
-              errorMsg.textContent = 'Kunde inte hämta din plats. Kontrollera att du har tillåtit platsåtkomst.';
-              errorMsg.className = 'error-message';
-              sortSelector.appendChild(errorMsg);
-              setTimeout(() => errorMsg.remove(), ERROR_MESSAGE_DURATION_MS);
-            }
-            // Reset to name sort (just update the select value, don't re-render)
-            currentSortMode = 'name';
-            if (sortSelect) {
-              sortSelect.value = 'name';
-            }
+            showLocationError(sortSelect);
           });
       } else {
         currentSortMode = newMode;
