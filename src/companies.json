@@ -78,5 +78,225 @@
       "lat": 57.785,
       "lng": 14.149
     }
+  },
+  {
+    "id": "vattenfall-eldistribution",
+    "name": "Vattenfall Eldistribution",
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
+    "highLoadWeekdays": true,
+    "coordinates": {
+      "lat": 59.3293,
+      "lng": 18.0686
+    }
+  },
+  {
+    "id": "eon-energidistribution",
+    "name": "E.ON Energidistribution",
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
+    "highLoadWeekdays": true,
+    "coordinates": {
+      "lat": 55.60498,
+      "lng": 13.0038
+    }
+  },
+  {
+    "id": "malarenergi",
+    "name": "Mälarenergi",
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
+    "highLoadWeekdays": true,
+    "coordinates": {
+      "lat": 59.6099,
+      "lng": 16.5448
+    }
+  },
+  {
+    "id": "jamtkraft",
+    "name": "Jämtkraft",
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
+    "highLoadWeekdays": true,
+    "coordinates": {
+      "lat": 63.1792,
+      "lng": 14.6357
+    }
+  },
+  {
+    "id": "borlange-energi",
+    "name": "Borlänge Energi Elnät",
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
+    "highLoadWeekdays": true,
+    "coordinates": {
+      "lat": 60.4843,
+      "lng": 15.433
+    }
+  },
+  {
+    "id": "karlskoga-energi-miljo",
+    "name": "Karlskoga Energi & Miljö",
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
+    "highLoadWeekdays": true,
+    "coordinates": {
+      "lat": 59.3254,
+      "lng": 14.5237
+    }
+  },
+  {
+    "id": "sundsvall-elnat",
+    "name": "Sundsvall Elnät",
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
+    "highLoadWeekdays": true,
+    "coordinates": {
+      "lat": 62.3908,
+      "lng": 17.3069
+    }
+  },
+  {
+    "id": "oresundskraft",
+    "name": "Öresundskraft",
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
+    "highLoadWeekdays": true,
+    "coordinates": {
+      "lat": 56.0465,
+      "lng": 12.6944
+    }
+  },
+  {
+    "id": "alingsas-energi-elnat",
+    "name": "Alingsås Energi Elnät",
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
+    "highLoadWeekdays": true,
+    "coordinates": {
+      "lat": 57.9303,
+      "lng": 12.533
+    }
+  },
+  {
+    "id": "dala-energi-elnat",
+    "name": "Dala Energi Elnät",
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
+    "highLoadWeekdays": true,
+    "coordinates": {
+      "lat": 60.6065,
+      "lng": 15.6356
+    }
+  },
+  {
+    "id": "affarsverken-elnat",
+    "name": "Affärsverken Elnät",
+    "highLoadMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "highLoadHours": {
+      "start": 7,
+      "end": 21
+    },
+    "highLoadWeekdays": true,
+    "coordinates": {
+      "lat": 56.1612,
+      "lng": 15.5861
+    }
   }
 ]
