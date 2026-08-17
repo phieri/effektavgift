@@ -14,7 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { PowerGridCompany, parseCompanyData, getLoadStatus, getNextTariffChange, MS_PER_MINUTE, MS_PER_HOUR, MS_PER_DAY } from './tariff';
+import { PowerGridCompany, parseCompanyData, getLoadStatus, getNextTariffChange, MAX_LOOKAHEAD_DAYS, MS_PER_MINUTE, MS_PER_HOUR, MS_PER_DAY } from './tariff';
 import { escapeHtml } from './utils';
 import './style.css';
 
@@ -215,20 +215,24 @@ function getCountdownString(company: PowerGridCompany): string {
   const now = new Date();
   const nextChange = getNextTariffChange(company, now);
   const diff = nextChange.getTime() - now.getTime();
-  
+
   if (diff <= 0) {
     return 'Nu';
   }
-  
+
+  if (diff > MAX_LOOKAHEAD_DAYS * MS_PER_DAY) {
+    return `Mer än ${MAX_LOOKAHEAD_DAYS} dagar`;
+  }
+
   const days = Math.floor(diff / MS_PER_DAY);
   const hours = Math.floor((diff % MS_PER_DAY) / MS_PER_HOUR);
   const minutes = Math.floor((diff % MS_PER_HOUR) / MS_PER_MINUTE);
-  
+
   const parts: string[] = [];
   if (days > 0) parts.push(`${days} dag${days !== 1 ? 'ar' : ''}`);
   if (hours > 0 || days > 0) parts.push(`${hours} timm${hours !== 1 ? 'ar' : 'e'}`);
   if (minutes > 0 || hours > 0 || days > 0) parts.push(`${minutes} minut${minutes !== 1 ? 'er' : ''}`);
-  
+
   return parts.join(' ');
 }
 

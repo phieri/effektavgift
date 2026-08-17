@@ -33,6 +33,15 @@ const companiesData: CompanyJSON[] = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, './src/companies.json'), 'utf-8')
 );
 
+const activeCompaniesData = companiesData.filter((company) => {
+  if (!company.effectiveDate) {
+    return true;
+  }
+
+  const effectiveDate = new Date(company.effectiveDate);
+  return !Number.isNaN(effectiveDate.getTime()) && effectiveDate <= new Date();
+});
+
 // Helper function to escape HTML special characters for XSS prevention
 // This is duplicated from src/utils.ts because vite.config.ts runs in Node context
 // during build time and can't import from src/ TypeScript files
@@ -79,7 +88,7 @@ export default defineConfig({
       name: 'inject-companies-data',
       transformIndexHtml(html) {
         // Only transform the main index.html (home page)
-        const companiesJson = safeJsonStringify(companiesData);
+        const companiesJson = safeJsonStringify(activeCompaniesData);
         return html.replace(
           '</head>',
           `  <script>
@@ -98,7 +107,7 @@ export default defineConfig({
 
         console.log('\nGenerating static HTML pages for companies...');
 
-        companiesData.forEach(company => {
+        activeCompaniesData.forEach(company => {
           const companyDir = path.join(distDir, company.id);
           
           // Create directory if it doesn't exist
@@ -138,7 +147,7 @@ export default defineConfig({
           console.log(`  Generated ${company.id}/index.html`);
         });
 
-        console.log(`Generated ${companiesData.length} company pages.\n`);
+        console.log(`Generated ${activeCompaniesData.length} company pages.\n`);
       }
     }
   ]
