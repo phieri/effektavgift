@@ -75,14 +75,16 @@ function renderDisplayPage(company: PowerGridCompany) {
   const wakeLockStatusElement = app.querySelector('#wake-lock-status');
   
   if (backLink) {
-    const controlElements = [backLink, fullscreenBtn, wakeLockStatusElement].filter(Boolean) as Element[];
-    
+    const controlElements = [backLink, fullscreenBtn, wakeLockStatusElement].filter(
+      (element): element is Element => element !== null,
+    );
+
     const fadeOutControls = () => {
-      controlElements.forEach(el => el.classList.add('fade-out'));
+      controlElements.forEach((element) => element.classList.add('fade-out'));
     };
-    
+
     const fadeInControls = () => {
-      controlElements.forEach(el => el.classList.remove('fade-out'));
+      controlElements.forEach((element) => element.classList.remove('fade-out'));
     };
     
     // Fade out buttons and wake lock status after 5 seconds

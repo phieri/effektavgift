@@ -53,47 +53,46 @@ export function parseCompaniesData(companiesJson: PowerGridCompany[]): PowerGrid
 }
 
 // Cache for Swedish holidays by year to avoid unnecessary recalculation
-const holidayCache = new Map<number, Date[]>();
+const holidayCache = new Map<number, readonly Date[]>();
 
 // Swedish red days (public holidays) - simplified list for common holidays
-export const getSwedishHolidays = (year: number): Date[] => {
-  // Return cached holidays if available for this year
+export const getSwedishHolidays = (year: number): readonly Date[] => {
   const cached = holidayCache.get(year);
   if (cached) {
     return cached;
   }
-  const holidays: Date[] = [
-    new Date(year, 1 - 1, 1),   // New Year's Day (January 1)
-    new Date(year, 1 - 1, 6),   // Epiphany (January 6)
-    new Date(year, 5 - 1, 1),   // May Day (May 1)
-    new Date(year, 6 - 1, 6),   // National Day (June 6)
-    new Date(year, 12 - 1, 24), // Christmas Eve (December 24)
-    new Date(year, 12 - 1, 25), // Christmas Day (December 25)
-    new Date(year, 12 - 1, 26), // Boxing Day (December 26)
-    new Date(year, 12 - 1, 31), // New Year's Eve (December 31)
+
+  const baseHolidays = [
+    new Date(year, 0, 1),   // New Year's Day (January 1)
+    new Date(year, 0, 6),   // Epiphany (January 6)
+    new Date(year, 4, 1),   // May Day (May 1)
+    new Date(year, 5, 6),   // National Day (June 6)
+    new Date(year, 11, 24), // Christmas Eve (December 24)
+    new Date(year, 11, 25), // Christmas Day (December 25)
+    new Date(year, 11, 26), // Boxing Day (December 26)
+    new Date(year, 11, 31), // New Year's Eve (December 31)
   ];
-  
-  // Easter and related holidays (simplified - using a common approximation)
+
   const easter = calculateEaster(year);
-  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.GOOD_FRIDAY * MS_PER_DAY)); // Good Friday
-  holidays.push(easter); // Easter Sunday
-  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.EASTER_MONDAY * MS_PER_DAY)); // Easter Monday
-  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.ASCENSION_DAY * MS_PER_DAY)); // Ascension Day
-  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.WHIT_SUNDAY * MS_PER_DAY)); // Whit Sunday
-  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.WHIT_MONDAY * MS_PER_DAY)); // Whit Monday
-  
-  // Midsummer Eve and Day (Friday and Saturday between June 19-25)
+  const easterRelatedHolidays = [
+    new Date(easter.getTime() + EASTER_OFFSETS.GOOD_FRIDAY * MS_PER_DAY),
+    easter,
+    new Date(easter.getTime() + EASTER_OFFSETS.EASTER_MONDAY * MS_PER_DAY),
+    new Date(easter.getTime() + EASTER_OFFSETS.ASCENSION_DAY * MS_PER_DAY),
+    new Date(easter.getTime() + EASTER_OFFSETS.WHIT_SUNDAY * MS_PER_DAY),
+    new Date(easter.getTime() + EASTER_OFFSETS.WHIT_MONDAY * MS_PER_DAY),
+  ];
+
   const midsummerEve = getMidsummerEve(year);
-  holidays.push(midsummerEve);
-  holidays.push(new Date(midsummerEve.getTime() + MS_PER_DAY));
-  
-  // All Saints' Day (Saturday between October 31 and November 6)
+  const midsummerHolidays = [
+    midsummerEve,
+    new Date(midsummerEve.getTime() + MS_PER_DAY),
+  ];
+
   const allSaintsDay = getAllSaintsDay(year);
-  holidays.push(allSaintsDay);
-  
-  // Cache the holidays for this year
+  const holidays = [...baseHolidays, ...easterRelatedHolidays, ...midsummerHolidays, allSaintsDay];
+
   holidayCache.set(year, holidays);
-  
   return holidays;
 };
 
@@ -189,11 +188,12 @@ function toSwedishTime(date: Date): Date {
 }
 
 // Check if a date is a holiday
-function isHoliday(date: Date, holidays: Date[]): boolean {
-  return holidays.some(holiday => 
-    holiday.getFullYear() === date.getFullYear() &&
-    holiday.getMonth() === date.getMonth() &&
-    holiday.getDate() === date.getDate()
+function isHoliday(date: Date, holidays: readonly Date[]): boolean {
+  return holidays.some(
+    (holiday) =>
+      holiday.getFullYear() === date.getFullYear() &&
+      holiday.getMonth() === date.getMonth() &&
+      holiday.getDate() === date.getDate(),
   );
 }
 
