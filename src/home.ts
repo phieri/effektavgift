@@ -14,7 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { parseCompaniesData, PowerGridCompany, calculateDistance } from './tariff';
+import { parseCompaniesData, PowerGridCompany, calculateDistance, isCompanyActive } from './tariff';
 import { escapeHtml } from './utils';
 import './style.css';
 
@@ -132,7 +132,7 @@ function renderHomePage() {
     return;
   }
   
-  const companies = parseCompaniesData(companiesDataJson);
+  const companies = parseCompaniesData(companiesDataJson).filter(company => isCompanyActive(company, new Date()));
   const sortedCompanies = sortCompanies(companies, currentSortMode);
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
   

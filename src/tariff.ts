@@ -29,7 +29,7 @@ const EASTER_OFFSETS = {
 } as const;
 
 // Maximum number of days to search ahead for next tariff change
-const MAX_LOOKAHEAD_DAYS = 14;
+export const MAX_LOOKAHEAD_DAYS = 14;
 
 // Types for power grid companies and their tariff rules
 export interface PowerGridCompany {
@@ -38,6 +38,7 @@ export interface PowerGridCompany {
   highLoadMonths: number[]; // Natural month numbers: 1 = January, 12 = December
   highLoadHours: { start: number; end: number }; // 24-hour format
   highLoadWeekdays: boolean; // Only weekdays (Monday-Friday, excludes Saturday and Sunday)
+  effectiveDate?: string; // Optional ISO date when the tariff starts to apply
   coordinates: { lat: number; lng: number }; // Coordinates of company HQ
 }
 
@@ -233,6 +234,15 @@ export function getLoadStatus(company: PowerGridCompany): 'high' | 'low' {
   return isHighLoadPeriod(company) ? 'high' : 'low';
 }
 
+export function isCompanyActive(company: PowerGridCompany, now: Date = new Date()): boolean {
+  if (!company.effectiveDate) {
+    return true;
+  }
+
+  const effectiveDate = new Date(company.effectiveDate);
+  return !Number.isNaN(effectiveDate.getTime()) && effectiveDate <= now;
+}
+
 // Calculate the next time the tariff will change
 export function getNextTariffChange(company: PowerGridCompany, now: Date = new Date()): Date {
   const currentlyHighLoad = isHighLoadPeriod(company, now);
@@ -265,8 +275,10 @@ export function getNextTariffChange(company: PowerGridCompany, now: Date = new D
     }
   }
   
-  // If no change found within 14 days, return a date far in the future
-  return new Date(now.getTime() + MAX_LOOKAHEAD_DAYS * MS_PER_DAY);
+  // If no change was found within the 14-day window, return a date just beyond
+  // the cap so callers can clearly show that the real value is longer than the
+  // visible search horizon.
+  return new Date(now.getTime() + (MAX_LOOKAHEAD_DAYS + 1) * MS_PER_DAY);
 }
 
 // Calculate distance between two coordinates using Haversine formula
