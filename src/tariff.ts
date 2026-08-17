@@ -31,6 +31,13 @@ const EASTER_OFFSETS = {
 // Maximum number of days to search ahead for next tariff change
 export const MAX_LOOKAHEAD_DAYS = 14;
 
+export type LoadStatus = 'high' | 'low';
+
+export interface Coordinates {
+  lat: number;
+  lng: number;
+}
+
 // Types for power grid companies and their tariff rules
 export interface PowerGridCompany {
   id: string;
@@ -39,61 +46,59 @@ export interface PowerGridCompany {
   highLoadHours: { start: number; end: number }; // 24-hour format
   highLoadWeekdays: boolean; // Only weekdays (Monday-Friday, excludes Saturday and Sunday)
   effectiveDate?: string; // Optional ISO date when the tariff starts to apply
-  coordinates: { lat: number; lng: number }; // Coordinates of company HQ
+  coordinates: Coordinates; // Coordinates of company HQ
 }
 
 // Utility function to parse company JSON data
-export function parseCompanyData(companyJson: PowerGridCompany): PowerGridCompany {
-  return { ...companyJson };
-}
+export const parseCompanyData = (companyJson: PowerGridCompany): PowerGridCompany => ({
+  ...companyJson,
+});
 
 // Utility function to parse multiple companies
-export function parseCompaniesData(companiesJson: PowerGridCompany[]): PowerGridCompany[] {
-  return companiesJson.map(parseCompanyData);
-}
+export const parseCompaniesData = (companiesJson: PowerGridCompany[]): PowerGridCompany[] =>
+  companiesJson.map(parseCompanyData);
 
 // Cache for Swedish holidays by year to avoid unnecessary recalculation
-const holidayCache = new Map<number, Date[]>();
+const holidayCache = new Map<number, readonly Date[]>();
 
 // Swedish red days (public holidays) - simplified list for common holidays
-export const getSwedishHolidays = (year: number): Date[] => {
-  // Return cached holidays if available for this year
+export const getSwedishHolidays = (year: number): readonly Date[] => {
   const cached = holidayCache.get(year);
   if (cached) {
     return cached;
   }
-  const holidays: Date[] = [
-    new Date(year, 1 - 1, 1),   // New Year's Day (January 1)
-    new Date(year, 1 - 1, 6),   // Epiphany (January 6)
-    new Date(year, 5 - 1, 1),   // May Day (May 1)
-    new Date(year, 6 - 1, 6),   // National Day (June 6)
-    new Date(year, 12 - 1, 24), // Christmas Eve (December 24)
-    new Date(year, 12 - 1, 25), // Christmas Day (December 25)
-    new Date(year, 12 - 1, 26), // Boxing Day (December 26)
-    new Date(year, 12 - 1, 31), // New Year's Eve (December 31)
+
+  const baseHolidays = [
+    new Date(year, 0, 1),   // New Year's Day (January 1)
+    new Date(year, 0, 6),   // Epiphany (January 6)
+    new Date(year, 4, 1),   // May Day (May 1)
+    new Date(year, 5, 6),   // National Day (June 6)
+    new Date(year, 11, 24), // Christmas Eve (December 24)
+    new Date(year, 11, 25), // Christmas Day (December 25)
+    new Date(year, 11, 26), // Boxing Day (December 26)
+    new Date(year, 11, 31), // New Year's Eve (December 31)
   ];
-  
-  // Easter and related holidays (simplified - using a common approximation)
+
   const easter = calculateEaster(year);
-  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.GOOD_FRIDAY * MS_PER_DAY)); // Good Friday
-  holidays.push(easter); // Easter Sunday
-  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.EASTER_MONDAY * MS_PER_DAY)); // Easter Monday
-  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.ASCENSION_DAY * MS_PER_DAY)); // Ascension Day
-  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.WHIT_SUNDAY * MS_PER_DAY)); // Whit Sunday
-  holidays.push(new Date(easter.getTime() + EASTER_OFFSETS.WHIT_MONDAY * MS_PER_DAY)); // Whit Monday
-  
-  // Midsummer Eve and Day (Friday and Saturday between June 19-25)
+  const easterRelatedHolidays = [
+    new Date(easter.getTime() + EASTER_OFFSETS.GOOD_FRIDAY * MS_PER_DAY),
+    easter,
+    new Date(easter.getTime() + EASTER_OFFSETS.EASTER_MONDAY * MS_PER_DAY),
+    new Date(easter.getTime() + EASTER_OFFSETS.ASCENSION_DAY * MS_PER_DAY),
+    new Date(easter.getTime() + EASTER_OFFSETS.WHIT_SUNDAY * MS_PER_DAY),
+    new Date(easter.getTime() + EASTER_OFFSETS.WHIT_MONDAY * MS_PER_DAY),
+  ];
+
   const midsummerEve = getMidsummerEve(year);
-  holidays.push(midsummerEve);
-  holidays.push(new Date(midsummerEve.getTime() + MS_PER_DAY));
-  
-  // All Saints' Day (Saturday between October 31 and November 6)
+  const midsummerHolidays = [
+    midsummerEve,
+    new Date(midsummerEve.getTime() + MS_PER_DAY),
+  ];
+
   const allSaintsDay = getAllSaintsDay(year);
-  holidays.push(allSaintsDay);
-  
-  // Cache the holidays for this year
+  const holidays = [...baseHolidays, ...easterRelatedHolidays, ...midsummerHolidays, allSaintsDay];
+
   holidayCache.set(year, holidays);
-  
   return holidays;
 };
 
@@ -189,48 +194,41 @@ function toSwedishTime(date: Date): Date {
 }
 
 // Check if a date is a holiday
-function isHoliday(date: Date, holidays: Date[]): boolean {
-  return holidays.some(holiday => 
-    holiday.getFullYear() === date.getFullYear() &&
-    holiday.getMonth() === date.getMonth() &&
-    holiday.getDate() === date.getDate()
-  );
+const isSameCalendarDay = (left: Date, right: Date): boolean =>
+  left.getFullYear() === right.getFullYear() &&
+  left.getMonth() === right.getMonth() &&
+  left.getDate() === right.getDate();
+
+function isHoliday(date: Date, holidays: readonly Date[]): boolean {
+  return holidays.some((holiday) => isSameCalendarDay(holiday, date));
 }
 
 // Check if current time is high load period
 export function isHighLoadPeriod(company: PowerGridCompany, now: Date = new Date()): boolean {
   // Convert to Swedish time (Europe/Stockholm) since all companies operate on Swedish time
   const swedishNow = toSwedishTime(now);
-  
+
   const month = swedishNow.getMonth() + 1; // Convert to natural month number (1-12)
   const hour = swedishNow.getHours();
   const dayOfWeek = swedishNow.getDay(); // 0 = Sunday, 1 = Monday, ..., 5 = Friday, 6 = Saturday
-  
-  // Check if it's in high load months
+
   if (!company.highLoadMonths.includes(month)) {
     return false;
   }
-  
-  // Check if it's in high load hours
+
   if (hour < company.highLoadHours.start || hour >= company.highLoadHours.end) {
     return false;
   }
-  
-  // Check if it's a weekday (Monday-Friday = 1-5, excludes Saturday = 6 and Sunday = 0)
+
   if (company.highLoadWeekdays && (dayOfWeek === 0 || dayOfWeek === 6)) {
     return false;
   }
-  
-  // Check if it's a holiday
+
   const holidays = getSwedishHolidays(swedishNow.getFullYear());
-  if (isHoliday(swedishNow, holidays)) {
-    return false;
-  }
-  
-  return true;
+  return !isHoliday(swedishNow, holidays);
 }
 
-export function getLoadStatus(company: PowerGridCompany): 'high' | 'low' {
+export function getLoadStatus(company: PowerGridCompany): LoadStatus {
   return isHighLoadPeriod(company) ? 'high' : 'low';
 }
 
@@ -246,38 +244,32 @@ export function isCompanyActive(company: PowerGridCompany, now: Date = new Date(
 // Calculate the next time the tariff will change
 export function getNextTariffChange(company: PowerGridCompany, now: Date = new Date()): Date {
   const currentlyHighLoad = isHighLoadPeriod(company, now);
-  
-  // Start from current time
+
   let nextChange = new Date(now);
-  
-  // Search for the next change within the next 14 days
-  // Check hourly first to reduce iterations (14 days * 24 hours = 336 checks max)
+
   for (let i = 0; i < MAX_LOOKAHEAD_DAYS * 24; i++) {
-    // Increment by 1 hour
     nextChange = new Date(nextChange.getTime() + MS_PER_HOUR);
-    
+
     // Note: isHighLoadPeriod internally calls getSwedishHolidays with the year from the date,
-    // so holidays are automatically recalculated when crossing year boundaries
+    // so holidays are automatically recalculated when crossing year boundaries.
     const willBeHighLoad = isHighLoadPeriod(company, nextChange);
-    
-    // If status changes, we found the hour where change happens
-    // Go back one hour and search minute-by-minute to find exact time
+
     if (willBeHighLoad !== currentlyHighLoad) {
       let exactChange = new Date(nextChange.getTime() - MS_PER_HOUR);
-      for (let j = 0; j < 60; j++) {
+
+      for (let minute = 0; minute < 60; minute++) {
         exactChange = new Date(exactChange.getTime() + MS_PER_MINUTE);
         const exactWillBeHighLoad = isHighLoadPeriod(company, exactChange);
+
         if (exactWillBeHighLoad !== currentlyHighLoad) {
           return exactChange;
         }
       }
-      return nextChange; // Fallback to hour boundary
+
+      return nextChange;
     }
   }
-  
-  // If no change was found within the 14-day window, return a date just beyond
-  // the cap so callers can clearly show that the real value is longer than the
-  // visible search horizon.
+
   return new Date(now.getTime() + (MAX_LOOKAHEAD_DAYS + 1) * MS_PER_DAY);
 }
 

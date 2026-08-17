@@ -16,12 +16,13 @@
 
 // Helper function to escape HTML special characters for XSS prevention
 export function escapeHtml(text: string): string {
-  const map: { [key: string]: string } = {
+  const htmlEscapes: Record<string, string> = {
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#039;'
   };
-  return text.replace(/[&<>"']/g, (char) => map[char]);
+
+  return text.replace(/[&<>"']/g, (char) => htmlEscapes[char] ?? char);
 }
