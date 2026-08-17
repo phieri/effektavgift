@@ -29,58 +29,63 @@ declare global {
 let userLocation: { lat: number; lng: number } | null = null;
 
 // Current sort mode
-type SortMode = 'name' | 'distance';
+export type SortMode = 'name' | 'distance';
 let currentSortMode: SortMode = 'name';
 
 // Company with optional cached distance from user
-interface CompanyWithDistance extends PowerGridCompany {
+type CompanyWithDistance = PowerGridCompany & {
   distance?: number;
-}
+};
 
 // Sort companies based on the selected mode, caching distances when sorting by distance
-function sortCompanies(companies: PowerGridCompany[], mode: SortMode): CompanyWithDistance[] {
-  const withDistances: CompanyWithDistance[] = companies.map(company => {
-    const distance = (mode === 'distance' && userLocation)
+const sortCompanies = (companies: PowerGridCompany[], mode: SortMode): CompanyWithDistance[] => {
+  const withDistances: CompanyWithDistance[] = companies.map((company) => {
+    const distance = mode === 'distance' && userLocation
       ? calculateDistance(userLocation.lat, userLocation.lng, company.coordinates.lat, company.coordinates.lng)
       : undefined;
+
     return { ...company, distance };
   });
-  
+
   if (mode === 'name') {
     withDistances.sort((a, b) => a.name.localeCompare(b.name, 'sv'));
-  } else if (mode === 'distance' && userLocation) {
+    return withDistances;
+  }
+
+  if (mode === 'distance' && userLocation) {
     withDistances.sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0));
   }
-  
+
   return withDistances;
-}
+};
 
 // Geolocation configuration constants
 const GEOLOCATION_TIMEOUT_MS = 5000;
 const GEOLOCATION_MAX_AGE_MS = 0;
 const ERROR_MESSAGE_DURATION_MS = 5000;
 
-function renderCompanyListMarkup(sortedCompanies: CompanyWithDistance[], basePath: string): string {
-  return `
-    <ul class="company-list">
-      ${sortedCompanies.map(company => {
-        const escapedName = escapeHtml(company.name);
-        const distanceText = (company.distance !== undefined)
-          ? ` <span class="distance-info">(${Math.round(company.distance)} km)</span>`
-          : '';
-        return `
+const renderCompanyListMarkup = (sortedCompanies: CompanyWithDistance[], basePath: string): string => `
+  <ul class="company-list">
+    ${sortedCompanies.map((company) => {
+      const escapedName = escapeHtml(company.name);
+      const distanceText = company.distance !== undefined
+        ? ` <span class="distance-info">(${Math.round(company.distance)} km)</span>`
+        : '';
+
+      return `
         <li>
           <a href="${basePath}/${company.id}/" class="company-link" aria-label="Visa effektavgiftsstatus för ${escapedName}">
             ${escapedName}${distanceText}
           </a>
         </li>
-      `;}).join('')}
-    </ul>
-  `;
-}
+      `;
+    }).join('')}
+  </ul>
+`;
 
-function showLocationError(sortSelect: HTMLSelectElement): void {
+const showLocationError = (sortSelect: HTMLSelectElement): void => {
   const sortSelector = document.querySelector('.sort-selector');
+
   if (sortSelector) {
     const errorMsg = document.createElement('div');
     errorMsg.textContent = 'Kunde inte hämta din plats. Kontrollera att du har tillåtit platsåtkomst.';
@@ -91,21 +96,21 @@ function showLocationError(sortSelect: HTMLSelectElement): void {
 
   currentSortMode = 'name';
   sortSelect.value = 'name';
-}
+};
 
 // Get user's location using Geolocation API
-function getUserLocation(): Promise<{ lat: number; lng: number }> {
-  return new Promise((resolve, reject) => {
+const getUserLocation = (): Promise<{ lat: number; lng: number }> =>
+  new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
       reject(new Error('Geolocation is not supported by your browser'));
       return;
     }
-    
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         resolve({
           lat: position.coords.latitude,
-          lng: position.coords.longitude
+          lng: position.coords.longitude,
         });
       },
       (error) => {
@@ -114,11 +119,10 @@ function getUserLocation(): Promise<{ lat: number; lng: number }> {
       {
         enableHighAccuracy: false,
         timeout: GEOLOCATION_TIMEOUT_MS,
-        maximumAge: GEOLOCATION_MAX_AGE_MS
-      }
+        maximumAge: GEOLOCATION_MAX_AGE_MS,
+      },
     );
   });
-}
 
 // Render home page with company list
 function renderHomePage() {
@@ -132,10 +136,12 @@ function renderHomePage() {
     return;
   }
   
-  const companies = parseCompaniesData(companiesDataJson).filter(company => isCompanyActive(company, new Date()));
+  const companies = parseCompaniesData(companiesDataJson).filter(
+    (company) => isCompanyActive(company, new Date()),
+  );
   const sortedCompanies = sortCompanies(companies, currentSortMode);
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-  
+
   // Distance sort option - selecting it will request location permission if needed
   const distanceSortOption = `<option value="distance" ${currentSortMode === 'distance' ? 'selected' : ''}>Avstånd</option>`;
   
@@ -167,10 +173,10 @@ function renderHomePage() {
   // Add event listener to sort selector
   const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
   if (sortSelect) {
-    sortSelect.addEventListener('change', (e) => {
-      const newMode = (e.target as HTMLSelectElement).value as SortMode;
+    sortSelect.addEventListener('change', (event) => {
+      const newMode = (event.target as HTMLSelectElement).value as SortMode;
+
       if (newMode === 'distance' && !userLocation) {
-        // Request location permission
         getUserLocation()
           .then((location) => {
             userLocation = location;
@@ -179,13 +185,13 @@ function renderHomePage() {
           })
           .catch((error) => {
             console.error('Failed to get user location:', error);
-            // Show error in UI instead of using alert
             showLocationError(sortSelect);
           });
-      } else {
-        currentSortMode = newMode;
-        renderHomePage();
+        return;
       }
+
+      currentSortMode = newMode;
+      renderHomePage();
     });
   }
 }
