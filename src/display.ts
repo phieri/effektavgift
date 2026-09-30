@@ -56,10 +56,18 @@ function renderDisplayPage(company: PowerGridCompany) {
         <div class="status-indicator" role="status" aria-live="polite" aria-atomic="true">
           <div class="status-text ${isHighLoad ? 'high-load' : 'low-load'}" aria-label="Nuvarande status: ${isHighLoad ? 'höglast' : 'låglast'}">${isHighLoad ? 'HÖGLAST' : 'LÅGLAST'}</div>
           <div class="status-description">
-            ${isHighLoad 
-              ? 'Effektavgift tillämpas nu' 
-              : 'Ingen effektavgift'}
+            ${isHighLoad
+              ? 'Höglasttid enligt uppgifterna i appen'
+              : 'Låglasttid enligt uppgifterna i appen'}
           </div>
+        </div>
+        <div class="not-in-effect-notice" role="note">
+          <span class="notice-icon" aria-hidden="true">ℹ️</span>
+          <span class="notice-text">
+            Kravet på att alla elnätsbolag ska införa effektavgift har stoppats. Enskilda bolag kan fortfarande ha egna avgifter och tider.
+            Tiderna här bygger på uppgifterna i appen och kan vara inaktuella; kontrollera alltid ditt elnätsbolags aktuella villkor.
+            <a href="https://www.regeringen.se/pressmeddelanden/2026/03/krav-pa-inforande-av-effektavgifter-stoppas/" target="_blank" rel="noopener noreferrer">Läs regeringens besked</a>.
+          </span>
         </div>
         <div class="countdown-container">
           <div class="countdown-label" id="countdown-label">Nästa ändring om:</div>

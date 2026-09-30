@@ -156,6 +156,14 @@ function renderHomePage() {
       <main>
         <h1>Effektavgift</h1>
         <p class="subtitle">Välj ditt nätbolag</p>
+        <div class="not-in-effect-notice" role="note">
+          <span class="notice-icon" aria-hidden="true">ℹ️</span>
+          <span class="notice-text">
+            Kravet på att alla elnätsbolag ska införa effektavgift har stoppats. Enskilda bolag kan fortfarande ha egna avgifter och tider.
+            Tiderna här bygger på uppgifterna i appen och kan vara inaktuella; kontrollera alltid ditt elnätsbolags aktuella villkor.
+            <a href="https://www.regeringen.se/pressmeddelanden/2026/03/krav-pa-inforande-av-effektavgifter-stoppas/" target="_blank" rel="noopener noreferrer">Läs regeringens besked</a>.
+          </span>
+        </div>
         <div class="sort-selector">
           <label for="sort-select">Sortera efter:</label>
           <select id="sort-select" aria-label="Välj sorteringsordning">

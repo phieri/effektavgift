@@ -4,7 +4,9 @@ En webbapplikation som visar om det är höglast eller låglast för effektavgif
 
 ## Om Effektavgift
 
-Den nya modellen för elnätsdebitering är en effektavgift som tas ut under "höglasttider". Dessa tider skiljer sig något mellan olika bolag men är vanligt helgfria vardagar kl. 07–21 under vintersäsongen november till mars. Övrig tid, det vill säga på nätter, helger, röda dagar och sommarhalvåret, betalar kunden ingen effektavgift.
+Kravet på att alla elnätsbolag ska införa effektavgifter stoppades 2026. Enskilda elnätsbolag kan fortfarande ha egna effektavgifter och bestämmer själva villkoren och tiderna. Regeringen har gett Energimarknadsinspektionen i uppdrag att ta fram ett förslag till en ny utformning. [Läs regeringens besked](https://www.regeringen.se/pressmeddelanden/2026/03/krav-pa-inforande-av-effektavgifter-stoppas/).
+
+Appen visar höglast- och låglasttider enligt de uppgifter som finns för respektive elnätsbolag i appen. Uppgifterna kan vara inaktuella och är inte en beräkning av din kostnad. Kontrollera alltid ditt elnätsbolags aktuella villkor.
 
 ## Funktioner
 
