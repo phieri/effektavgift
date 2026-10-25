@@ -1,0 +1,120 @@
+{
+  "tariffs": [
+    {
+      "id": "4f3e2d4b-42e6-44f5-9e76-18a22ef13b2c",
+      "name": "Statisk säkringstariff",
+      "description": "Statisk säkringstariff",
+      "product": "Säkringstariff standard",
+      "companyName": "Jämtkraft Elnät AB",
+      "companyOrgNo": "556103-3993",
+      "direction": "consumption",
+      "timeZone": "Europe/Stockholm",
+      "lastUpdated": "2024-11-25T11:40:00.7219459+00:00",
+      "validPeriod": null,
+      "billingPeriod": "P1M",
+      "fixedPrice": {
+        "id": "78328002-bb47-4a7f-8614-a4062229c544",
+        "name": "Fuse size 16 A",
+        "description": "Fixed price component for 16 A fuse",
+        "validPeriod": {
+          "fromIncluding": "2025-01-01",
+          "toExcluding": "2026-01-01"
+        },
+        "price": {
+          "priceExVat": 4352,
+          "priceIncVat": 5440,
+          "currency": "SEK"
+        },
+        "pricedPeriod": "P1Y"
+      },
+      "energyPrice": {
+        "id": "e1f09299-03d6-4d60-a047-81225f1483f6",
+        "name": "Fixed energy per kWh",
+        "description": "Fixed price of energy transfer per kWh",
+        "costFunction": "sum(energy(c)*price(c))",
+        "unit": "kWh",
+        "components": [
+          {
+            "id": "21ac3b89-d91c-4c9f-8b22-f75ba5b12266",
+            "name": "Fixed price energy",
+            "description": "Fixed price component",
+            "type": "fixed",
+            "reference": "fixed",
+            "price": {
+              "priceExVat": 0.6,
+              "priceIncVat": 0.75,
+              "currency": "SEK"
+            },
+            "spotPriceSettings": null,
+            "validPeriod": {
+              "fromIncluding": "2025-01-01",
+              "toExcluding": "2026-01-01"
+            },
+            "recurringPeriods": []
+          },
+          {
+            "id": "3b706952-855c-4c80-4271-22d87a8d9c5a",
+            "name": "Energy tax",
+            "description": "Energy tax per kWh",
+            "type": "fixed",
+            "reference": "tax",
+            "price": {
+              "priceExVat": 0.332,
+              "priceIncVat": 0.415,
+              "currency": "SEK"
+            },
+            "spotPriceSettings": null,
+            "validPeriod": {
+              "fromIncluding": "2025-01-01",
+              "toExcluding": "2026-01-01"
+            },
+            "recurringPeriods": []
+          }
+        ]
+      },
+      "powerPrice": {
+        "id": "aac7403e-150e-422b-b02c-e970bbc74222",
+        "name": "Power price by the hour",
+        "description": "Hourly power price",
+        "costFunction": "sum(peak(c)*price(c))",
+        "unit": "kW",
+        "components": [
+          {
+            "id": "22b4e940-3019-40bd-9c22-aa1154fb804d",
+            "name": "Zero-fee component",
+            "description": "NOTE: As of now, zero priced.",
+            "type": "peak",
+            "reference": "main",
+            "price": {
+              "priceExVat": 0,
+              "priceIncVat": 0,
+              "currency": "SEK"
+            },
+            "validPeriod": {
+              "fromIncluding": "2025-01-01",
+              "toExcluding": "2026-01-01"
+            },
+            "peakIdentificationSettings": {
+              "peakFunction": "peak(main)",
+              "peakIdentificationPeriod": "P1D",
+              "peakDuration": "PT1H",
+              "numberOfPeaksForAverageCalculation": 3
+            },
+            "recurringPeriods": [
+              {
+                "reference": "main",
+                "frequency": "P1D",
+                "activePeriods": [
+                  {
+                    "fromIncluding": "00:00:00",
+                    "toExcluding": "00:00:00"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
