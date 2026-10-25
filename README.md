@@ -30,17 +30,15 @@ npm run build
 # Förhandsgranska produktionsbygget
 npm run preview
 
-# Kör kompatibilitetstester
+# Kör tester
 npm test
 ```
 
 ## Eltariff-API
 
-Produktionsbygget skapar `dist/eltariff/tariffs.json`, en statisk JSON-respons i formatet för Eltariff-API:s `GET /tariffs` (`TariffsResponse`). På GitHub Pages finns filen på `/effektavgift/eltariff/tariffs.json`. Den innehåller tariffnamn och höglasttider från appens data; effektavgiftspriser och elnätsbolagens organisationsnummer finns inte i källdatan. Därför skapas inga pris-komponenter, `companyOrgNo` markeras som ej tillgängligt och giltighetsperiodens slut lämnas öppet. Exporten är inte en officiell tariffuppgift från elnätsbolagen.
+Appen stöder import av tariffresponsen från Eltariff-API:s `GET /tariffs`. Använd `parseEltariffTariffsResponse` från `src/eltariff.ts` med det JSON-parsade svaret. Funktionen kontrollerar svarskuvertet och tariffens grundfält, och returnerar tariffdata samt `calendarPatterns`. Den accepterar också RI-SE:s äldre Jämtkraft-exempel, där `calendarPatterns` saknas. Exemplet finns i `test/fixtures/tariffs-response-jamtkraft.json`; testerna körs i CI med `npm test`.
 
-Importfunktionen kan läsa både nuvarande `TariffsResponse`-kuvert och RI-SE:s äldre Jämtkraft-exempel, där `calendarPatterns` saknas. Exemplet finns i `test/fixtures/tariffs-response-jamtkraft.json` och testerna körs i CI med `npm test`.
-
-Se [Eltariff-API:s specifikation](https://github.com/RI-SE/Eltariff-API) för övriga endpoints, inklusive kataloguppslagning och prisdata.
+Se [Eltariff-API:s specifikation](https://github.com/RI-SE/Eltariff-API) för `GET /tariffs`-formatet och andra endpoints. Effektavgift importerar data men tillhandahåller ingen Eltariff-export.
 
 ## Deployment
 

@@ -1,49 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
-import {
-  parseEltariffTariffsResponse,
-  toEltariffTariffsResponse,
-} from '../src/eltariff.ts';
-import type { PowerGridCompany } from '../src/tariff.ts';
-
-const company: PowerGridCompany = {
-  id: 'jamtkraft',
-  name: 'Jämtkraft Elnät',
-  highLoadMonths: [11, 12, 1, 2, 3],
-  highLoadHours: { start: 7, end: 21 },
-  highLoadWeekdays: true,
-  coordinates: { lat: 63.1792, lng: 14.6357 },
-};
-
-test('exports an Eltariff GET /tariffs response', () => {
-  const response = toEltariffTariffsResponse([company], new Date('2026-10-25T12:00:00Z'));
-  const tariff = response.tariffs[0];
-
-  assert.deepEqual(Object.keys(response), ['tariffs', 'calendarPatterns']);
-  assert.deepEqual(Object.keys(tariff).sort(), [
-    'companyName',
-    'companyOrgNo',
-    'description',
-    'direction',
-    'id',
-    'name',
-    'product',
-    'published',
-    'timeZone',
-    'validPeriod',
-  ].sort());
-  assert.match(tariff.id, /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-8[0-9a-f]{3}-[0-9a-f]{12}$/);
-  assert.match(tariff.published, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
-  assert.equal(tariff.published, '2026-10-25T12:00:00.000Z');
-  assert.deepEqual(tariff.validPeriod, {
-    fromIncluding: '2026-10-25',
-    toExcluding: '9999-12-31',
-  });
-  assert.equal(tariff.timeZone, 'Europe/Stockholm');
-  assert.match(tariff.description, /High-load months: 11, 12, 1, 2, 3; hours: 07:00–21:00 weekdays/);
-  assert.equal(response.calendarPatterns.length, 0);
-});
+import { parseEltariffTariffsResponse } from '../src/eltariff.ts';
 
 test('parses the official Jämtkraft sample response, including its legacy fields', async () => {
   const sample = JSON.parse(
@@ -53,8 +11,24 @@ test('parses the official Jämtkraft sample response, including its legacy field
 
   assert.equal(response.tariffs[0].companyName, 'Jämtkraft Elnät AB');
   assert.deepEqual(response.calendarPatterns, []);
+  assert.equal(response.tariffs[0].lastUpdated, '2024-11-25T11:40:00.7219459+00:00');
+  assert.equal(response.tariffs[0].validPeriod, null);
+  assert.ok('powerPrice' in response.tariffs[0]);
+});
+
+test('parses current responses with calendar patterns', () => {
+  const response = parseEltariffTariffsResponse({
+    tariffs: [{ id: 'example', name: 'Example', companyName: 'Example AB' }],
+    calendarPatterns: [{ reference: 'weekdays', frequency: 'P1W', days: [1, 2, 3, 4, 5] }],
+  });
+
+  assert.equal(response.calendarPatterns[0].reference, 'weekdays');
 });
 
 test('rejects values that are not tariffs responses', () => {
   assert.throws(() => parseEltariffTariffsResponse({ tariffs: 'invalid' }), TypeError);
+  assert.throws(
+    () => parseEltariffTariffsResponse({ tariffs: [{ id: 'missing-name' }] }),
+    TypeError
+  );
 });

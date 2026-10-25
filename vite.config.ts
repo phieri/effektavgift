@@ -17,7 +17,6 @@
 import { defineConfig } from 'vite'
 import * as path from 'path'
 import * as fs from 'fs'
-import { toEltariffTariffsResponse } from './src/eltariff.ts'
 
 // Load company data
 interface CompanyJSON {
@@ -147,13 +146,6 @@ export default defineConfig({
           fs.writeFileSync(path.join(companyDir, 'index.html'), html);
           console.log(`  Generated ${company.id}/index.html`);
         });
-
-        const eltariffDir = path.join(distDir, 'eltariff');
-        fs.mkdirSync(eltariffDir, { recursive: true });
-        fs.writeFileSync(
-          path.join(eltariffDir, 'tariffs.json'),
-          JSON.stringify(toEltariffTariffsResponse(activeCompaniesData), null, 2)
-        );
 
         console.log(`Generated ${activeCompaniesData.length} company pages.\n`);
       }
