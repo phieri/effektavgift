@@ -29,7 +29,16 @@ npm run build
 
 # Förhandsgranska produktionsbygget
 npm run preview
+
+# Kör tester
+npm test
 ```
+
+## Eltariff-API
+
+Appen stöder import av tariffresponsen från Eltariff-API:s `GET /tariffs`. Använd `parseEltariffTariffsResponse` från `src/eltariff.ts` med det JSON-parsade svaret. Funktionen kontrollerar svarskuvertet och tariffens grundfält, och returnerar tariffdata samt `calendarPatterns`. Den accepterar också RI-SE:s äldre Jämtkraft-exempel, där `calendarPatterns` saknas. Exemplet finns i `test/fixtures/tariffs-response-jamtkraft.json`; testerna körs i CI med `npm test`.
+
+Se [Eltariff-API:s specifikation](https://github.com/RI-SE/Eltariff-API) för `GET /tariffs`-formatet och andra endpoints. Effektavgift importerar data men tillhandahåller ingen Eltariff-export.
 
 ## Deployment
 
