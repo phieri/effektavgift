@@ -157,40 +157,32 @@ function getAllSaintsDay(year: number): Date {
 // - Input: Date representing 14:00 Swedish = 08:00 NY = 13:00 UTC
 // - Output: Date where getHours() returns 14 (Swedish hour)
 // - The output represents 14:00 in the user's local timezone, not the same moment
+const swedishFormatter = new Intl.DateTimeFormat('sv-SE', {
+  timeZone: 'Europe/Stockholm',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false,
+});
+
 function toSwedishTime(date: Date): Date {
-  // Get the date/time components in Swedish timezone
-  const swedishDateStr = date.toLocaleString('sv-SE', {
-    timeZone: 'Europe/Stockholm',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false
-  });
-  
-  // Parse the Swedish time string (format: "YYYY-MM-DD HH:mm:ss")
-  // toLocaleString with sv-SE returns format like "2025-12-07 23:41:19"
-  const parts = swedishDateStr.match(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
-  if (!parts) {
-    throw new Error(`Failed to parse Swedish time: ${swedishDateStr}`);
+  const parts: Partial<Record<Intl.DateTimeFormatPartTypes, number>> = {};
+  for (const { type, value } of swedishFormatter.formatToParts(date)) {
+    parts[type] = Number.parseInt(value, 10);
   }
-  
-  const [, year, month, day, hour, minute, second] = parts;
-  
-  // Create a Date object in the user's local timezone using the Swedish time components.
-  // This means the Date will represent a different moment in time than the input,
-  // but calling getHours(), getDate(), etc. will return the Swedish time values.
-  // This is exactly what we need for comparing against Swedish business rules.
-  return new Date(
-    parseInt(year),
-    parseInt(month) - 1, // Month is 0-indexed
-    parseInt(day),
-    parseInt(hour),
-    parseInt(minute),
-    parseInt(second)
-  );
+
+  const { year, month, day, hour, minute, second } = parts;
+  if (
+    year === undefined || month === undefined || day === undefined ||
+    hour === undefined || minute === undefined || second === undefined
+  ) {
+    throw new Error(`Failed to parse Swedish time for ${date.toISOString()}`);
+  }
+
+  return new Date(year, month - 1, day, hour, minute, second);
 }
 
 // Check if a date is a holiday
