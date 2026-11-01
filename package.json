@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^26.6.4",
+    "@types/node": "^26.6.6",
     "navigation-api-types": "^0.6.1",
     "typescript": "^7.0.2",
     "vite": "^8.3.1"
